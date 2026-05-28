@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Bilateral Radiotrophic Sphere - Phase 7</title>
+<style>
+#fsw{position:relative;width:100%;padding:1rem 0;text-align:center;background:#050505;min-height:100vh;}
+#fsc{display:block;margin:0 auto;touch-action:none;cursor:grab}
+#fsc:active{cursor:grabbing}
+#fshud{display:flex;justify-content:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.fsm{background:rgba(0,0,0,0.58);padding:3px 11px;border-radius:3px;font-family:monospace;font-size:11px;color:#7ab4d4;display:inline-block}
+#fsinfo{margin-top:8px;font-size:10px;font-family:monospace;color:#666}
+</style>
+</head>
+<body>
+<div id="fsw">
+  <div id="fshud">
+    <span class="fsm">zoom <span id="fszm">1.00</span>&times;</span>
+    <span class="fsm" id="fsmode">&#9679; drifting</span>
+    <span class="fsm" style="color:#ffaa00">contracts <span id="fscon">0</span></span>
+    <span class="fsm" style="color:#6090ff">density <span id="fsvol">0</span>%</span>
+  </div>
+  <canvas id="fsc" width="520" height="520"></canvas>
+  <div id="fsinfo">drag &middot; look &nbsp;&middot;&nbsp; right-drag &middot; roll &nbsp;&middot;&nbsp; scroll &middot; zoom &nbsp;&middot;&nbsp; Q/E &middot; twist</div>
+</div>
+<script src="js/radiotrophic_sphere.js"></script>
+</body>
+</html>

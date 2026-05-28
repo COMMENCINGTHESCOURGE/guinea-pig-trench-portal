@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INTERGALACTIC DRUG DEALERS — 3D</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#060612;overflow:hidden;font-family:'Courier New',monospace}
+#bg{position:fixed;inset:0;z-index:0}
+#gc{position:fixed;inset:0;z-index:1;cursor:crosshair}
+#muteBtn{position:fixed;top:10px;right:10px;z-index:100;background:rgba(8,12,30,0.85);border:1px solid rgba(0,210,255,0.4);color:#e0e0e0;font-size:22px;width:40px;height:40px;cursor:pointer;border-radius:4px;display:none}
+#muteBtn:hover{border-color:#00d2ff}
+
+/* -- THE THRESHOLD (pass 1) -- */
+#threshold-overlay {
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+}
+#threshold-vignette {
+  position: fixed; inset: 0; z-index: 9997; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(5,15,10,0.35));
+}
+#threshold-world-name {
+  position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; pointer-events: none;
+  color: #00ff9d; opacity: 0.4;
+  font-family: 'Courier New', monospace; font-size: 10px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+}
+#threshold-heartbeat {
+  position: fixed; inset: 0; z-index: 9996; pointer-events: none;
+  background: #00ff9d; opacity: 0;
+  transition: opacity 0.05s;
+}
+
+</style>
+</head>
+<body>
+<!-- WebGL background: raymarched 3D environments -->
+<canvas id="bg"></canvas>
+<!-- 2D game UI overlay -->
+<canvas id="gc"></canvas>
+<button id="muteBtn">&#x1f50a;</button>
+
+
+
+<script src="js/dealers_3d.js"></script></body>
+</html>

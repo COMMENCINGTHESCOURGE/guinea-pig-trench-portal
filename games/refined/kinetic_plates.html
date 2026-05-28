@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CRT Kinetic Plates</title>
+<style>body{margin:0;overflow:hidden;background:#000}canvas{display:block;width:100vw;height:100vh}
+/* -- THE THRESHOLD (pass 1) -- */
+#threshold-overlay {
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+}
+#threshold-vignette {
+  position: fixed; inset: 0; z-index: 9997; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(4,10,20,0.35));
+}
+#threshold-world-name {
+  position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; pointer-events: none;
+  color: #00b8c8; opacity: 0.4;
+  font-family: 'Courier New', monospace; font-size: 10px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+}
+#threshold-heartbeat {
+  position: fixed; inset: 0; z-index: 9996; pointer-events: none;
+  background: #00b8c8; opacity: 0;
+  transition: opacity 0.05s;
+}
+
+</style>
+</head>
+<body>
+<canvas id="glcanvas"></canvas>
+
+
+<script src="js/kinetic_plates.js"></script></body>
+</html>

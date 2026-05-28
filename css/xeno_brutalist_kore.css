@@ -1,0 +1,148 @@
+/* 
+  xeno_brutalist_kore.css — [SOVEREIGN_NODE_STYLING]
+  Aesthetic: High-mass, sharp edges, monochromatic with rust/cyan accents.
+  Consolidated from style.css and index.html inline blocks.
+*/
+
+:root {
+  --bg: #050505;
+  --surface: #0a0a0f;
+  --panel: rgba(10, 10, 15, 0.94);
+  --border: rgba(0, 245, 255, 0.18);
+  --rust: #d84315;
+  --teal: #00f5ff;
+  --cyan: #00ffd2;
+  --gold: #f0c030;
+  --magenta: #ff00cc;
+  --purple: #b06cf7;
+  --text: #e0e0e8;
+  --text-dim: rgba(224, 224, 232, 0.55);
+  --radius: 0px; /* Brutalist sharp edges */
+  --font-sans: 'Rajdhani', sans-serif;
+  --font-mono: 'Share Tech Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { 
+  width: 100%; height: 100%; 
+  background: var(--bg); 
+  color: var(--text); 
+  font-family: var(--font-sans); 
+  overflow-x: hidden; 
+}
+
+/* --- HUD BAR (FORMER AUTH BAR) --- */
+#auth-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 52px;
+  background: var(--panel); border-bottom: 2px solid var(--rust);
+  backdrop-filter: blur(14px);
+}
+
+.logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px; letter-spacing: 5px; font-weight: 900;
+  color: var(--rust); text-transform: uppercase;
+  text-shadow: 0 0 15px rgba(216, 67, 21, 0.35);
+}
+
+#main-nav { display: flex; gap: 30px; }
+#main-nav a {
+  color: var(--text-dim); text-decoration: none; font-size: 11px;
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 2px; text-transform: uppercase;
+  transition: all 0.2s;
+}
+#main-nav a:hover, #main-nav a.active {
+  color: var(--cyan); text-shadow: 0 0 10px var(--cyan);
+}
+
+/* --- HOME SECTION LAYOUTS --- */
+.home-section {
+  max-width: 800px; margin: 60px auto; padding: 0 20px;
+}
+.home-section h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px; letter-spacing: 5px; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 20px;
+}
+.home-section h3::after {
+  content: ''; flex: 1; height: 1px; background: currentColor; opacity: 0.2;
+}
+
+/* --- CARDS: FEATURED & DECOMPOSITION --- */
+.feature-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px; margin-bottom: 40px;
+}
+
+.f-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  padding: 20px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer; position: relative;
+}
+.f-card:hover {
+  border-color: var(--teal); background: rgba(0, 245, 255, 0.05);
+  transform: translateY(-2px);
+}
+.f-card .c-label {
+  font-size: 10px; letter-spacing: 2px; margin-bottom: 8px;
+  font-family: 'Orbitron', sans-serif;
+}
+.f-card .c-body {
+  font-size: 12px; color: var(--text-dim); line-height: 1.7;
+}
+
+/* --- GAME GRID SUBSTRATE --- */
+.game-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px; padding: 20px 0;
+}
+
+.game-card {
+  background: var(--surface); border: 1px solid var(--border);
+  overflow: hidden; cursor: pointer; transition: 0.2s;
+}
+.game-card:hover {
+  border-color: var(--cyan); box-shadow: 0 0 25px rgba(0, 255, 210, 0.15);
+}
+.game-card .card-body { padding: 18px; }
+.game-card h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 13px; color: var(--teal); letter-spacing: 2px; margin-bottom: 10px;
+}
+.game-card p {
+  font-size: 12px; color: var(--text-dim); line-height: 1.6;
+}
+
+/* --- MUSIC BAR (SONIC HUD) --- */
+#music-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; gap: 20px;
+  padding: 0 30px; height: 64px;
+  background: var(--panel); border-top: 2px solid var(--rust);
+}
+#music-title {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 1px;
+  color: var(--gold);
+}
+
+/* --- UTILS --- */
+.scanlines {
+  position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 1px, transparent 1px, transparent 3px);
+}
+.btn {
+  font-family: 'Orbitron', sans-serif; font-size: 11px; letter-spacing: 3px;
+  padding: 10px 24px; border: 1px solid var(--rust); background: transparent;
+  color: var(--rust); cursor: pointer; transition: 0.2s;
+}
+.btn:hover { background: var(--rust); color: white; box-shadow: 0 0 20px var(--rust); }
+
+@media (max-width: 768px) {
+  #auth-bar { padding: 0 20px; }
+  #main-nav { display: none; } /* Mobile nav delta pending */
+}

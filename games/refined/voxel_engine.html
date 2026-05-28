@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOXEL ENGINE</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #03060f; overflow: hidden; font-family: 'Courier New', monospace; }
+canvas { display: block; width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; }
+#sprite-overlay { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 5; }
+#mecha-portrait { position: fixed; top: 12px; left: 12px; z-index: 50; display: none; pointer-events: none; image-rendering: pixelated; border: 1px solid #00d2ff44; }
+#core-counter { position: fixed; top: 40px; left: 12px; z-index: 50; display: none; pointer-events: none; color: #ffd700; font-size: 14px; font-weight: bold; text-shadow: 0 0 8px #ffd70066; }
+
+#title-screen {
+    position: fixed; inset: 0; z-index: 100;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: #03060f; cursor: pointer;
+}
+#title-screen h1 {
+    font-size: 64px; color: #00d2ff; letter-spacing: 12px;
+    text-shadow: 0 0 30px #00d2ff66, 0 0 60px #00d2ff33;
+    margin-bottom: 30px;
+}
+#title-screen .sub {
+    font-size: 18px; color: #00d2ff99; animation: blink 1.5s infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+#pause-screen {
+    position: fixed; inset: 0; z-index: 90;
+    display: none; flex-direction: column; align-items: center; justify-content: center;
+    background: #03060fcc; cursor: pointer;
+}
+#pause-screen h2 { font-size: 48px; color: #00d2ff; letter-spacing: 8px; margin-bottom: 20px; }
+#pause-screen .sub { font-size: 16px; color: #00d2ff99; }
+
+#hud {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    display: none; padding: 12px 20px;
+    pointer-events: none;
+}
+#hud .row { display: flex; justify-content: space-between; align-items: center; }
+#hud .info { color: #00d2ffcc; font-size: 13px; }
+#hud .block-name { color: #00d2ff; font-size: 15px; font-weight: bold; }
+
+#crosshair {
+    position: fixed; top: 50%; left: 50%; z-index: 50;
+    width: 24px; height: 24px; transform: translate(-50%,-50%);
+    display: none; pointer-events: none;
+}
+#crosshair::before, #crosshair::after {
+    content: ''; position: absolute; background: #00d2ffaa;
+}
+#crosshair::before { width: 2px; height: 24px; left: 11px; top: 0; }
+#crosshair::after { width: 24px; height: 2px; top: 11px; left: 0; }
+
+#hotbar {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    z-index: 50; display: none; gap: 4px; pointer-events: none;
+}
+#hotbar .slot {
+    width: 48px; height: 48px; border: 2px solid #00d2ff44;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: #00d2ffcc; text-align: center;
+    background: #03060faa;
+}
+#hotbar .slot.active { border-color: #00d2ff; background: #00d2ff22; }
+#hotbar .slot .key { position: absolute; top: 2px; left: 4px; font-size: 9px; color: #00d2ff66; }
+#hotbar .slot { position: relative; }
+
+/* -- THE THRESHOLD (pass 1) -- */
+#threshold-overlay {
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+}
+#threshold-vignette {
+  position: fixed; inset: 0; z-index: 9997; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(5,15,10,0.35));
+}
+#threshold-world-name {
+  position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; pointer-events: none;
+  color: #00ff9d; opacity: 0.4;
+  font-family: 'Courier New', monospace; font-size: 10px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+}
+#threshold-heartbeat {
+  position: fixed; inset: 0; z-index: 9996; pointer-events: none;
+  background: #00ff9d; opacity: 0;
+  transition: opacity 0.05s;
+}
+
+</style>
+</head>
+<body>
+
+<canvas id="screen"></canvas>
+<canvas id="sprite-overlay"></canvas>
+<img id="mecha-portrait" width="24" height="24" src="../assets/sprites/mecha_entity_alpha_v2_pixel.png" alt="">
+<div id="core-counter">CORES: 0/5</div>
+
+<div id="title-screen">
+    <h1>VOXEL ENGINE</h1>
+    <div class="sub">CLICK TO START</div>
+</div>
+
+<div id="pause-screen">
+    <h2>PAUSED</h2>
+    <div class="sub">CLICK TO RESUME</div>
+</div>
+
+<div id="hud">
+    <div class="row">
+        <span class="info" id="h-pos">0, 0, 0</span>
+        <span class="block-name" id="h-block">STONE</span>
+        <span class="info" id="h-perf">FACES 0</span>
+    </div>
+</div>
+
+<div id="crosshair"></div>
+
+<div id="hotbar">
+    <div class="slot active" id="slot-0"><span class="key">1</span>Stone</div>
+    <div class="slot" id="slot-1"><span class="key">2</span>Dirt</div>
+    <div class="slot" id="slot-2"><span class="key">3</span>Grass</div>
+    <div class="slot" id="slot-3"><span class="key">4</span>Wood</div>
+</div>
+
+
+
+<script src="js/voxel_engine.js"></script></body>
+</html>

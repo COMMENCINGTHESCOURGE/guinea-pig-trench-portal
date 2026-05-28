@@ -1,0 +1,18 @@
+
+<style>
+#sw{position:relative;width:100%;padding:1rem 0;text-align:center}
+#sc{display:block;margin:0 auto;touch-action:none;cursor:grab}
+#sc:active{cursor:grabbing}
+#shud{display:flex;justify-content:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.sm{background:rgba(0,0,0,0.55);padding:3px 11px;border-radius:3px;font-family:monospace;font-size:11px;color:#7ab4d4;display:inline-block}
+#sinfo{margin-top:8px;font-size:10px;font-family:monospace;color:var(--color-text-tertiary)}
+</style>
+<div id="sw">
+  <div id="shud">
+    <span class="sm">zoom <span id="szm">1.00</span>×</span>
+    <span class="sm" id="smode">● drifting</span>
+  </div>
+  <canvas id="sc" width="520" height="520"></canvas>
+  <div id="sinfo">drag · look &nbsp;·&nbsp; right-drag · roll &nbsp;·&nbsp; scroll · zoom &nbsp;·&nbsp; 2-finger · pinch+twist &nbsp;·&nbsp; arrow keys</div>
+</div>
+<script src="js/infinite_sphere.js"></script>

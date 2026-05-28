@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BOULDER BUILDER — Cross-Section Construction</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden}
+canvas{display:block;position:fixed;inset:0}
+#gl{z-index:0}
+#ov{z-index:2;pointer-events:none}
+#ui{position:fixed;inset:0;z-index:10;pointer-events:none;font-family:'Courier New',monospace}
+#info{position:absolute;top:16px;left:16px;color:rgba(0,255,210,.5);font-size:10px;letter-spacing:.1em;line-height:1.8;max-width:240px;background:rgba(0,8,16,.7);padding:10px 12px;border:1px solid rgba(0,255,210,.1);backdrop-filter:blur(6px)}
+#toolbar{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);display:flex;gap:6px;pointer-events:auto}
+.tool{width:48px;height:48px;border:1px solid rgba(0,255,210,.15);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;background:rgba(0,8,16,.6);transition:all .2s;color:rgba(0,255,210,.5)}
+.tool:hover,.tool.active{border-color:rgba(0,255,210,.5);background:rgba(0,255,210,.06);color:#00ffd2}
+.tool .label{font-size:7px;position:absolute;bottom:2px;letter-spacing:.1em}
+#palette{position:absolute;top:16px;right:16px;pointer-events:auto;background:rgba(0,8,16,.7);padding:10px 12px;border:1px solid rgba(0,255,210,.1);backdrop-filter:blur(6px)}
+#palette h4{font-size:8px;letter-spacing:.2em;color:rgba(0,255,210,.3);text-transform:uppercase;margin-bottom:6px}
+.swatch{width:28px;height:22px;border:1px solid rgba(255,255,255,.1);cursor:pointer;display:inline-block;margin:2px;border-radius:2px;transition:border .2s}
+.swatch:hover,.swatch.active{border-color:#00ffd2}
+#stats{position:absolute;bottom:16px;right:16px;color:rgba(0,255,210,.3);font-size:9px;letter-spacing:.1em;text-align:right;line-height:1.8}
+#crosshair{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:5}
+
+/* -- THE THRESHOLD (pass 1) -- */
+#threshold-overlay {
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+}
+#threshold-vignette {
+  position: fixed; inset: 0; z-index: 9997; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(30,8,20,0.35));
+}
+#threshold-world-name {
+  position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; pointer-events: none;
+  color: #ff66aa; opacity: 0.4;
+  font-family: 'Courier New', monospace; font-size: 10px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+}
+#threshold-heartbeat {
+  position: fixed; inset: 0; z-index: 9996; pointer-events: none;
+  background: #ff66aa; opacity: 0;
+  transition: opacity 0.05s;
+}
+
+</style>
+</head>
+<body>
+<canvas id="gl"></canvas>
+<canvas id="ov"></canvas>
+<div id="ui">
+  <div id="info">
+    <div style="color:#00ffd2;font-size:11px;letter-spacing:.15em;margin-bottom:6px">BOULDER BUILDER</div>
+    WASD: MOVE · MOUSE: LOOK<br>
+    CLICK: PLACE BOULDER<br>
+    RIGHT-CLICK: REMOVE<br>
+    SCROLL: CHANGE SIZE<br>
+    1-6: BIOME PALETTE<br>
+    Q/E: ROTATE BOULDER<br>
+    SHIFT: SPRINT<br>
+    TAB: TOGGLE GRID
+  </div>
+  <div id="toolbar"></div>
+  <div id="palette">
+    <h4>Biome</h4>
+    <div id="swatches"></div>
+  </div>
+  <div id="stats">BOULDERS: 0<br>GRID: ON</div>
+</div>
+<svg id="crosshair" width="32" height="32" viewBox="0 0 32 32">
+  <line x1="16" y1="6" x2="16" y2="12" stroke="rgba(0,255,210,0.4)" stroke-width="1.5"/>
+  <line x1="16" y1="20" x2="16" y2="26" stroke="rgba(0,255,210,0.4)" stroke-width="1.5"/>
+  <line x1="6" y1="16" x2="12" y2="16" stroke="rgba(0,255,210,0.4)" stroke-width="1.5"/>
+  <line x1="20" y1="16" x2="26" y2="16" stroke="rgba(0,255,210,0.4)" stroke-width="1.5"/>
+  <circle cx="16" cy="16" r="2" fill="rgba(0,255,210,0.6)"/>
+</svg>
+
+
+
+<script src="js/boulder_builder.js"></script></body>
+</html>

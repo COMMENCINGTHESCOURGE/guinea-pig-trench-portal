@@ -1,0 +1,214 @@
+{
+  "defender": {
+    "jump": [
+      "defender_jump_1.png",
+      "defender_jump_2.png",
+      "defender_jump_3.png",
+      "defender_jump_4.png"
+    ],
+    "crouch": [
+      "defender_crouch_1.png",
+      "defender_crouch_2.png",
+      "defender_crouch_3.png"
+    ],
+    "block": [
+      "defender_block_1.png",
+      "defender_block_2.png",
+      "defender_block_3.png"
+    ],
+    "hit": [
+      "defender_hit_1.png",
+      "defender_hit_2.png",
+      "defender_hit_3.png"
+    ],
+    "knockback": [
+      "defender_knockback_1.png",
+      "defender_knockback_2.png",
+      "defender_knockback_3.png",
+      "defender_knockback_4.png"
+    ],
+    "death": [
+      "defender_death_1.png",
+      "defender_death_2.png",
+      "defender_death_3.png",
+      "defender_death_4.png"
+    ],
+    "victory": [
+      "defender_victory_1.png",
+      "defender_victory_2.png",
+      "defender_victory_3.png"
+    ]
+  },
+  "mecha": {
+    "idle": [
+      "mecha_idle_1.png",
+      "mecha_idle_2.png",
+      "mecha_idle_3.png",
+      "mecha_idle_4.png"
+    ],
+    "walk": [
+      "mecha_walk_1.png",
+      "mecha_walk_2.png",
+      "mecha_walk_3.png",
+      "mecha_walk_4.png"
+    ],
+    "attack": [
+      "mecha_attack_1.png",
+      "mecha_attack_2.png",
+      "mecha_attack_3.png"
+    ],
+    "jump": [
+      "mecha_jump_1.png",
+      "mecha_jump_2.png",
+      "mecha_jump_3.png",
+      "mecha_jump_4.png"
+    ],
+    "crouch": [
+      "mecha_crouch_1.png",
+      "mecha_crouch_2.png",
+      "mecha_crouch_3.png"
+    ],
+    "block": [
+      "mecha_block_1.png",
+      "mecha_block_2.png",
+      "mecha_block_3.png"
+    ],
+    "hit": [
+      "mecha_hit_1.png",
+      "mecha_hit_2.png",
+      "mecha_hit_3.png"
+    ],
+    "knockback": [
+      "mecha_knockback_1.png",
+      "mecha_knockback_2.png",
+      "mecha_knockback_3.png",
+      "mecha_knockback_4.png"
+    ],
+    "death": [
+      "mecha_death_1.png",
+      "mecha_death_2.png",
+      "mecha_death_3.png",
+      "mecha_death_4.png"
+    ],
+    "victory": [
+      "mecha_victory_1.png",
+      "mecha_victory_2.png",
+      "mecha_victory_3.png"
+    ]
+  },
+  "kraken": {
+    "idle": [
+      "kraken_idle_1.png",
+      "kraken_idle_2.png",
+      "kraken_idle_3.png",
+      "kraken_idle_4.png"
+    ],
+    "walk": [
+      "kraken_walk_1.png",
+      "kraken_walk_2.png",
+      "kraken_walk_3.png",
+      "kraken_walk_4.png"
+    ],
+    "attack": [
+      "kraken_attack_1.png",
+      "kraken_attack_2.png",
+      "kraken_attack_3.png",
+      "kraken_attack_4.png"
+    ],
+    "jump": [
+      "kraken_jump_1.png",
+      "kraken_jump_2.png",
+      "kraken_jump_3.png",
+      "kraken_jump_4.png"
+    ],
+    "crouch": [
+      "kraken_crouch_1.png",
+      "kraken_crouch_2.png",
+      "kraken_crouch_3.png"
+    ],
+    "block": [
+      "kraken_block_1.png",
+      "kraken_block_2.png",
+      "kraken_block_3.png"
+    ],
+    "hit": [
+      "kraken_hit_1.png",
+      "kraken_hit_2.png",
+      "kraken_hit_3.png"
+    ],
+    "knockback": [
+      "kraken_knockback_1.png",
+      "kraken_knockback_2.png",
+      "kraken_knockback_3.png",
+      "kraken_knockback_4.png"
+    ],
+    "death": [
+      "kraken_death_1.png",
+      "kraken_death_2.png",
+      "kraken_death_3.png",
+      "kraken_death_4.png"
+    ],
+    "victory": [
+      "kraken_victory_1.png",
+      "kraken_victory_2.png",
+      "kraken_victory_3.png"
+    ]
+  },
+  "aku": {
+    "idle": [
+      "aku_idle_1.png",
+      "aku_idle_2.png",
+      "aku_idle_3.png",
+      "aku_idle_4.png"
+    ],
+    "walk": [
+      "aku_walk_1.png",
+      "aku_walk_2.png",
+      "aku_walk_3.png",
+      "aku_walk_4.png"
+    ],
+    "attack": [
+      "aku_attack_1.png",
+      "aku_attack_2.png",
+      "aku_attack_3.png"
+    ],
+    "jump": [
+      "aku_jump_1.png",
+      "aku_jump_2.png",
+      "aku_jump_3.png",
+      "aku_jump_4.png"
+    ],
+    "crouch": [
+      "aku_crouch_1.png",
+      "aku_crouch_2.png",
+      "aku_crouch_3.png"
+    ],
+    "block": [
+      "aku_block_1.png",
+      "aku_block_2.png",
+      "aku_block_3.png"
+    ],
+    "hit": [
+      "aku_hit_1.png",
+      "aku_hit_2.png",
+      "aku_hit_3.png"
+    ],
+    "knockback": [
+      "aku_knockback_1.png",
+      "aku_knockback_2.png",
+      "aku_knockback_3.png",
+      "aku_knockback_4.png"
+    ],
+    "death": [
+      "aku_death_1.png",
+      "aku_death_2.png",
+      "aku_death_3.png",
+      "aku_death_4.png"
+    ],
+    "victory": [
+      "aku_victory_1.png",
+      "aku_victory_2.png",
+      "aku_victory_3.png"
+    ]
+  }
+}

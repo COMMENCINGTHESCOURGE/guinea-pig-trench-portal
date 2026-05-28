@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Living Threshold Sphere — Organic | Matrix</title>
+<style>
+body{margin:0;overflow:hidden;background:#000;display:flex;align-items:center;justify-content:center;min-height:100vh}
+#stw{position:relative;width:100%;max-width:600px;padding:1rem 0;text-align:center}
+#stc{display:block;margin:0 auto;touch-action:none;cursor:grab}
+#stc:active{cursor:grabbing}
+#sthud{display:flex;justify-content:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.stm{background:rgba(0,0,0,0.62);padding:3px 11px;border-radius:3px;font-family:monospace;font-size:11px;color:#7ab4d4;display:inline-block}
+#stctrl{display:flex;justify-content:center;gap:12px;margin-top:10px;flex-wrap:wrap;align-items:center}
+.stl{font-family:monospace;font-size:11px;color:#888;display:flex;align-items:center;gap:6px}
+input[type=range]{accent-color:#0ff;width:72px}
+</style>
+</head>
+<body>
+<div id="stw">
+  <div id="sthud">
+    <span class="stm">zoom <span id="stzm">1.00</span>&times;</span>
+    <span class="stm" id="stmode">&#9679; drifting</span>
+    <span class="stm" style="color:#ffaa00">contracts <span id="stcon">0</span></span>
+    <span class="stm" style="color:#00ff80" id="stzone">&#9679; organic | matrix &#9679;</span>
+  </div>
+  <canvas id="stc" width="520" height="520"></canvas>
+  <div id="stctrl">
+    <div class="stl">flow <input id="stspd" type="range" min="0" max="0.12" step="0.001" value="0.025"></div>
+    <div class="stl">bands <input id="stbnd" type="range" min="3" max="40" step="1" value="18"></div>
+    <div class="stl">threshold swing <input id="stswing" type="range" min="0" max="80" step="1" value="30"></div>
+  </div>
+</div>
+<script src="js/threshold_sphere.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Threshold — Flight</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { overflow: hidden; background: #000; font-family: 'Courier New', monospace; }
+canvas { display: block; }
+#hud { position: absolute; top: 10px; left: 10px; color: #0ff; font-size: 11px;
+  pointer-events: none; z-index: 10; opacity: 0.7; line-height: 1.8; }
+#world-indicator { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+  color: #fff; font-size: 14px; pointer-events: none; z-index: 10; text-align: center;
+  text-shadow: 0 0 20px currentColor; transition: color 0.5s; }
+#start-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.92); color: #0ff; z-index: 20; cursor: pointer; }
+#start-screen h1 { font-size: 48px; text-shadow: 0 0 40px #0ff; margin-bottom: 8px; letter-spacing: 8px; }
+#start-screen .sub { font-size: 13px; color: #888; margin-bottom: 30px; }
+#start-screen .controls { font-size: 11px; color: #555; line-height: 2; }
+#start-screen .prompt { font-size: 16px; margin-top: 25px; animation: blink 1.2s infinite; }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
+</style>
+</head>
+<body>
+
+<div id="hud">
+  <div id="hud-speed">Speed: 0</div>
+  <div id="hud-roll">Roll: 0</div>
+  <div id="hud-nearest">Nearest: --</div>
+</div>
+
+<div id="world-indicator">THE BETWEEN</div>
+
+<div id="start-screen">
+  <h1>THE THRESHOLD</h1>
+  <div class="sub">where all worlds meet</div>
+  <div class="controls">
+    W/S — thrust | MOUSE — look | Q/E — roll<br>
+    Fly toward a world to cross the threshold
+  </div>
+  <div class="prompt">[ CLICK TO ENTER ]</div>
+</div>
+
+<canvas id="c"></canvas>
+
+<script src="js/threshold_flight.js"></script>
+</body>
+</html>

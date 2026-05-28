@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TRENCH FM — LENTICULAR HILL</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Orbitron:wght@700;900&display=swap');
+:root{--phosphor:#00ff9d;--void:#000c1a;--dim:rgba(0,255,157,0.32);--gold:#D4A844;--danger:#ff2244}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--void);overflow:hidden;font-family:'Share Tech Mono',monospace;cursor:none}
+canvas{display:block;position:fixed;inset:0;z-index:1;image-rendering:pixelated}
+#crt{position:fixed;inset:0;z-index:9;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,0.055) 0px,rgba(0,0,0,0.055) 1px,transparent 1px,transparent 3px),
+  radial-gradient(ellipse at center,transparent 50%,rgba(0,8,18,0.82) 100%);animation:flicker 14s infinite}
+@keyframes flicker{0%,100%{opacity:1}96%{opacity:1}96.6%{opacity:.75}97%{opacity:1}}
+#scan{position:fixed;inset:0;z-index:8;pointer-events:none;overflow:hidden}
+#scan::after{content:'';position:absolute;left:0;right:0;height:2px;background:rgba(0,255,157,0.03);box-shadow:0 0 18px rgba(0,255,157,0.02);animation:scanSweep 9s linear infinite}
+@keyframes scanSweep{0%{top:-2px}100%{top:100%}}
+#hud{position:fixed;inset:0;z-index:10;pointer-events:none}
+.panel{position:absolute;background:rgba(0,14,30,0.72);backdrop-filter:blur(12px);border:1px solid rgba(0,255,157,0.14);font-size:10px;color:var(--phosphor);padding:10px 14px}
+.panel::before{content:'';position:absolute;top:0;left:12px;right:12px;height:1px;background:linear-gradient(90deg,transparent,var(--phosphor),transparent);opacity:.25}
+.hl{font-size:7.5px;letter-spacing:.28em;color:var(--dim);text-transform:uppercase}
+
+/* -- THE THRESHOLD (pass 1) -- */
+#threshold-overlay {
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+}
+#threshold-vignette {
+  position: fixed; inset: 0; z-index: 9997; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,2,12,0.35));
+}
+#threshold-world-name {
+  position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; pointer-events: none;
+  color: #6688ff; opacity: 0.4;
+  font-family: 'Courier New', monospace; font-size: 10px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+}
+#threshold-heartbeat {
+  position: fixed; inset: 0; z-index: 9996; pointer-events: none;
+  background: #6688ff; opacity: 0;
+  transition: opacity 0.05s;
+}
+
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="crt"></div>
+<div id="scan"></div>
+<div id="hud">
+  <div class="panel" id="p-radio" style="top:18px;left:18px;min-width:200px">
+    <div class="hl">TRENCH FM</div>
+    <div id="trackName" style="font-size:11px;color:var(--phosphor);margin:6px 0 3px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">TUNING...</div>
+    <div id="trackStatus" style="font-size:7.5px;color:var(--dim);letter-spacing:.18em">SIGNAL SEARCH</div>
+    <div id="freqBar" style="margin-top:6px;height:3px;background:rgba(0,255,157,0.06);border:1px solid rgba(0,255,157,0.12)">
+      <div id="freqFill" style="height:100%;width:0%;background:linear-gradient(90deg,var(--phosphor),#00ccff);transition:width 0.3s"></div>
+    </div>
+  </div>
+  <div class="panel" id="p-score" style="top:18px;right:18px;text-align:right;min-width:140px">
+    <div class="hl">RESONANCE</div>
+    <div id="scoreVal" style="font-family:'Orbitron',monospace;font-size:32px;font-weight:900;color:var(--gold);line-height:1;margin:4px 0;text-shadow:0 0 18px rgba(212,168,68,0.3)">0</div>
+    <div style="font-size:7.5px;color:var(--dim);letter-spacing:.12em">CORES</div>
+  </div>
+  <div class="panel" id="p-speed" style="bottom:18px;right:18px;text-align:right;min-width:110px">
+    <div class="hl">VELOCITY</div>
+    <div id="spdVal" style="font-size:14px;color:var(--phosphor);margin-top:3px">0</div>
+    <div class="hl" style="margin-top:4px">TILT</div>
+    <div id="tiltVal" style="font-size:14px;color:#00ccff;margin-top:3px">50%</div>
+  </div>
+  <div class="panel" id="p-hint" style="bottom:18px;left:50%;transform:translateX(-50%);text-align:center;padding:8px 20px">
+    <div id="hintText" style="font-size:8px;letter-spacing:.3em;color:var(--dim)">CLICK TO TUNE IN</div>
+  </div>
+</div>
+
+<audio id="audio" crossorigin="anonymous" preload="none"></audio>
+
+
+
+<script src="js/lenticular_hill.js"></script></body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>THE FIELD</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#05050d;--panel:#09091a;--bd:#14142a;--text:#6060a0;--bright:#c0c0e0;--acc:#4a9eff;--amber:#ffaa44}
+body{background:var(--bg);color:var(--text);font-family:'Courier New',Consolas,monospace;height:100vh;overflow:hidden;display:flex;flex-direction:column}
+header{padding:7px 14px;border-bottom:1px solid var(--bd);background:var(--panel);display:flex;align-items:center;gap:16px;flex-shrink:0;font-size:11px}
+.logo{color:var(--bright);letter-spacing:.2em;font-size:11px}
+.logo em{color:var(--amber);font-style:normal}
+.hud{display:flex;gap:16px;margin-left:12px}
+.hi label{color:#282850;margin-right:4px}
+.hi span{color:var(--acc)}
+.keys{margin-left:auto;display:flex;gap:14px;font-size:9px;color:#282850;letter-spacing:.08em}
+.keys .mode-btn{cursor:pointer;color:var(--bright);border-bottom:1px dotted var(--bright)}
+main{flex:1;position:relative;overflow:hidden}
+canvas{display:block;cursor:crosshair;width:100%;height:100%}
+#tip{position:absolute;top:0;left:0;background:rgba(9,9,26,.95);border:1px solid #1e1e3a;padding:10px 13px;font-size:10px;pointer-events:none;opacity:0;transition:opacity .1s;line-height:2;border-radius:2px}
+#tip.on{opacity:1}
+#tip .tn{color:var(--bright);font-size:16px;line-height:1.5}
+#tip .tf{color:var(--acc)}
+#tip .te{color:var(--amber)}
+#tip .tt{color:#454580;font-size:9px}
+#overlay{position:absolute;bottom:12px;right:12px;font-size:9px;color:#1e1e38;letter-spacing:.1em;pointer-events:none;text-align:right;line-height:2}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo" id="logo-text">THE <em>FIELD</em> // ULAM SPIRAL</div>
+  <div class="hud">
+    <div class="hi"><label>N</label><span id="h-n">—</span></div>
+    <div class="hi"><label>ZOOM</label><span id="h-z">8</span>px</div>
+    <div class="hi"><label>PRIMES &lt;</label><span id="h-p">—</span></div>
+    <div class="hi"><label>CENTER</label><span id="h-c">1</span></div>
+  </div>
+  <div class="keys">
+    <span class="mode-btn" id="btn-mode">MODE: ULAM</span>
+    <span class="mode-btn" id="btn-mod24">MOD24: OFF</span>
+    <span>SCROLL=ZOOM</span>
+    <span>DRAG=PAN</span>
+    <span>CLICK=HEAR</span>
+    <span>HOME=RESET</span>
+  </div>
+</header>
+<main>
+  <canvas id="c"></canvas>
+  <div id="tip">
+    <div class="tn" id="t-n"></div>
+    <div class="tf" id="t-f"></div>
+    <div class="te" id="t-e"></div>
+    <div class="tt" id="t-t"></div>
+  </div>
+  <div id="overlay">
+    <div>amber = primes &middot; teal = n ≡ 1 (mod 24)</div>
+    <div>◆ diagonal lines = prime-generating quadratics</div>
+    <div>10^17 sieve: ALL survivors are n ≡ 1 (mod 24)</div>
+    <div>scroll out to see why</div>
+  </div>
+</main>
+<script src="js/the_field.js"></script>
+</body>
+</html>

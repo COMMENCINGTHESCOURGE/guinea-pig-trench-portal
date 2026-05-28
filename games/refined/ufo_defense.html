@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trench Defense: UFO Invasion</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #03060f; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
+#bg { position:fixed; inset:0; z-index:0; }
+canvas#g { position:relative; z-index:1; border: 2px solid #00d2ff33; image-rendering: pixelated; cursor: crosshair; }
+
+/* -- THE THRESHOLD (pass 1) -- */
+#threshold-overlay {
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+}
+#threshold-vignette {
+  position: fixed; inset: 0; z-index: 9997; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(30,8,20,0.35));
+}
+#threshold-world-name {
+  position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; pointer-events: none;
+  color: #ff66aa; opacity: 0.4;
+  font-family: 'Courier New', monospace; font-size: 10px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+}
+#threshold-heartbeat {
+  position: fixed; inset: 0; z-index: 9996; pointer-events: none;
+  background: #ff66aa; opacity: 0;
+  transition: opacity 0.05s;
+}
+
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<canvas id="g" width="800" height="600"></canvas>
+<script src="../js/raybg.js"></script>
+
+
+<script src="js/ufo_defense.js"></script></body>
+</html>

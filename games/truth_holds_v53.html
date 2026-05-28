@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>TRUTH HOLDS — CARGO HOLD [v53]</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Orbitron:wght@400;700;900&display=swap');
+
+:root {
+  --void:    #000a14;
+  --deep:    rgba(0,16,32,0.78);
+  --phosphor:#00ff9d;
+  --biolum:  #00ccff;
+  --amber:   #ffaa22;
+  --danger:  #ff2244;
+  --dim:     rgba(0,255,157,0.38);
+  --border:  rgba(0,255,157,0.18);
+}
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+
+body {
+  background:var(--void);
+  overflow:hidden;
+  font-family:'Space Mono',monospace;
+  user-select:none;
+  cursor:none;
+}
+
+#screen, #overlay-canvas {
+  display:block;
+  width:100vw; height:100vh;
+  image-rendering:pixelated;
+  position:fixed; inset:0;
+}
+#screen         { z-index:1; }
+#overlay-canvas { z-index:2; pointer-events:none; }
+
+#crt {
+  position:fixed; inset:0; z-index:9; pointer-events:none;
+  background:
+    repeating-linear-gradient(0deg,
+      rgba(0,0,0,0.055) 0px, rgba(0,0,0,0.055) 1px,
+      transparent 1px, transparent 3px),
+    radial-gradient(ellipse at center, transparent 52%, rgba(0,8,18,0.82) 100%);
+  animation:crtFlicker 14s infinite;
+}
+@keyframes crtFlicker {
+  0%,100%{opacity:1} 96%{opacity:1} 96.6%{opacity:.78} 97%{opacity:1}
+}
+
+#scan { position:fixed; inset:0; z-index:8; pointer-events:none; overflow:hidden; }
+#scan::after {
+  content:''; position:absolute; left:0; right:0; height:2px;
+  background:rgba(0,255,157,0.035);
+  box-shadow:0 0 18px rgba(0,255,157,0.025);
+  animation:scanSweep 9s linear infinite;
+}
+@keyframes scanSweep { 0%{top:-2px} 100%{top:100%} }
+
+#hud { position:fixed; inset:0; z-index:10; pointer-events:none; }
+
+.panel {
+  position:absolute;
+  background:var(--deep);
+  backdrop-filter:blur(18px) saturate(0.75);
+  border:1px solid var(--border);
+  color:var(--phosphor);
+  font-family:'Space Mono',monospace;
+  font-size:10px;
+  letter-spacing:0.07em;
+}
+.panel::before {
+  content:''; position:absolute; top:0; left:16px; right:16px; height:1px;
+  background:linear-gradient(90deg,transparent,var(--phosphor),transparent);
+  opacity:0.35;
+}
+
+#vitals {
+  top:22px; left:22px; padding:14px 18px 12px; min-width:236px;
+  clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));
+}
+.vr { display:flex; justify-content:space-between; align-items:center; gap:20px; padding:4px 0; border-bottom:1px solid rgba(0,255,157,0.07); }
+.vr:last-child { border-bottom:none; }
+.vk { color:var(--dim); font-size:8.5px; letter-spacing:0.22em; text-transform:uppercase; }
+.vv { font-weight:700; font-size:10px; color:var(--phosphor); }
+.v-obj { margin-top:10px; padding-top:8px; border-top:1px solid rgba(0,255,157,0.08); font-size:7.5px; letter-spacing:0.2em; color:rgba(0,255,157,0.22); text-align:center; text-transform:uppercase; }
+
+#score-panel {
+  top:22px; right:22px; padding:14px 20px 12px; text-align:right; min-width:168px;
+  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
+}
+.sl { font-size:8.5px; letter-spacing:0.3em; color:var(--dim); text-transform:uppercase; }
+#scoreVal {
+  font-family:'Orbitron',monospace; font-size:46px; font-weight:900;
+  color:var(--phosphor); line-height:1; margin:5px 0 2px;
+  text-shadow:0 0 22px var(--phosphor),0 0 55px rgba(0,255,157,0.28);
+  animation:scorePulse 5s ease-in-out infinite;
+}
+@keyframes scorePulse {
+  0%,100%{ text-shadow:0 0 22px var(--phosphor),0 0 55px rgba(0,255,157,0.28); }
+  50%    { text-shadow:0 0 8px var(--phosphor); }
+}
+
+#gem-panel {
+    top: 22px; right: 22px; padding: 14px 20px 12px; min-width: 240px;
+    clip-path: polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
+    transform: translateY(140px); /* below score panel */
+}
+.gl { font-size:8.5px; letter-spacing:0.3em; color:var(--dim); text-transform:uppercase; margin-bottom:8px; }
+.gem-row { display:flex; align-items:center; gap:6px; margin:3px 0; font-size:9px; }
+.gem-label { width:50px; text-align:left; font-weight:700; }
+.gem-count { width:24px; text-align:right; font-family:'Orbitron',monospace; }
+.gem-cap { color:var(--dim); font-size:8px; width:30px; }
+.gem-bar { flex:1; height:4px; background:rgba(255,255,255,0.1); border-radius:2px; overflow:hidden; }
+.gem-fill { height:100%; width:0%; transition:width 0.3s; }
+
+#prog-panel { top:22px; left:50%; transform:translateX(-50%); padding:12px 20px 10px; width:268px; text-align:center; }
+.pl { font-size:8.5px; letter-spacing:0.25em; color:var(--dim); text-transform:uppercase; margin-bottom:9px; }
+.pt { height:4px; background:rgba(0,255,157,0.05); border:1px solid rgba(0,255,157,0.14); position:relative; overflow:visible; }
+#prog-fill {
+  height:100%; width:0%; background:linear-gradient(90deg,#00ff9d,#00ccff);
+  transition:width .5s cubic-bezier(.4,0,.2,1); position:relative;
+}
+#prog-fill::after {
+  content:''; position:absolute; right:-2px; top:-3px; bottom:-3px; width:3px;
+  background:#fff; box-shadow:0 0 10px var(--phosphor),0 0 20px var(--phosphor); opacity:.85;
+}
+#progPct { font-size:8.5px; color:var(--phosphor); margin-top:5px; letter-spacing:0.18em; }
+
+#instab-panel { bottom:22px; right:22px; padding:12px 18px; min-width:196px; text-align:right; clip-path:polygon(0 0,100% 0,100% 100%,14px 100%,0 calc(100% - 14px)); }
+.il { font-size:8.5px; letter-spacing:0.24em; color:var(--dim); text-transform:uppercase; display:block; margin-bottom:7px; }
+.it { height:3px; background:rgba(255,34,68,0.06); border:1px solid rgba(255,34,68,0.16); }
+#instab-fill { height:100%; width:0%; background:linear-gradient(90deg,var(--amber),var(--danger)); transition:width .2s; }
+#instab-val { font-size:8px; color:rgba(255,34,68,0.45); margin-top:5px; letter-spacing:0.1em; }
+
+#ammo-panel { bottom:22px; left:50%; transform:translateX(-50%); padding:10px 22px; text-align:center; min-width:160px; }
+.al { font-size:8.5px; letter-spacing:0.25em; color:var(--dim); text-transform:uppercase; display:block; margin-bottom:5px; }
+#ammo-pips { display:flex; gap:4px; justify-content:center; }
+.pip { width:7px; height:7px; border:1px solid var(--phosphor); border-radius:1px; background:var(--phosphor); transition:background .1s,opacity .1s; }
+.pip.empty { background:transparent; opacity:0.28; }
+
+#minimap-wrap { bottom:22px; left:22px; padding:10px; clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,0 100%); }
+#minimap { display:block; image-rendering:pixelated; }
+
+#layer-badge {
+  position:fixed; top:50%; left:50%; z-index:12; pointer-events:none;
+  transform:translate(-50%,-50%);
+  font-family:'Bebas Neue',sans-serif; font-size:76px;
+  color:rgba(0,255,157,0.035); letter-spacing:0.45em; white-space:nowrap; text-transform:uppercase;
+}
+
+#lock-prompt {
+  position:fixed; inset:0; z-index:40; display:flex; align-items:center; justify-content:center;
+  background:rgba(0,10,22,0.88); backdrop-filter:blur(6px);
+  flex-direction:column; gap:14px;
+  transition:opacity .4s;
+}
+#lock-prompt.hidden { opacity:0; pointer-events:none; }
+#lock-prompt h2 { font-family:'Bebas Neue',sans-serif; font-size:48px; letter-spacing:.3em; color:var(--phosphor); text-shadow:0 0 30px var(--phosphor); }
+#lock-prompt p  { font-size:9px; letter-spacing:.35em; color:var(--dim); text-transform:uppercase; text-align:center; }
+.lp-key { display:inline-block; border:1px solid rgba(0,255,157,0.35); padding:3px 10px; margin:2px; font-size:9px; letter-spacing:.18em; }
+
+#muzzle-flash { position:fixed; inset:0; z-index:11; pointer-events:none; background:rgba(0,255,157,0); transition:background .04s; }
+
+.particle {
+  position:fixed; z-index:20; pointer-events:none;
+  width:4px; height:4px; border-radius:50%;
+  animation:pFloat var(--dur) ease-out forwards;
+}
+@keyframes pFloat {
+  0%  { transform:translate(var(--sx),var(--sy)) scale(1.2); opacity:1; }
+  100%{ transform:translate(var(--ex),var(--ey)) scale(0); opacity:0; }
+}
+
+#overlay {
+  position:fixed; inset:0; z-index:50;
+  display:none; align-items:center; justify-content:center;
+  flex-direction:column; gap:16px; pointer-events:none;
+  background:radial-gradient(ellipse at 50% 38%,rgba(0,18,36,0.97) 28%,rgba(0,5,12,0.99) 100%);
+}
+#overlay.show { display:flex; pointer-events:auto; }
+#overlay-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(52px,7.5vw,92px);
+  letter-spacing:0.28em; text-align:center;
+}
+#overlay.won  #overlay-title { color:var(--phosphor); text-shadow:0 0 60px var(--phosphor),0 0 130px rgba(0,255,157,.35); }
+#overlay.lost #overlay-title { color:var(--danger);   text-shadow:0 0 60px var(--danger),0 0 130px rgba(255,34,68,.35); }
+#overlay-sub   { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:0.38em; color:var(--dim); text-transform:uppercase; text-align:center; }
+#overlay-score { font-family:'Orbitron',monospace; font-size:20px; color:var(--phosphor); letter-spacing:0.1em; }
+.ov-rule { width:250px; height:1px; background:linear-gradient(90deg,transparent,var(--phosphor),transparent); opacity:.28; }
+.ov-hint { font-size:8px; letter-spacing:0.35em; color:rgba(0,255,157,0.18); text-transform:uppercase; }
+</style>
+</head>
+<body>
+
+<audio id="snd_mine"   src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" preload="auto"></audio>
+<audio id="snd_glitch" src="https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3" preload="auto"></audio>
+
+<canvas id="screen"></canvas>
+<canvas id="overlay-canvas"></canvas>
+
+<div id="crt"></div>
+<div id="scan"></div>
+<div id="muzzle-flash"></div>
+<div id="layer-badge">SURFACE</div>
+
+<div id="hud">
+  <div id="vitals" class="panel">
+    <div class="vr"><span class="vk">NODE</span>   <span class="vv" id="layerName">SURFACE_OCEAN</span></div>
+    <div class="vr"><span class="vk">COORD</span>  <span class="vv" id="posVal">512, 512</span></div>
+    <div class="vr"><span class="vk">DEPTH</span>  <span class="vv" id="depthVal">0.0m</span></div>
+    <div class="vr"><span class="vk">STATUS</span> <span class="vv" id="stabVal">NOMINAL</span></div>
+    <div class="vr"><span class="vk">BLOBS</span>  <span class="vv" id="blobCount">0</span></div>
+    <div class="v-obj">MISSION — HARVEST 300 RESONANCE UNITS</div>
+  </div>
+  <div id="score-panel" class="panel">
+    <div class="sl">RESONANCE</div>
+    <div id="scoreVal">000</div>
+    <div class="sd">/ 300 UNITS</div>
+  </div>
+
+  <div id="gem-panel" class="panel">
+    <div class="gl">GEM INVENTORY</div>
+    <div class="gem-row">
+        <span class="gem-label" style="color:#ff00cc;">MAGENTA</span>
+        <span class="gem-count" id="gem-magenta">0</span>
+        <span class="gem-cap">/50</span>
+        <div class="gem-bar"><div id="gem-bar-magenta" class="gem-fill" style="background:#ff00cc;"></div></div>
+    </div>
+    <div class="gem-row">
+        <span class="gem-label" style="color:#00ccff;">CYAN</span>
+        <span class="gem-count" id="gem-cyan">0</span>
+        <span class="gem-cap">/50</span>
+        <div class="gem-bar"><div id="gem-bar-cyan" class="gem-fill" style="background:#00ccff;"></div></div>
+    </div>
+    <div class="gem-row">
+        <span class="gem-label" style="color:#ffaa22;">AMBER</span>
+        <span class="gem-count" id="gem-amber">0</span>
+        <span class="gem-cap">/50</span>
+        <div class="gem-bar"><div id="gem-bar-amber" class="gem-fill" style="background:#ffaa22;"></div></div>
+    </div>
+    <div class="gem-row" style="margin-top:8px;border-top:1px solid var(--border);padding-top:6px;">
+        <span class="gem-label">SHIP CARGO</span>
+        <span style="font-size:9px;" id="ship-gem-total">0 / 500</span>
+    </div>
+  </div>
+
+  <div id="prog-panel" class="panel">
+    <div class="pl">HARVEST PROGRESS</div>
+    <div class="pt"><div id="prog-fill"></div></div>
+    <div id="progPct">0%</div>
+  </div>
+  <div id="instab-panel" class="panel">
+    <span class="il">CORE INSTABILITY</span>
+    <div class="it"><div id="instab-fill"></div></div>
+    <div id="instab-val">0 / 600</div>
+  </div>
+  <div id="ammo-panel" class="panel">
+    <span class="al">PULSE CHARGE</span>
+    <div id="ammo-pips"></div>
+  </div>
+  <div id="minimap-wrap" class="panel">
+    <canvas id="minimap" width="84" height="84"></canvas>
+  </div>
+</div>
+
+<div id="lock-prompt">
+  <h2>TRUTH HOLDS</h2>
+  <p>CLICK TO ENGAGE POINTER LOCK</p>
+  <p>
+    <span class="lp-key">W A S D</span> MOVE &nbsp;|&nbsp;
+    <span class="lp-key">MOUSE</span> LOOK &nbsp;|&nbsp;
+    <span class="lp-key">CLICK</span> FIRE &nbsp;|&nbsp;
+    <span class="lp-key">SHIFT</span> SPRINT &nbsp;|&nbsp;
+    <span class="lp-key">E</span> DEPOSIT
+  </p>
+</div>
+
+<div id="overlay">
+  <div class="ov-rule"></div>
+  <div id="overlay-title">SIGNAL LOST</div>
+  <div id="overlay-sub">RESONANCE FIELD COLLAPSED</div>
+  <div id="overlay-score"></div>
+  <div class="ov-rule"></div>
+  <div class="ov-hint">REFRESH TO REINITIALIZE</div>
+</div>
+
+<script src="js/truth_holds_v53.js"></script>
+</body>
+</html>

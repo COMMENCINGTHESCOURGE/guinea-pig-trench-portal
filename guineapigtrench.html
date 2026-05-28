@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GUINEA PIG TRENCH LLC // Algorithmic Auditing & Creative Systems</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=JetBrains+Mono:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #050505;
+    --panel: #111111;
+    --rust: #d84315;
+    --cyan: #00f5ff;
+    --bone: #e0d8cc;
+    --dim: #444444;
+    --accent: #00ff9d;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background-color: var(--void);
+    color: var(--bone);
+    font-family: 'Rajdhani', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* --- GRID SUBSTRATE --- */
+  #substrate {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: 
+      linear-gradient(90deg, rgba(216, 67, 21, 0.03) 1px, transparent 1px),
+      linear-gradient(rgba(216, 67, 21, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  header {
+    padding: 60px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px solid var(--rust);
+  }
+
+  .logo-block {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: 8px;
+    color: var(--rust);
+    text-shadow: 0 0 20px rgba(216, 67, 21, 0.4);
+  }
+
+  .tagline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+  }
+
+  nav a {
+    color: var(--bone);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  nav a:hover { color: var(--rust); }
+
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 40px;
+  }
+
+  section {
+    margin-bottom: 120px;
+  }
+
+  h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    letter-spacing: 5px;
+    color: var(--rust);
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  h2::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rust);
+    opacity: 0.3;
+  }
+
+  /* --- SERVICES GRID --- */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+  }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--dim);
+    padding: 30px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card:hover {
+    border-color: var(--rust);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .card h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: var(--bone);
+    letter-spacing: 2px;
+  }
+
+  .card p {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 20px;
+  }
+
+  .card .stat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--rust);
+    text-transform: uppercase;
+  }
+
+  /* --- CAPABILITY STATEMENT --- */
+  .capability-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+
+  .capability-table td {
+    padding: 15px 0;
+    border-bottom: 1px solid var(--dim);
+  }
+
+  .capability-table .key { color: var(--dim); width: 250px; }
+  .capability-table .val { color: var(--bone); }
+
+  /* --- PORTAL REDIRECT --- */
+  .portal-link {
+    display: inline-block;
+    margin-top: 40px;
+    padding: 15px 40px;
+    background: var(--rust);
+    color: white;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    transition: background 0.3s;
+  }
+
+  .portal-link:hover { background: #ff5722; }
+
+  footer {
+    padding: 80px 40px;
+    border-top: 1px solid var(--dim);
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+  }
+
+  .contact-info {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* --- REACTION BACKGROUND --- */
+  #bg-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    opacity: 0.15;
+  }
+
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+<div id="substrate"></div>
+
+<header>
+  <div class="logo-block">
+    <div class="logo">GPT_LLC</div>
+    <div class="tagline">GUINEA PIG TRENCH // PA #13674084</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="#services">SERVICES</a></li>
+      <li><a href="#capability">CAPABILITIES</a></li>
+      <li><a href="index.html">CREATIVE PORTAL</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <section id="services">
+    <h2>CORE SERVICES</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>ALGORITHMIC AUDITING</h3>
+        <p>Detecting structural defects, logic-gate failures, and systemic discrepancies in large-scale records management systems.</p>
+        <div class="stat">PRECISION: FORENSIC // METHOD: DELTA-AUDIT</div>
+      </div>
+      <div class="card">
+        <h3>SOVEREIGN ARCHITECTURE</h3>
+        <p>Building high-velocity, zero-framework creative systems. Custom ECS, WebGL2 raymarching, and real-time sonic pipelines.</p>
+        <div class="stat">SUBSTRATE: HARDWARE-AWARE // LATENCY: <1ms</div>
+      </div>
+      <div class="card">
+        <h3>PROCEDURAL SIMULATION</h3>
+        <p>Large-scale mathematical sieving and deterministic terrain generation. Specializing in recursive manifold resolution.</p>
+        <div class="stat">SCALE: 10^17 VERIFIED // ORIGIN: ERDOS-STRAUS</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="capability">
+    <h2>CAPABILITY STATEMENT</h2>
+    <table class="capability-table">
+      <tr>
+        <td class="key">Entity Name</td>
+        <td class="val">Guinea Pig Trench LLC</td>
+      </tr>
+      <tr>
+        <td class="key">DUNS / UEI</td>
+        <td class="val">[PENDING REGISTRATION]</td>
+      </tr>
+      <tr>
+        <td class="key">Primary NAICS</td>
+        <td class="val">541511 (Custom Computer Programming)</td>
+      </tr>
+      <tr>
+        <td class="key">Secondary NAICS</td>
+        <td class="val">541512 (Systems Design), 541715 (R&D Physical/Engineering)</td>
+      </tr>
+      <tr>
+        <td class="key">Differentiators</td>
+        <td class="val">Verified 10^17 sieve logic, Proprietary Xeno-Brutalist rendering stack, Hardware-level optimization for distributed nodes.</td>
+      </tr>
+      <tr>
+        <td class="key">Past Performance</td>
+        <td class="val">Erdos-Straus Solver Node, Trench OS Operative Environment, Face-Forge Asset Pipeline.</td>
+      </tr>
+    </table>
+    <a href="index.html" class="portal-link">ACCESS EXPERIMENTAL WING</a>
+  </section>
+</main>
+
+<footer>
+  <div class="contact-info">
+    GUINEA PIG TRENCH LLC<br>
+    9046 MAPLE ST<br>
+    PITTSBURGH, PA 15239
+  </div>
+  <div>
+    © 2026 // ALL RIGHTS RESERVED // THE BETWEEN IS THE PRODUCT.
+  </div>
+</footer>
+
+<script>
+  // --- MINIMAL REACTION-DIFFUSION BACKGROUND ---
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let width, height;
+
+  function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const particles = [];
+  for(let i=0; i<100; i++) {
+    particles.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: (Math.random() - 0.5) * 0.5,
+      size: Math.random() * 2
+    });
+  }
+
+  function draw() {
+    ctx.fillStyle = 'rgba(5, 5, 5, 0.1)';
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.fillStyle = '#d84315';
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      if(p.x < 0 || p.x > width) p.vx *= -1;
+      if(p.y < 0 || p.y > height) p.vy *= -1;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+</script>
+
+</body>
+</html>

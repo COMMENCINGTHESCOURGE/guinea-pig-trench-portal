@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Procedural Planet — Rivers, Ocean, Wind, Volcanoes</title>
+<style>
+body{margin:0;overflow:hidden;background:#000;display:flex;align-items:center;justify-content:center;min-height:100vh}
+#vw{position:relative;width:100%;max-width:600px;padding:1rem 0;text-align:center}
+#vc{display:block;margin:0 auto;border-radius:50%}
+#vhud{display:flex;justify-content:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.vm{background:rgba(0,0,0,0.6);padding:4px 11px;border-radius:3px;font-family:monospace;font-size:11px;color:#c8a060;display:inline-block}
+.vm.hot{color:#ff7040}
+#vctrl{display:flex;justify-content:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+#vctrl button{font-size:11px;letter-spacing:1px;padding:5px 13px;background:transparent;border:0.5px solid #555;color:#888;cursor:pointer;border-radius:3px}
+#vctrl button.active{background:rgba(220,80,20,0.15);color:#e06030;border-color:rgba(220,80,20,0.4)}
+#vctrl button:hover{background:#111}
+#vleg{display:flex;justify-content:center;gap:16px;margin-top:8px;font-size:10px;font-family:monospace;color:#888;flex-wrap:wrap}
+.vl{display:flex;align-items:center;gap:5px}
+.vd{width:18px;height:2px;border-radius:1px}
+</style>
+</head>
+<body>
+<div id="vw">
+  <div id="vhud">
+    <span class="vm">flows: <span id="vflows">0</span></span>
+    <span class="vm">new land: <span id="vnewland">0</span> px</span>
+    <span class="vm hot">eruptions: <span id="verupt">0</span></span>
+  </div>
+  <canvas id="vc" width="520" height="520"></canvas>
+  <div id="vleg">
+    <div class="vl"><div class="vd" style="background:#5ba8e0"></div>rivers</div>
+    <div class="vl"><div class="vd" style="background:#3dd6b5"></div>ocean</div>
+    <div class="vl"><div class="vd" style="background:#e8c970"></div>wind</div>
+    <div class="vl"><div class="vd" style="background:#ff5520"></div>lava</div>
+    <div class="vl"><div class="vd" style="background:#888"></div>ash</div>
+  </div>
+  <div id="vctrl">
+    <button class="active" onclick="setLayer('all',this)">all layers</button>
+    <button onclick="setLayer('rivers',this)">rivers</button>
+    <button onclick="setLayer('ocean',this)">ocean</button>
+    <button onclick="setLayer('wind',this)">wind</button>
+    <button onclick="eruptNow()">erupt now</button>
+    <button onclick="resetAll()">reset</button>
+  </div>
+</div>
+<script src="js/procedural_planet.js"></script>
+</body>
+</html>

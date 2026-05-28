@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Guinea Pig Trench — Onion Planet Studio</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:'Courier New',monospace}
+#c{display:block;width:100%;height:100%;cursor:grab}
+#c.drag{cursor:grabbing}
+
+#panel{
+  position:fixed;top:16px;left:16px;
+  width:280px;
+  background:rgba(8,12,18,.92);
+  border:1px solid rgba(0,210,255,.15);
+  border-radius:6px;
+  padding:14px 16px;
+  color:rgba(0,210,255,.7);
+  font-size:11px;
+  letter-spacing:.06em;
+  pointer-events:all;
+  max-height:calc(100vh - 32px);
+  overflow-y:auto;
+  user-select:none;
+}
+#panel::-webkit-scrollbar{width:3px}
+#panel::-webkit-scrollbar-thumb{background:rgba(0,210,255,.2);border-radius:2px}
+
+#panel h2{
+  font-size:12px;letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(0,210,255,.5);margin:12px 0 6px;border-bottom:1px solid rgba(0,210,255,.08);
+  padding-bottom:4px;
+}
+#panel h2:first-child{margin-top:0}
+
+#panel label{display:flex;align-items:center;gap:8px;margin:5px 0;cursor:pointer}
+#panel input[type="range"]{
+  flex:1;-webkit-appearance:none;height:3px;border-radius:2px;
+  background:rgba(0,210,255,.15);outline:none;
+}
+#panel input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:12px;height:12px;border-radius:50%;
+  background:rgba(0,210,255,.6);cursor:pointer;
+}
+#panel input[type="color"]{
+  width:28px;height:20px;border:1px solid rgba(0,210,255,.2);
+  border-radius:3px;background:transparent;cursor:pointer;padding:0;
+}
+#panel input[type="checkbox"]{accent-color:rgba(0,210,255,.6)}
+#panel .val{min-width:32px;text-align:right;color:rgba(0,210,255,.4);font-size:10px}
+#panel button{
+  background:rgba(0,210,255,.1);border:1px solid rgba(0,210,255,.2);
+  color:rgba(0,210,255,.7);padding:6px 14px;border-radius:3px;
+  cursor:pointer;font-family:inherit;font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;margin:3px 3px 3px 0;
+}
+#panel button:hover{background:rgba(0,210,255,.2);color:rgba(0,210,255,.9)}
+#panel .row{display:flex;align-items:center;gap:6px;margin:4px 0}
+#panel .presets{display:flex;flex-wrap:wrap;gap:3px;margin:6px 0}
+#panel .preset{
+  width:24px;height:24px;border-radius:3px;cursor:pointer;
+  border:1px solid rgba(255,255,255,.1);transition:border .2s;
+}
+#panel .preset:hover{border-color:rgba(0,210,255,.6)}
+
+#fps-display{
+  position:fixed;top:16px;right:18px;
+  color:rgba(0,210,255,.3);font-size:10px;
+  letter-spacing:.14em;text-transform:uppercase;
+  text-align:right;line-height:1.75;
+  pointer-events:none;
+}
+#qbar{
+  position:fixed;bottom:22px;right:18px;
+  display:flex;gap:3px;align-items:flex-end;pointer-events:none;
+}
+.qs{width:3px;border-radius:1px;transition:background .4s,height .3s}
+#ctrl-hint{
+  position:fixed;bottom:22px;left:16px;
+  color:rgba(0,210,255,.2);font-size:10px;
+  letter-spacing:.1em;line-height:2;pointer-events:none;
+}
+
+/* -- THE THRESHOLD (pass 1) -- */
+#threshold-overlay {
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+}
+#threshold-vignette {
+  position: fixed; inset: 0; z-index: 9997; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(30,8,20,0.35));
+}
+#threshold-world-name {
+  position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; pointer-events: none;
+  color: #ff66aa; opacity: 0.4;
+  font-family: 'Courier New', monospace; font-size: 10px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+}
+#threshold-heartbeat {
+  position: fixed; inset: 0; z-index: 9996; pointer-events: none;
+  background: #ff66aa; opacity: 0;
+  transition: opacity 0.05s;
+}
+
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<!-- Control Panel -->
+<div id="panel">
+  <h2>Onion Planet Studio</h2>
+
+  <div class="row">
+    <button id="btn-screenshot">Screenshot</button>
+    <button id="btn-reset">Reset Camera</button>
+  </div>
+
+  <label>
+    <input type="checkbox" id="chk-autorot" checked> Auto-Rotate
+  </label>
+
+  <label>
+    Render Scale <input type="range" id="sl-scale" min="20" max="100" value="62">
+    <span class="val" id="val-scale">62%</span>
+  </label>
+
+  <h2>Fractal</h2>
+
+  <label>
+    <input type="checkbox" id="chk-anim"> Animate Power
+  </label>
+
+  <label>
+    Power <input type="range" id="sl-power" min="100" max="1600" value="800" step="10">
+    <span class="val" id="val-power">8.00</span>
+  </label>
+
+  <label>
+    Anim Speed <input type="range" id="sl-aspeed" min="10" max="300" value="50">
+    <span class="val" id="val-aspeed">0.50</span>
+  </label>
+
+  <h2>Orbit Trap Palette</h2>
+  <div class="row"><input type="color" id="col-a" value="#0A70EB"> Base 1</div>
+  <div class="row"><input type="color" id="col-b" value="#ED1299"> Base 2</div>
+  <div class="row"><input type="color" id="col-c" value="#F5BA12"> Highlight</div>
+  <div class="row"><input type="color" id="col-d" value="#12E88A"> Core</div>
+
+  <h2>Biome Presets</h2>
+  <div class="presets" id="presets"></div>
+
+  <h2>Bloom</h2>
+  <label>
+    Intensity <input type="range" id="sl-bloom" min="0" max="400" value="185">
+    <span class="val" id="val-bloom">1.85</span>
+  </label>
+  <label>
+    Threshold <input type="range" id="sl-thresh" min="10" max="90" value="50">
+    <span class="val" id="val-thresh">0.50</span>
+  </label>
+
+  <h2>Lighting</h2>
+  <label>
+    Exposure <input type="range" id="sl-exposure" min="50" max="200" value="108">
+    <span class="val" id="val-exposure">1.08</span>
+  </label>
+  <label>
+    Specular <input type="range" id="sl-spec" min="10" max="200" value="80">
+    <span class="val" id="val-spec">80</span>
+  </label>
+</div>
+
+<div id="fps-display">— fps<br>onion planet · studio</div>
+<div id="ctrl-hint">drag · orbit &nbsp; scroll · zoom &nbsp; dbl-click · reset</div>
+<div id="qbar"></div>
+
+
+
+<script src="js/mandelbulb_studio.js"></script></body>
+</html>

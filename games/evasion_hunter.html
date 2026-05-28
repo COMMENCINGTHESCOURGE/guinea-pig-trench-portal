@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>EVASION — SIGNAL HUNT</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Orbitron:wght@700;900&display=swap');
+:root{--phosphor:#00ff9d;--biolum:#00ccff;--danger:#ff2244;--amber:#ffaa22;--void:#000c1a;--dim:rgba(0,255,157,0.32)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--void);overflow:hidden;font-family:'Share Tech Mono',monospace;cursor:none}
+canvas{display:block;position:fixed;inset:0;z-index:1}
+#crt{position:fixed;inset:0;z-index:9;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,0.06) 0px,rgba(0,0,0,0.06) 1px,transparent 1px,transparent 3px),radial-gradient(ellipse at center,transparent 48%,rgba(0,5,18,0.88) 100%);animation:flicker 12s infinite}
+@keyframes flicker{0%,100%{opacity:1}97%{opacity:1}97.5%{opacity:.72}98%{opacity:1}}
+#hud{position:fixed;inset:0;z-index:10;pointer-events:none}
+.panel{position:absolute;background:rgba(0,14,30,0.72);backdrop-filter:blur(14px) saturate(0.6);border:1px solid rgba(0,255,157,0.16);font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--phosphor);padding:12px 16px}
+.panel::before{content:'';position:absolute;top:0;left:12px;right:12px;height:1px;background:linear-gradient(90deg,transparent,var(--phosphor),transparent);opacity:.28}
+#hud-score{top:20px;left:20px;min-width:200px;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%)}
+.hl{font-size:8px;letter-spacing:.28em;color:var(--dim);text-transform:uppercase}
+#scoreDisplay{font-family:'Orbitron',monospace;font-size:38px;font-weight:900;color:var(--phosphor);line-height:1.05;margin:3px 0 1px;text-shadow:0 0 20px var(--phosphor),0 0 50px rgba(0,255,157,.22)}
+.hs{font-size:8px;color:var(--dim);letter-spacing:.12em}
+#hud-threat{top:20px;right:20px;text-align:right;min-width:170px;clip-path:polygon(12px 0,100% 0,100% 100%,0 100%,0 12px)}
+#threatLabel{font-size:8px;letter-spacing:.25em;color:var(--dim)}
+#threatVal{font-family:'Orbitron',monospace;font-size:24px;font-weight:700;color:var(--amber);line-height:1.1;margin:3px 0 2px}
+.threat-track{height:3px;background:rgba(255,170,34,.08);border:1px solid rgba(255,170,34,.18);margin-top:4px}
+#threat-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--amber),var(--danger));transition:width .3s}
+#hud-best{top:20px;left:50%;transform:translateX(-50%);padding:10px 18px;text-align:center;white-space:nowrap}
+#bestDisplay{font-size:10px;letter-spacing:.18em}
+#hud-status{bottom:20px;left:50%;transform:translateX(-50%);padding:9px 20px;font-size:8.5px;letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;text-align:center;color:var(--dim)}
+#overlay{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;pointer-events:none;transition:opacity .35s}
+#overlay.hidden{opacity:0;pointer-events:none}
+#overlay.visible{opacity:1;pointer-events:auto}
+#overlay-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(0,12,28,.97) 22%,rgba(0,4,14,.99) 100%)}
+.ov-content{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:14px}
+#ov-eyeline{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,9vw,110px);letter-spacing:.32em;text-align:center;color:var(--phosphor);text-shadow:0 0 60px var(--phosphor),0 0 140px rgba(0,255,157,.3);animation:ovPulse 2.5s ease-in-out infinite alternate}
+@keyframes ovPulse{0%{filter:brightness(1)}100%{filter:brightness(1.4)}}
+#ov-sub{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.45em;color:var(--dim);text-transform:uppercase;text-align:center}
+#ov-score{font-family:'Orbitron',monospace;font-size:22px;font-weight:700;color:var(--phosphor);letter-spacing:.12em}
+.ov-rule{width:260px;height:1px;background:linear-gradient(90deg,transparent,var(--phosphor),transparent);opacity:.22}
+#ov-hint{font-size:8px;letter-spacing:.38em;color:rgba(0,255,157,.18);text-transform:uppercase;animation:blink 1.6s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:.18}50%{opacity:.55}}
+#ov-best{font-size:9px;letter-spacing:.22em;color:var(--dim)}
+
+/* -- THE THRESHOLD (pass 1) -- */
+#threshold-overlay {
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+}
+#threshold-vignette {
+  position: fixed; inset: 0; z-index: 9997; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(20,10,4,0.35));
+}
+#threshold-world-name {
+  position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; pointer-events: none;
+  color: #ff8833; opacity: 0.4;
+  font-family: 'Courier New', monospace; font-size: 10px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+}
+#threshold-heartbeat {
+  position: fixed; inset: 0; z-index: 9996; pointer-events: none;
+  background: #ff8833; opacity: 0;
+  transition: opacity 0.05s;
+}
+
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="crt"></div>
+<div id="hud">
+<div id="hud-score" class="panel"><div class="hl">EVASION TIME</div><div id="scoreDisplay">0.0</div><div class="hs">SECONDS SURVIVED</div></div>
+<div id="hud-threat" class="panel"><div id="threatLabel">THREAT LEVEL</div><div id="threatVal">α</div><div class="threat-track"><div id="threat-fill"></div></div></div>
+<div id="hud-best" class="panel"><span class="hl">RECORD — </span><span id="bestDisplay">0.0s</span></div>
+<div id="hud-status" class="panel">MOVE MOUSE TO EVADE</div>
+</div>
+<div id="overlay" class="visible">
+<div id="overlay-bg"></div>
+<div class="ov-content">
+<div class="ov-rule"></div>
+<div id="ov-eyeline">EVASION</div>
+<div id="ov-sub">SIGNAL HUNT — SURVIVAL PROTOCOL</div>
+<div id="ov-score" style="font-size:12px;letter-spacing:.22em;color:var(--dim)">MOVE YOUR MOUSE TO BEGIN</div>
+<div class="ov-rule"></div>
+<div id="ov-best"></div>
+<div id="ov-hint">CLICK ANYWHERE OR MOVE CURSOR</div>
+</div>
+</div>
+
+
+<script src="js/evasion_hunter.js"></script></body>
+</html>

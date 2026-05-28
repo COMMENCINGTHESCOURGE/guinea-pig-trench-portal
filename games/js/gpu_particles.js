@@ -1,0 +1,309 @@
+// ─── Guinea Pig Trench — 1M GPU Particles ───
+// WebGL1 GPGPU: position/velocity stored in float textures,
+// simulated via fullscreen quad, rendered as GL_POINTS.
+
+const canvas = document.getElementById('c');
+const gl = canvas.getContext('webgl', { alpha: false, antialias: false });
+if (!gl) { document.body.innerHTML = '<p style="color:#f44;padding:40px;font-family:monospace">WebGL required</p>'; throw 0; }
+
+// Extensions
+const floatExt = gl.getExtension('OES_texture_float');
+if (!floatExt) { document.body.innerHTML = '<p style="color:#f44;padding:40px;font-family:monospace">Float textures required</p>'; throw 0; }
+gl.getExtension('OES_texture_float_linear');
+gl.getExtension('WEBGL_color_buffer_float');
+
+// ─── CONFIG ───
+const TEX_SIZE = 1024; // 1024x1024 = 1,048,576 particles
+const PARTICLES = TEX_SIZE * TEX_SIZE;
+let W, H, dpr;
+
+function resize() {
+  dpr = Math.min(window.devicePixelRatio || 1, 2);
+  W = window.innerWidth;
+  H = window.innerHeight;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+}
+window.addEventListener('resize', resize);
+resize();
+
+// ─── SHADER UTILS ───
+function compile(type, src) {
+  const s = gl.createShader(type);
+  gl.shaderSource(s, src);
+  gl.compileShader(s);
+  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+    console.error(gl.getShaderInfoLog(s));
+    return null;
+  }
+  return s;
+}
+function link(vs, fs) {
+  const p = gl.createProgram();
+  gl.attachShader(p, compile(gl.VERTEX_SHADER, vs));
+  gl.attachShader(p, compile(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(p);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) {
+    console.error(gl.getProgramInfoLog(p));
+    return null;
+  }
+  return p;
+}
+
+// ─── INITIAL PARTICLE STATE ───
+// Distribute in a disc with random velocities (spiral outward)
+const initData = new Float32Array(TEX_SIZE * TEX_SIZE * 4);
+for (let i = 0; i < PARTICLES; i++) {
+  const angle = Math.random() * Math.PI * 2;
+  const radius = Math.pow(Math.random(), 0.5) * 0.8; // sqrt for uniform disc
+  const idx = i * 4;
+  initData[idx + 0] = Math.cos(angle) * radius; // x
+  initData[idx + 1] = Math.sin(angle) * radius; // y
+  // Tangential velocity (orbital) + small radial
+  const speed = 0.02 + Math.random() * 0.03;
+  initData[idx + 2] = -Math.sin(angle) * speed + (Math.random() - 0.5) * 0.01; // vx
+  initData[idx + 3] =  Math.cos(angle) * speed + (Math.random() - 0.5) * 0.01; // vy
+}
+
+// ─── TEXTURES + FBOs ───
+function createTex(data) {
+  const t = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, t);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, TEX_SIZE, TEX_SIZE, 0, gl.RGBA, gl.FLOAT, data);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  return t;
+}
+function createFBO(tex) {
+  const f = gl.createFramebuffer();
+  gl.bindFramebuffer(gl.FRAMEBUFFER, f);
+  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+  const status = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
+  if (status !== gl.FRAMEBUFFER_COMPLETE) {
+    console.error('FBO incomplete:', status);
+  }
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  return f;
+}
+
+let tA = createTex(initData);
+let tB = createTex(null);
+let fA = createFBO(tA);
+let fB = createFBO(tB);
+let readTex = tA, writeTex = tB, readFBO = fA, writeFBO = fB;
+
+// ─── QUAD BUFFER ───
+const quadBuf = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, quadBuf);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+
+// ─── PARTICLE UV BUFFER ───
+const uvData = new Float32Array(PARTICLES * 2);
+for (let i = 0; i < PARTICLES; i++) {
+  uvData[i * 2]     = ((i % TEX_SIZE) + 0.5) / TEX_SIZE;
+  uvData[i * 2 + 1] = (Math.floor(i / TEX_SIZE) + 0.5) / TEX_SIZE;
+}
+const uvBuf = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, uvBuf);
+gl.bufferData(gl.ARRAY_BUFFER, uvData, gl.STATIC_DRAW);
+
+// ─── SIMULATION SHADER ───
+const simProg = link(`
+attribute vec2 a_pos;
+varying vec2 v_uv;
+void main() {
+  v_uv = a_pos * 0.5 + 0.5;
+  gl_Position = vec4(a_pos, 0, 1);
+}`, `
+precision highp float;
+varying vec2 v_uv;
+uniform sampler2D u_state;
+uniform float u_dt;
+uniform vec2 u_mouse;
+uniform float u_mouseDown;
+uniform float u_aspect;
+void main() {
+  vec4 s = texture2D(u_state, v_uv);
+  vec2 pos = s.xy;
+  vec2 vel = s.zw;
+
+  // Mouse attraction (always-on gentle pull)
+  vec2 toMouse = u_mouse - pos;
+  toMouse.x *= u_aspect; // correct for aspect ratio
+  float dist = length(toMouse) + 0.001;
+  vec2 dir = toMouse / dist;
+
+  // Gentle attraction field (inverse distance, not inverse square)
+  float attract = 0.3 / (dist + 0.5);
+  vel += dir * attract * u_dt;
+
+  // Click = strong gravity well
+  if (u_mouseDown > 0.5) {
+    float well = 8.0 / (dist * dist + 0.01);
+    vel += dir * well * u_dt;
+  }
+
+  // Central gravity (keeps particles from escaping)
+  vec2 toCenter = -pos;
+  vel += toCenter * 0.05 * u_dt;
+
+  // Damping
+  vel *= 0.995;
+
+  // Speed limit
+  float speed = length(vel);
+  if (speed > 0.5) vel *= 0.5 / speed;
+
+  pos += vel * u_dt;
+
+  // Soft boundary (bounce with energy loss)
+  if (pos.x > 1.2) { pos.x = 1.2; vel.x *= -0.5; }
+  if (pos.x < -1.2) { pos.x = -1.2; vel.x *= -0.5; }
+  if (pos.y > 1.2) { pos.y = 1.2; vel.y *= -0.5; }
+  if (pos.y < -1.2) { pos.y = -1.2; vel.y *= -0.5; }
+
+  gl_FragColor = vec4(pos, vel);
+}`);
+
+const sim_aPos = gl.getAttribLocation(simProg, 'a_pos');
+const sim_uState = gl.getUniformLocation(simProg, 'u_state');
+const sim_uDt = gl.getUniformLocation(simProg, 'u_dt');
+const sim_uMouse = gl.getUniformLocation(simProg, 'u_mouse');
+const sim_uMouseDown = gl.getUniformLocation(simProg, 'u_mouseDown');
+const sim_uAspect = gl.getUniformLocation(simProg, 'u_aspect');
+
+// ─── RENDER SHADER ───
+const renderProg = link(`
+precision highp float;
+attribute vec2 a_uv;
+uniform sampler2D u_state;
+uniform float u_pointSize;
+varying vec2 v_vel;
+void main() {
+  vec4 s = texture2D(u_state, a_uv);
+  gl_Position = vec4(s.xy, 0, 1);
+  gl_PointSize = u_pointSize;
+  v_vel = s.zw;
+}`, `
+precision mediump float;
+varying vec2 v_vel;
+void main() {
+  // Soft circle
+  vec2 d = gl_PointCoord - 0.5;
+  float r2 = dot(d, d);
+  if (r2 > 0.25) discard;
+  float alpha = smoothstep(0.25, 0.05, r2) * 0.4;
+
+  // Color from velocity — teal for slow, pink for fast, white for very fast
+  float speed = length(v_vel);
+  vec3 teal = vec3(0.0, 0.82, 1.0);
+  vec3 pink = vec3(1.0, 0.38, 0.63);
+  vec3 white = vec3(1.0, 1.0, 1.0);
+  vec3 color = mix(teal, pink, smoothstep(0.0, 0.15, speed));
+  color = mix(color, white, smoothstep(0.15, 0.4, speed));
+
+  gl_FragColor = vec4(color * alpha, alpha);
+}`);
+
+const ren_aUV = gl.getAttribLocation(renderProg, 'a_uv');
+const ren_uState = gl.getUniformLocation(renderProg, 'u_state');
+const ren_uPointSize = gl.getUniformLocation(renderProg, 'u_pointSize');
+
+// ─── TRAIL FADE SHADER (draws a dim quad to create trails) ───
+const fadeProg = link(`
+attribute vec2 a_pos;
+void main() { gl_Position = vec4(a_pos, 0, 1); }
+`, `
+precision mediump float;
+void main() { gl_FragColor = vec4(0, 0, 0, 0.03); }
+`);
+const fade_aPos = gl.getAttribLocation(fadeProg, 'a_pos');
+
+// ─── MOUSE STATE ───
+const mouse = { x: 0, y: 0, down: false };
+function updateMouse(ex, ey) {
+  mouse.x = (ex / W) * 2 - 1;
+  mouse.y = -((ey / H) * 2 - 1);
+}
+window.addEventListener('mousemove', e => updateMouse(e.clientX, e.clientY));
+window.addEventListener('mousedown', () => mouse.down = true);
+window.addEventListener('mouseup', () => mouse.down = false);
+window.addEventListener('touchstart', e => {
+  mouse.down = true;
+  updateMouse(e.touches[0].clientX, e.touches[0].clientY);
+}, { passive: true });
+window.addEventListener('touchmove', e => {
+  updateMouse(e.touches[0].clientX, e.touches[0].clientY);
+}, { passive: true });
+window.addEventListener('touchend', () => mouse.down = false);
+
+// ─── RENDER LOOP ───
+let lastT = performance.now();
+
+function frame(now) {
+  const dt = Math.min((now - lastT) / 1000, 0.033); // cap at 30fps min
+  lastT = now;
+
+  const aspect = W / H;
+
+  // 1. Simulate (fullscreen quad → write FBO)
+  gl.bindFramebuffer(gl.FRAMEBUFFER, writeFBO);
+  gl.viewport(0, 0, TEX_SIZE, TEX_SIZE);
+  gl.useProgram(simProg);
+  gl.bindBuffer(gl.ARRAY_BUFFER, quadBuf);
+  gl.enableVertexAttribArray(sim_aPos);
+  gl.vertexAttribPointer(sim_aPos, 2, gl.FLOAT, false, 0, 0);
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D, readTex);
+  gl.uniform1i(sim_uState, 0);
+  gl.uniform1f(sim_uDt, dt);
+  gl.uniform2f(sim_uMouse, mouse.x, mouse.y);
+  gl.uniform1f(sim_uMouseDown, mouse.down ? 1 : 0);
+  gl.uniform1f(sim_uAspect, aspect);
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+  // 2. Render to screen
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  gl.viewport(0, 0, canvas.width, canvas.height);
+
+  // Trail fade (draw semi-transparent black quad over previous frame)
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+  gl.useProgram(fadeProg);
+  gl.bindBuffer(gl.ARRAY_BUFFER, quadBuf);
+  gl.enableVertexAttribArray(fade_aPos);
+  gl.vertexAttribPointer(fade_aPos, 2, gl.FLOAT, false, 0, 0);
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+  // Particles (additive blend for glow)
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+  gl.useProgram(renderProg);
+  gl.bindBuffer(gl.ARRAY_BUFFER, uvBuf);
+  gl.enableVertexAttribArray(ren_aUV);
+  gl.vertexAttribPointer(ren_aUV, 2, gl.FLOAT, false, 0, 0);
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D, writeTex); // read from what we just wrote
+  gl.uniform1i(ren_uState, 0);
+  gl.uniform1f(ren_uPointSize, Math.max(1.0, 1.5 * dpr));
+  gl.drawArrays(gl.POINTS, 0, PARTICLES);
+
+  // 3. Swap buffers
+  const tmpTex = readTex, tmpFBO = readFBO;
+  readTex = writeTex; readFBO = writeFBO;
+  writeTex = tmpTex; writeFBO = tmpFBO;
+
+  requestAnimationFrame(frame);
+}
+
+// Clear to black before starting
+gl.clearColor(0, 0, 0, 1);
+gl.clear(gl.COLOR_BUFFER_BIT);
+requestAnimationFrame(frame);
+
+// CHAIN FIX: MUSIC LINK
+setInterval(function(){try{if(parent.AUDIO_BASS!==undefined){window.AUDIO_BASS=parent.AUDIO_BASS;window.AUDIO_MID=parent.AUDIO_MID;window.AUDIO_HIGH=parent.AUDIO_HIGH;window.AUDIO_ENERGY=parent.AUDIO_ENERGY}}catch(e){}},33);
+
+// CHAIN FIX: SCREENSHOT
+document.addEventListener("keydown",function(e){if((e.key==="s"||e.key==="S")&&!e.ctrlKey&&!e.metaKey){var c=document.querySelector("canvas");if(!c)return;try{var url=c.toDataURL("image/png");var a=document.createElement("a");a.href=url;a.download="gpt_particles_"+Date.now()+".png";a.click()}catch(err){}}});

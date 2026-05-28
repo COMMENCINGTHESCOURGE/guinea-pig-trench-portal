@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>THRESHOLD — Cross The Line</title>
+<style>
+body{margin:0;overflow:hidden;background:#000;display:flex;align-items:center;justify-content:center;min-height:100vh}
+#tgw{position:relative;width:100%;max-width:1200px;background:#000;border-radius:8px;overflow:hidden;user-select:none}
+#tgc{display:block;width:100%;touch-action:none}
+#tgui{position:absolute;top:12px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.7);padding:6px 18px;border-radius:20px;text-align:center;pointer-events:none}
+#tgtitle{font-family:monospace;font-size:13px;letter-spacing:3px;color:#fff;text-transform:uppercase}
+#tgsub{font-family:monospace;font-size:10px;color:#555;margin-top:2px}
+#tghud{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:12px}
+.tgh{background:rgba(0,0,0,0.7);padding:3px 12px;border-radius:3px;font-family:monospace;font-size:11px}
+</style>
+</head>
+<body>
+<div id="tgw">
+  <canvas id="tgc"></canvas>
+  <div id="tgui">
+    <div id="tgtitle">threshold</div>
+    <div id="tgsub">WASD &middot; arrows &middot; touch &middot; cross the line</div>
+  </div>
+  <div id="tghud">
+    <div class="tgh" id="tgzone" style="color:#0ff">&#9679; structural</div>
+    <div class="tgh" id="tgtrail" style="color:#888">trail 0%</div>
+    <div class="tgh" id="tgtime" style="color:#555">t 0.0</div>
+  </div>
+</div>
+<script src="js/threshold_crossing.js"></script>
+</body>
+</html>

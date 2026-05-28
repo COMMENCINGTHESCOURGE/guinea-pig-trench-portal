@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Prime Sieve — Guinea Pig Trench</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a0f; overflow: hidden; font-family: 'Courier New', monospace; }
+canvas { display: block; }
+#ui { position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; z-index: 10; }
+#hud { color: #0ff; padding: 12px 20px; font-size: 14px; display: flex; justify-content: space-between; }
+#hud span { opacity: 0.9; }
+#start-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: #0ff; z-index: 20; background: #0a0a0f; }
+#start-screen h1 { font-size: 48px; margin-bottom: 8px; text-shadow: 0 0 30px #0ff; }
+#start-screen .sub { font-size: 16px; color: #888; margin-bottom: 40px; }
+#start-screen .explain { font-size: 13px; color: #666; max-width: 500px; text-align: center; line-height: 1.6; margin-bottom: 30px; }
+#start-screen .prompt { font-size: 18px; animation: blink 1.2s infinite; pointer-events: auto; cursor: pointer; }
+#num-display { font-size: 24px; color: #fff; margin: 20px 0; }
+#num-input { background: #111; border: 1px solid #0ff; color: #0ff; font-family: inherit;
+  font-size: 24px; padding: 8px 16px; text-align: center; width: 200px; outline: none; pointer-events: auto; }
+#death-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  display: none; flex-direction: column; align-items: center; justify-content: center;
+  color: #f44; z-index: 20; background: rgba(10,10,15,0.95); }
+#death-screen h2 { font-size: 36px; text-shadow: 0 0 20px #f44; margin-bottom: 10px; }
+#death-screen .info { color: #888; font-size: 14px; margin: 6px 0; }
+#death-screen .restart { color: #0ff; font-size: 18px; margin-top: 30px; animation: blink 1.2s infinite; cursor: pointer; pointer-events: auto; }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+</style>
+</head>
+<body>
+
+<div id="ui">
+  <div id="hud">
+    <span id="hud-n">n = ?</span>
+    <span id="hud-filters">FILTERS: 0</span>
+    <span id="hud-residue">mod 24: ?</span>
+    <span id="hud-status">ALIVE</span>
+  </div>
+</div>
+
+<div id="start-screen">
+  <h1>PRIME SIEVE</h1>
+  <div class="sub">You are a number. Survive the filters.</div>
+  <div class="explain">
+    The Erdos-Straus conjecture says 4/n = 1/x + 1/y + 1/z has a solution
+    for every n >= 2. The sieve tests this by running numbers through
+    modular filters. If a filter finds a solution for your number, you dissolve.
+    <br><br>
+    No prime has EVER survived all filters to 10^14.
+    <br>How far can you get?
+  </div>
+  <div>Enter a number (or leave blank for random):</div>
+  <br>
+  <input id="num-input" type="text" placeholder="any integer >= 2" autofocus>
+  <div id="num-display"></div>
+  <br>
+  <div class="prompt" id="start-btn">[ ENTER THE SIEVE ]</div>
+</div>
+
+<div id="death-screen">
+  <h2 id="death-title">DISSOLVED</h2>
+  <div class="info" id="death-n"></div>
+  <div class="info" id="death-filter"></div>
+  <div class="info" id="death-solution"></div>
+  <div class="info" id="death-survived"></div>
+  <div class="info" id="death-percentile"></div>
+  <div class="restart" id="restart-btn">[ TRY ANOTHER NUMBER ]</div>
+</div>
+
+<canvas id="c"></canvas>
+
+<script src="js/prime_sieve.js"></script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Dice — Guinea Pig Trench</title>
+<style>
+:root{--dice:min(14vw,100px);--dot:calc(var(--dice)*0.2)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:#03060f;font-family:'Courier New',monospace;color:#00d2ff;overflow:hidden}
+.brand{font-size:10px;letter-spacing:.4em;color:rgba(0,210,255,.12);margin-bottom:20px;text-transform:uppercase}
+
+/* Dice tray / box */
+.tray{
+  width:min(80vw,500px);height:min(50vw,300px);
+  border:2px solid rgba(0,210,255,.2);
+  border-radius:16px;
+  background:radial-gradient(ellipse at 50% 50%,rgba(0,20,40,.6),rgba(3,6,15,.95));
+  box-shadow:inset 0 0 60px rgba(0,210,255,.04),0 0 30px rgba(0,210,255,.06);
+  display:flex;align-items:center;justify-content:center;gap:min(8vw,60px);
+  position:relative;
+  perspective:600px;
+  touch-action:manipulation;
+}
+.tray::before{
+  content:'DICE TRAY';position:absolute;top:8px;left:14px;
+  font-size:7px;letter-spacing:.3em;color:rgba(0,210,255,.1);text-transform:uppercase;
+}
+.tray-felt{
+  position:absolute;inset:8px;border-radius:12px;
+  background:radial-gradient(ellipse,rgba(0,40,30,.3),rgba(0,10,20,.5));
+  border:1px solid rgba(0,210,255,.05);pointer-events:none;
+}
+
+.scene{width:var(--dice);height:var(--dice);perspective:400px}
+.cube{
+  width:100%;height:100%;position:relative;transform-style:preserve-3d;
+  transform:translateZ(calc(-1*var(--dice)/2)) rotateX(-20deg) rotateY(-20deg);
+  transition:transform 1.5s cubic-bezier(0.175,0.885,0.32,1.275);
+  will-change:transform;touch-action:manipulation;
+}
+.face{
+  position:absolute;width:100%;height:100%;
+  background:rgba(10,16,30,.95);
+  border:calc(var(--dice)*0.01) solid rgba(0,210,255,.3);
+  border-radius:calc(var(--dice)*0.1);
+  box-shadow:inset 0 0 calc(var(--dice)*0.15) rgba(0,210,255,.05),0 0 calc(var(--dice)*0.08) rgba(0,210,255,.08);
+  display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);
+  padding:calc(var(--dice)*0.1);
+}
+.dot{
+  width:var(--dot);height:var(--dot);background:#00d2ff;border-radius:50%;
+  justify-self:center;align-self:center;
+  box-shadow:0 0 calc(var(--dot)*0.5) rgba(0,210,255,.6),inset 0 calc(var(--dot)*0.1) calc(var(--dot)*0.2) rgba(0,0,0,.3);
+}
+.front{transform:rotateY(0deg) translateZ(calc(var(--dice)/2))}.right{transform:rotateY(90deg) translateZ(calc(var(--dice)/2))}.back{transform:rotateY(180deg) translateZ(calc(var(--dice)/2))}.left{transform:rotateY(-90deg) translateZ(calc(var(--dice)/2))}.top{transform:rotateX(90deg) translateZ(calc(var(--dice)/2))}.bottom{transform:rotateX(-90deg) translateZ(calc(var(--dice)/2))}
+.front .dot{grid-area:2/2/3/3}
+.back .dot:nth-child(1){grid-area:1/1/2/2}.back .dot:nth-child(2){grid-area:3/3/4/4}
+.right .dot:nth-child(1){grid-area:1/1/2/2}.right .dot:nth-child(2){grid-area:2/2/3/3}.right .dot:nth-child(3){grid-area:3/3/4/4}
+.left .dot:nth-child(1){grid-area:1/1/2/2}.left .dot:nth-child(2){grid-area:1/3/2/4}.left .dot:nth-child(3){grid-area:3/1/4/2}.left .dot:nth-child(4){grid-area:3/3/4/4}
+.top .dot:nth-child(1){grid-area:1/1/2/2}.top .dot:nth-child(2){grid-area:1/3/2/4}.top .dot:nth-child(3){grid-area:2/2/3/3}.top .dot:nth-child(4){grid-area:3/1/4/2}.top .dot:nth-child(5){grid-area:3/3/4/4}
+.bottom .dot:nth-child(1){grid-area:1/1/2/2}.bottom .dot:nth-child(2){grid-area:1/2/2/3}.bottom .dot:nth-child(3){grid-area:1/3/2/4}.bottom .dot:nth-child(4){grid-area:3/1/4/2}.bottom .dot:nth-child(5){grid-area:3/2/4/3}.bottom .dot:nth-child(6){grid-area:3/3/4/4}
+
+/* Second die — pink accent */
+#die2 .face{border-color:rgba(255,96,160,.3);box-shadow:inset 0 0 calc(var(--dice)*0.15) rgba(255,96,160,.05),0 0 calc(var(--dice)*0.08) rgba(255,96,160,.08)}
+#die2 .dot{background:#ff60a0;box-shadow:0 0 calc(var(--dot)*0.5) rgba(255,96,160,.6),inset 0 calc(var(--dot)*0.1) calc(var(--dot)*0.2) rgba(0,0,0,.3)}
+
+button{
+  touch-action:manipulation;background:rgba(0,210,255,.12);color:#00d2ff;
+  border:1px solid rgba(0,210,255,.25);padding:12px 36px;font-size:14px;font-weight:bold;
+  font-family:'Courier New',monospace;letter-spacing:.2em;border-radius:6px;cursor:pointer;
+  margin-top:20px;transition:all .2s;text-transform:uppercase;-webkit-tap-highlight-color:transparent;
+}
+button:hover{background:rgba(0,210,255,.22);box-shadow:0 0 20px rgba(0,210,255,.2)}
+button:active{transform:scale(0.95)}
+#result{font-size:clamp(20px,5vw,32px);margin-top:16px;letter-spacing:.2em;text-shadow:0 0 20px rgba(0,210,255,.3);min-height:1.5em;text-align:center}
+#total{font-size:clamp(14px,3vw,18px);color:rgba(0,210,255,.5);letter-spacing:.15em;min-height:1.2em}
+#history{font-size:10px;color:rgba(0,210,255,.2);margin-top:10px;letter-spacing:.08em;max-width:80vw;text-align:center}
+.die-label{font-size:8px;letter-spacing:.2em;color:rgba(0,210,255,.15);margin-top:4px;text-align:center;text-transform:uppercase}
+#die2-label{color:rgba(255,96,160,.15)}
+@media(max-width:480px){:root{--dice:min(20vw,80px);--dot:calc(var(--dice)*0.2)}}
+
+/* -- THE THRESHOLD (pass 1) -- */
+#threshold-overlay {
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+}
+#threshold-vignette {
+  position: fixed; inset: 0; z-index: 9997; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(4,10,20,0.35));
+}
+#threshold-world-name {
+  position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; pointer-events: none;
+  color: #00b8c8; opacity: 0.4;
+  font-family: 'Courier New', monospace; font-size: 10px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+}
+#threshold-heartbeat {
+  position: fixed; inset: 0; z-index: 9996; pointer-events: none;
+  background: #00b8c8; opacity: 0;
+  transition: opacity 0.05s;
+}
+
+</style>
+</head>
+<body>
+<div class="brand">GUINEA PIG TRENCH</div>
+
+<div class="tray" id="tray">
+  <div class="tray-felt"></div>
+
+  <!-- Die 1 (teal) -->
+  <div style="display:flex;flex-direction:column;align-items:center;position:relative;z-index:1">
+    <div class="scene">
+      <div class="cube" id="die1">
+        <div class="face front"><div class="dot"></div></div>
+        <div class="face back"><div class="dot"></div><div class="dot"></div></div>
+        <div class="face right"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <div class="face left"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <div class="face top"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <div class="face bottom"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      </div>
+    </div>
+    <div class="die-label" id="die1-val"></div>
+  </div>
+
+  <!-- Die 2 (pink) -->
+  <div style="display:flex;flex-direction:column;align-items:center;position:relative;z-index:1">
+    <div class="scene">
+      <div class="cube" id="die2">
+        <div class="face front"><div class="dot"></div></div>
+        <div class="face back"><div class="dot"></div><div class="dot"></div></div>
+        <div class="face right"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <div class="face left"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <div class="face top"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <div class="face bottom"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      </div>
+    </div>
+    <div class="die-label" id="die2-val" style="color:rgba(255,96,160,.15)"></div>
+  </div>
+</div>
+
+<button id="rollBtn">ROLL DICE</button>
+<div id="result"></div>
+<div id="total"></div>
+<div id="history"></div>
+
+
+
+
+
+<script src="js/dice_roller.js"></script></body>
+</html>

@@ -1,0 +1,11 @@
+[
+  "aku_aku_mask_stylized.png: 1408x768, alpha=39%, bright=122, fixes=ghost_rgb+hard_edges",
+  "armored_defender_sprite_sheet.png: 1024x559, alpha=34%, bright=157, fixes=ghost_rgb+hard_edges",
+  "dim_mak_fighter_full_sheet.png: 768x1024, alpha=69%, bright=70, fixes=ghost_rgb+hard_edges",
+  "geometric_core_geode_flux.png: 1024x559, alpha=70%, bright=104, fixes=ghost_rgb+hard_edges",
+  "grief_warrior_sprite_sheet.png: 688x1529, alpha=1%, bright=84, fixes=ghost_rgb+hard_edges",
+  "kraken_game_render.png: 577x1024, alpha=63%, bright=106, fixes=hard_edges",
+  "mecha_entity_alpha_v2.png: 720x1600, alpha=0%, bright=108, fixes=needs_bg_removal",
+  "mecha_entity_alpha_v2_pixel.png: 1408x768, alpha=86%, bright=58, fixes=ghost_rgb+hard_edges",
+  "void_runner_ship.png: 1024x1024, alpha=0%, bright=14, fixes=clean"
+]

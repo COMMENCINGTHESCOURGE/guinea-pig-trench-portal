@@ -1,0 +1,11 @@
+[
+  {
+    "file": "synth_v4_100_E_minor_4.mp3",
+    "duration": 180.0,
+    "tempo_detected": 95.7,
+    "avg_rms": 0.2232,
+    "peak_rms": 0.7214,
+    "dynamic_range_db": 58.9,
+    "spectral_centroid_hz": 1046,
+    "spectral_bandwidth_hz": 1077,
+    "low_pct": 

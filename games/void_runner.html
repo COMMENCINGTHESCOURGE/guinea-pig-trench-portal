@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>VOID-RUNNER: PLANETARY FLIGHT</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { overflow:hidden; background:#000; font-family:'Courier New',monospace; cursor:none; }
+canvas { display:block; }
+
+#hud {
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  pointer-events:none; z-index:10;
+}
+
+#hud-top-left {
+  position:absolute; top:20px; left:20px;
+  color:#00e5cc; font-size:14px; line-height:1.8;
+  text-shadow:0 0 12px rgba(0,229,204,0.4);
+}
+#hud-top-right {
+  position:absolute; top:20px; right:20px;
+  color:#f0a500; font-size:28px; font-weight:bold;
+  text-shadow:0 0 16px rgba(240,165,0,0.4);
+  text-align:right;
+}
+#hud-bottom {
+  position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
+  display:flex; gap:30px; align-items:flex-end;
+}
+.bar-container {
+  width:140px; text-align:center;
+}
+.bar-label {
+  color:rgba(0,229,204,0.4); font-size:10px; margin-bottom:4px; letter-spacing:3px; text-transform:uppercase;
+}
+.bar-outer {
+  width:100%; height:8px; background:rgba(2,12,11,0.8); border:1px solid rgba(0,229,204,0.15);
+  border-radius:4px; overflow:hidden;
+}
+.bar-inner {
+  height:100%; transition: width 0.1s;
+  border-radius:4px;
+}
+#fuel-bar { background: linear-gradient(90deg, #f0365e, #f0365e88); box-shadow:0 0 8px #f0365e44; }
+#shield-bar { background: linear-gradient(90deg, #00e5cc, #00e5cc88); box-shadow:0 0 8px #00e5cc44; }
+#speed-bar { background: linear-gradient(90deg, #b06cf7, #b06cf788); box-shadow:0 0 8px #b06cf744; }
+
+#game-over {
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.85); display:none;
+  flex-direction:column; align-items:center; justify-content:center;
+  z-index:100;
+}
+#game-over h1 {
+  color:#f0365e; font-size:64px; margin-bottom:10px;
+  text-shadow:0 0 30px rgba(240,54,94,0.5), 0 0 60px rgba(240,54,94,0.15);
+  font-family:'Courier New',monospace;
+}
+#game-over .final-score {
+  color:#f0a500; font-size:32px; margin-bottom:30px;
+  text-shadow:0 0 12px rgba(240,165,0,0.3);
+}
+#game-over .restart-hint {
+  color:#888; font-size:18px;
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity:0.4; }
+  50% { opacity:1; }
+}
+
+#start-screen {
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.9); display:flex;
+  flex-direction:column; align-items:center; justify-content:center;
+  z-index:100;
+}
+#start-screen h1 {
+  color:#00e5cc; font-size:52px; margin-bottom:20px;
+  text-shadow:0 0 30px rgba(0,229,204,0.4), 0 0 60px rgba(0,229,204,0.12);
+  font-family:'Courier New',monospace;
+}
+#start-screen .controls {
+  color:#777; font-size:13px; line-height:2; text-align:center;
+  margin-bottom:30px;
+}
+#start-screen .controls span { color:#00ccff; }
+#start-screen .start-hint {
+  color:#ffcc00; font-size:20px;
+  animation: pulse 1.5s infinite;
+}
+
+/* Crosshair */
+#crosshair {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:32px; height:32px; pointer-events:none; z-index:11;
+}
+#crosshair-inner {
+  position:absolute; top:0; left:0; width:100%; height:100%;
+}
+/* Four bracket lines forming a reticle */
+#crosshair-inner::before, #crosshair-inner::after {
+  content:''; position:absolute; background:#00ffcc88;
+}
+#crosshair-inner::before {
+  width:1px; height:100%; left:50%; top:0;
+}
+#crosshair-inner::after {
+  height:1px; width:100%; top:50%; left:0;
+}
+/* Center dot */
+#crosshair-dot {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:4px; height:4px; border-radius:50%;
+  background:#00ffcc; box-shadow: 0 0 6px #00ffcc, 0 0 12px #00ffcc44;
+}
+/* Corner brackets */
+.xh-corner {
+  position:absolute; width:8px; height:8px;
+  border-color:#00ffccaa; border-style:solid; border-width:0;
+}
+.xh-corner.tl { top:0; left:0; border-top-width:1px; border-left-width:1px; }
+.xh-corner.tr { top:0; right:0; border-top-width:1px; border-right-width:1px; }
+.xh-corner.bl { bottom:0; left:0; border-bottom-width:1px; border-left-width:1px; }
+.xh-corner.br { bottom:0; right:0; border-bottom-width:1px; border-right-width:1px; }
+
+/* -- THE THRESHOLD (pass 1) -- */
+#threshold-overlay {
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+}
+#threshold-vignette {
+  position: fixed; inset: 0; z-index: 9997; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(20,10,4,0.35));
+}
+#threshold-world-name {
+  position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; pointer-events: none;
+  color: #ff8833; opacity: 0.4;
+  font-family: 'Courier New', monospace; font-size: 10px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+}
+#threshold-heartbeat {
+  position: fixed; inset: 0; z-index: 9996; pointer-events: none;
+  background: #ff8833; opacity: 0;
+  transition: opacity 0.05s;
+}
+
+</style>
+</head>
+<body>
+
+<div id="hud">
+  <div id="hud-top-left"></div>
+  <div id="hud-top-right"></div>
+  <div id="hud-bottom">
+    <div class="bar-container">
+      <div class="bar-label">SHIELDS</div>
+      <div class="bar-outer"><div class="bar-inner" id="shield-bar"></div></div>
+    </div>
+    <div class="bar-container">
+      <div class="bar-label">FUEL</div>
+      <div class="bar-outer"><div class="bar-inner" id="fuel-bar"></div></div>
+    </div>
+    <div class="bar-container">
+      <div class="bar-label">SPEED</div>
+      <div class="bar-outer"><div class="bar-inner" id="speed-bar"></div></div>
+    </div>
+  </div>
+</div>
+<div id="crosshair">
+  <div id="crosshair-inner"></div>
+  <div id="crosshair-dot"></div>
+  <div class="xh-corner tl"></div>
+  <div class="xh-corner tr"></div>
+  <div class="xh-corner bl"></div>
+  <div class="xh-corner br"></div>
+</div>
+
+<div id="start-screen">
+  <h1>VOID-RUNNER</h1>
+  <div class="controls">
+    <span>MOUSE</span> — Aim / Look (6DOF)<br>
+    <span>W</span> — Thrust forward<br>
+    <span>A/D</span> — Strafe (double-tap to barrel roll)<br>
+    <span>Q/E</span> — Roll<br>
+    <span>SPACE/CTRL</span> — Ascend / Descend<br>
+    <span>S</span> — Brake<br>
+    <span>SHIFT</span> — Boost (uses fuel)<br>
+    <span>CLICK</span> — Fire cannons<br>
+    <span>F</span> — Homing missile<br>
+    Fly through <span>5 worlds</span> — the universe shifts around you
+  </div>
+  <div class="start-hint">CLICK TO ENGAGE</div>
+</div>
+
+<div id="game-over">
+  <h1>DESTROYED</h1>
+  <div class="final-score" id="final-score">SCORE: 0</div>
+  <div class="restart-hint">CLICK TO RESTART</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+
+
+
+<script src="js/void_runner.js"></script></body>
+</html>

@@ -1,0 +1,137 @@
+{
+  "aku_aku_mask_stylized.png": {
+    "name": "aku_aku_mask_stylized",
+    "source": "refine_sprites.py",
+    "resolutions": {
+      "64": "aku_aku_mask_stylized_64.png",
+      "128": "aku_aku_mask_stylized_128.png",
+      "256": "aku_aku_mask_stylized_256.png",
+      "512": "aku_aku_mask_stylized_512.png",
+      "full": "aku_aku_mask_stylized_full.png"
+    },
+    "full_size": [
+      1408,
+      1408
+    ]
+  },
+  "mecha_entity_alpha_v2_pixel.png": {
+    "name": "mecha_entity_alpha_v2_pixel",
+    "source": "refine_sprites.py",
+    "resolutions": {
+      "64": "mecha_entity_alpha_v2_pixel_64.png",
+      "128": "mecha_entity_alpha_v2_pixel_128.png",
+      "256": "mecha_entity_alpha_v2_pixel_256.png",
+      "512": "mecha_entity_alpha_v2_pixel_512.png",
+      "full": "mecha_entity_alpha_v2_pixel_full.png"
+    },
+    "full_size": [
+      1408,
+      1408
+    ]
+  },
+  "mecha_entity_alpha_v2.png": {
+    "name": "mecha_entity_alpha_v2",
+    "source": "refine_sprites.py",
+    "resolutions": {
+      "64": "mecha_entity_alpha_v2_64.png",
+      "128": "mecha_entity_alpha_v2_128.png",
+      "256": "mecha_entity_alpha_v2_256.png",
+      "512": "mecha_entity_alpha_v2_512.png",
+      "full": "mecha_entity_alpha_v2_full.png"
+    },
+    "full_size": [
+      1564,
+      1564
+    ]
+  },
+  "geometric_core_geode_flux.png": {
+    "name": "geometric_core_geode_flux",
+    "source": "refine_sprites.py",
+    "resolutions": {
+      "64": "geometric_core_geode_flux_64.png",
+      "128": "geometric_core_geode_flux_128.png",
+      "256": "geometric_core_geode_flux_256.png",
+      "512": "geometric_core_geode_flux_512.png",
+      "full": "geometric_core_geode_flux_full.png"
+    },
+    "full_size": [
+      1024,
+      1024
+    ]
+  },
+  "armored_defender_sprite_sheet.png": {
+    "name": "armored_defender_sprite_sheet",
+    "source": "refine_sprites.py",
+    "resolutions": {
+      "64": "armored_defender_sprite_sheet_64.png",
+      "128": "armored_defender_sprite_sheet_128.png",
+      "256": "armored_defender_sprite_sheet_256.png",
+      "512": "armored_defender_sprite_sheet_512.png",
+      "full": "armored_defender_sprite_sheet_full.png"
+    },
+    "full_size": [
+      1024,
+      1024
+    ]
+  },
+  "kraken_game_render.png": {
+    "name": "kraken_game_render",
+    "source": "refine_sprites.py",
+    "resolutions": {
+      "64": "kraken_game_render_64.png",
+      "128": "kraken_game_render_128.png",
+      "256": "kraken_game_render_256.png",
+      "512": "kraken_game_render_512.png",
+      "full": "kraken_game_render_full.png"
+    },
+    "full_size": [
+      1024,
+      1024
+    ]
+  },
+  "void_runner_ship.png": {
+    "name": "void_runner_ship",
+    "source": "refine_sprites.py",
+    "resolutions": {
+      "64": "void_runner_ship_64.png",
+      "128": "void_runner_ship_128.png",
+      "256": "void_runner_ship_256.png",
+      "512": "void_runner_ship_512.png",
+      "full": "void_runner_ship_full.png"
+    },
+    "full_size": [
+      838,
+      838
+    ]
+  },
+  "dim_mak_fighter_full_sheet.png": {
+    "name": "dim_mak_fighter_full_sheet",
+    "source": "refine_sprites.py",
+    "resolutions": {
+      "64": "dim_mak_fighter_full_sheet_64.png",
+      "128": "dim_mak_fighter_full_sheet_128.png",
+      "256": "dim_mak_fighter_full_sheet_256.png",
+      "512": "dim_mak_fighter_full_sheet_512.png",
+      "full": "dim_mak_fighter_full_sheet_full.png"
+    },
+    "full_size": [
+      1018,
+      1018
+    ]
+  },
+  "grief_warrior_sprite_sheet.png": {
+    "name": "grief_warrior_sprite_sheet",
+    "source": "refine_sprites.py",
+    "resolutions": {
+      "64": "grief_warrior_sprite_sheet_64.png",
+      "128": "grief_warrior_sprite_sheet_128.png",
+      "256": "grief_warrior_sprite_sheet_256.png",
+      "512": "grief_warrior_sprite_sheet_512.png",
+      "full": "grief_warrior_sprite_sheet_full.png"
+    },
+    "full_size": [
+      1529,
+      1529
+    ]
+  }
+}

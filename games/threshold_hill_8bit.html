@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>THRESHOLD HILL — 8-BIT</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;overflow:hidden;cursor:none}
+canvas{display:block;position:fixed;inset:0;z-index:1;image-rendering:pixelated;image-rendering:crisp-edges}
+#hud{position:fixed;inset:0;z-index:10;pointer-events:none;font-family:monospace}
+.panel{position:absolute;background:rgba(0,0,0,0.7);border:2px solid;font-size:10px;padding:6px 10px;image-rendering:pixelated}
+#start{position:fixed;inset:0;z-index:20;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:opacity 1s}
+#start.hidden{opacity:0;pointer-events:none}
+#start h1{font-family:monospace;font-size:36px;color:#00ffd2;letter-spacing:.15em;text-shadow:3px 3px #003322}
+#start p{font-family:monospace;font-size:10px;color:#558877;text-align:center;line-height:2;max-width:380px}
+#start .go{font-family:monospace;font-size:12px;letter-spacing:.2em;cursor:pointer;pointer-events:auto;padding:8px 28px;border:2px solid #00ffd2;color:#00ffd2;background:#001a11}
+#start .go:hover{background:#003322}
+</style>
+</head>
+<body>
+<!-- Low-res canvas, scaled up -->
+<canvas id="lo"></canvas>
+<canvas id="c"></canvas>
+<div id="hud">
+  <div class="panel" style="top:12px;left:12px;min-width:150px;border-color:#00ffd2">
+    <div style="font-size:7px;letter-spacing:.3em;color:#006644">TRENCH FM</div>
+    <div id="trackName" style="font-size:10px;color:#00ffd2;margin:3px 0">TUNING...</div>
+    <div id="worldName" style="font-size:8px;letter-spacing:.2em;color:#00b8c8">THE THRESHOLD</div>
+  </div>
+  <div class="panel" style="top:12px;right:12px;text-align:right;border-color:#D4A844">
+    <div style="font-size:7px;letter-spacing:.3em;color:#886622">CORES</div>
+    <div id="scoreVal" style="font-family:monospace;font-size:24px;color:#D4A844">0</div>
+  </div>
+  <div class="panel" style="bottom:12px;left:50%;transform:translateX(-50%);text-align:center;padding:6px 16px;border-color:#336655">
+    <div id="hint" style="font-size:8px;letter-spacing:.2em;color:#336655">A/D ROLL · SPACE JUMP · MOUSE TILT · N NEXT TRACK · 3 LENTICULAR</div>
+  </div>
+</div>
+<div id="start">
+  <h1>THRESHOLD HILL</h1>
+  <p>■ 8-BIT EDITION ■<br><br>
+  Five worlds rendered as terrain. Roll through them.<br>
+  The ground pulses to the beat.<br>
+  Pink Hour. The Block. The Threshold. Vault. The Between.</p>
+  <div class="go" id="goBtn">► START</div>
+</div>
+<audio id="audio" crossorigin="anonymous" preload="none"></audio>
+
+<script src="js/threshold_hill_8bit.js"></script>
+</body>
+</html>

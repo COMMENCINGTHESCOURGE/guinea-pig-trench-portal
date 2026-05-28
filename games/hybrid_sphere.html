@@ -1,0 +1,21 @@
+
+<style>
+#bsw{position:relative;width:100%;padding:1rem 0;text-align:center}
+#bsc{display:block;margin:0 auto;touch-action:none;cursor:grab}
+#bsc:active{cursor:grabbing}
+#bshud{display:flex;justify-content:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.bm{background:rgba(0,0,0,0.62);padding:3px 11px;border-radius:3px;font-family:monospace;font-size:11px;display:inline-block}
+.bm.in{color:#d08030}.bm.out{color:#00dfa0}.bm.bi{color:#d0d050}.bm.vol{color:#8080c0}
+#binfo{margin-top:8px;font-size:10px;font-family:monospace;color:var(--color-text-tertiary)}
+</style>
+<div id="bsw">
+  <div id="bshud">
+    <span class="bm in">inward <span id="bin">0</span></span>
+    <span class="bm out">outward <span id="bout">0</span></span>
+    <span class="bm bi">contracts <span id="bbi">0</span></span>
+    <span class="bm vol">density <span id="bvol">0</span>%</span>
+  </div>
+  <canvas id="bsc" width="520" height="520"></canvas>
+  <div id="binfo">drag · rotate &nbsp;·&nbsp; right-drag · roll &nbsp;·&nbsp; scroll · zoom &nbsp;·&nbsp; Q/E · twist</div>
+</div>
+<script src="js/hybrid_sphere.js"></script>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TRUTH HOLDS - BLOOM MEADOW v8.3 [PER-INSTANCE CULL]</title>
+<style>
+body { margin: 0; overflow: hidden; background: #050608; font-family: 'Courier New', monospace; }
+#ui { position: fixed; top: 20px; left: 20px; color: #0f0; text-shadow: 0 0 10px #0f0; pointer-events: none; z-index: 10; font-size: 14px; line-height: 1.6; }
+.accent { color: #0ff; font-weight: bold; text-shadow: 0 0 15px #0ff; }
+.tool-accent { font-weight: bold; font-size: 16px; transition: color 0.5s, text-shadow 0.5s; }
+#overlay { position: fixed; inset: 0; background: radial-gradient(circle, transparent 0%, #000 100%); pointer-events: none; z-index: 5; }
+#crosshair { position: fixed; top: 50%; left: 50%; width: 4px; height: 4px; background: rgba(255, 255, 255, 0.5); transform: translate(-50%, -50%); border-radius: 50%; pointer-events: none; z-index: 10; }
+#spriteOverlay { position: fixed; inset: 0; z-index: 6; pointer-events: none; }
+
+/* -- THE THRESHOLD (pass 1) -- */
+#threshold-overlay {
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+}
+#threshold-vignette {
+  position: fixed; inset: 0; z-index: 9997; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,2,12,0.35));
+}
+#threshold-world-name {
+  position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; pointer-events: none;
+  color: #6688ff; opacity: 0.4;
+  font-family: 'Courier New', monospace; font-size: 10px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+}
+#threshold-heartbeat {
+  position: fixed; inset: 0; z-index: 9996; pointer-events: none;
+  background: #6688ff; opacity: 0;
+  transition: opacity 0.05s;
+}
+
+</style>
+</head>
+<body>
+<div id="overlay"></div>
+<div id="crosshair"></div>
+<canvas id="spriteOverlay"></canvas>
+<div id="ui">
+DOMAIN: <span class="accent">TRUTH_HOLDS</span> | SECTOR: <span class="accent" id="sectorText">TRENCH_BLOOM</span><br>
+BLOOM: <span class="accent" id="bloomVal">0.00</span> | RIPPLES: <span class="accent" id="rippleCount">0</span><br><br>
+ATMOSPHERE: <span class="tool-accent" id="weatherName" style="color:#00ffff; text-shadow: 0 0 15px #00ffff;">STORM_SURGE</span> [SCROLL TO SHIFT]
+</div>
+
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+</script>
+
+
+
+
+
+<script type="module" src="js/bloom_meadow.js"></script></body>
+</html>

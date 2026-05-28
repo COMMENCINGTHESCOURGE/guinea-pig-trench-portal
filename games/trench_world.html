@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trench World — Procedural Terrain</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { overflow: hidden; background: #000; font-family: 'Courier New', monospace; }
+canvas { display: block; }
+#hud {
+  position: absolute; top: 10px; left: 10px; color: #0ff;
+  font-size: 12px; line-height: 1.8; pointer-events: none;
+  text-shadow: 1px 1px 2px #000; z-index: 10; opacity: 0.8;
+}
+#crosshair {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 20px; height: 20px; pointer-events: none; z-index: 10;
+}
+#crosshair::before, #crosshair::after {
+  content: ''; position: absolute; background: rgba(255,255,255,0.4);
+}
+#crosshair::before { width: 1px; height: 100%; left: 50%; }
+#crosshair::after { width: 100%; height: 1px; top: 50%; }
+#start-screen {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.9); color: #0ff; z-index: 20; cursor: pointer;
+}
+#start-screen h1 { font-size: 42px; text-shadow: 0 0 30px #0ff; margin-bottom: 10px; }
+#start-screen .sub { color: #888; font-size: 14px; margin-bottom: 30px; }
+#start-screen .controls { font-size: 12px; color: #666; line-height: 2; }
+#start-screen .prompt { font-size: 18px; color: #0ff; margin-top: 30px; animation: blink 1.2s infinite; }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+</style>
+</head>
+<body>
+
+<div id="hud">
+  <div id="hud-chunk">Chunk: (0, 0)</div>
+  <div id="hud-pos">Pos: (0, 0, 0)</div>
+  <div id="hud-height">Height: 0</div>
+  <div id="hud-time">Time: 12:00</div>
+  <div id="hud-biome">Biome: plains</div>
+</div>
+
+<div id="crosshair"></div>
+
+<div id="start-screen" id="startBtn">
+  <h1>TRENCH WORLD</h1>
+  <div class="sub">Procedural terrain with day/night cycle</div>
+  <div class="controls">
+    WASD — move | MOUSE — look<br>
+    SPACE — jump | SHIFT — sprint<br>
+    ESC — release mouse
+  </div>
+  <div class="prompt">[ CLICK TO ENTER ]</div>
+</div>
+
+
+
+<script src="js/trench_world.js"></script>
+</body>
+</html>

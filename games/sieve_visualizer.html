@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Sieve Visualizer — Erdos-Straus 10^17</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #050510; overflow: hidden; font-family: 'Courier New', monospace; color: #0ff; }
+canvas { display: block; }
+#overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
+#stats { position: absolute; top: 12px; left: 20px; font-size: 12px; line-height: 1.8; opacity: 0.8; }
+#controls { position: absolute; bottom: 20px; left: 20px; font-size: 11px; opacity: 0.5; }
+#batch-info { position: absolute; top: 12px; right: 20px; text-align: right; font-size: 12px; line-height: 1.8; opacity: 0.8; }
+#progress-bar { position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: rgba(255,255,255,0.05); }
+#progress-fill { height: 100%; background: linear-gradient(90deg, #0ff, #0f0); width: 0%; transition: width 0.3s; }
+#title { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  font-size: 42px; text-shadow: 0 0 40px #0ff; opacity: 1; transition: opacity 2s; pointer-events: none; }
+#subtitle { position: absolute; top: calc(50% + 50px); left: 50%; transform: translate(-50%,-50%);
+  font-size: 14px; color: #888; opacity: 1; transition: opacity 2s; }
+</style>
+</head>
+<body>
+
+<canvas id="c"></canvas>
+
+<div id="overlay">
+  <div id="stats">
+    <div>ERDOS-STRAUS CONJECTURE</div>
+    <div>4/n = 1/x + 1/y + 1/z</div>
+    <div id="stat-range"></div>
+    <div id="stat-batch"></div>
+    <div id="stat-candidates"></div>
+    <div id="stat-survivors"></div>
+    <div id="stat-primes"></div>
+  </div>
+
+  <div id="batch-info">
+    <div id="bi-k"></div>
+    <div id="bi-g8"></div>
+    <div id="bi-nrange"></div>
+    <div id="bi-filtered"></div>
+    <div id="bi-status"></div>
+  </div>
+
+  <div id="controls">
+    SPACE: pause &nbsp; LEFT/RIGHT: speed &nbsp; R: reset &nbsp; F: toggle fullscreen
+  </div>
+
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+</div>
+
+<div id="title">10<sup>17</sup></div>
+<div id="subtitle">12.8% verified — 494,378 batches — zero counterexamples — 5,780x faster than Swett</div>
+
+<script src="js/sieve_visualizer.js"></script>
+</body>
+</html>

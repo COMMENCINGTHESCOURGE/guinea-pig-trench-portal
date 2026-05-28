@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>TRUTH HOLDS — OCEANIC RESONANCE</title>
+<style>
+:root{--void:#000a14;--deep:rgba(0,16,32,0.78);--phosphor:#00ff9d;--biolum:#00ccff;--amber:#ffaa22;--danger:#ff2244;--dim:rgba(0,255,157,0.38);--border:rgba(0,255,157,0.18)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--void);overflow:hidden;font-family:'Courier New',monospace;user-select:none;cursor:none}
+#screen,#oc{display:block;width:100vw;height:100vh;image-rendering:pixelated;position:fixed;inset:0}
+#screen{z-index:1}#oc{z-index:2;pointer-events:none}
+#crt{position:fixed;inset:0;z-index:9;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.055) 0px,rgba(0,0,0,.055) 1px,transparent 1px,transparent 3px),radial-gradient(ellipse at center,transparent 52%,rgba(0,8,18,.82) 100%)}
+#hud{position:fixed;inset:0;z-index:10;pointer-events:none}
+.p{position:absolute;background:var(--deep);backdrop-filter:blur(18px);border:1px solid var(--border);color:var(--phosphor);font-size:10px;letter-spacing:.07em;padding:12px 16px}
+#vit{top:22px;left:22px;min-width:200px}
+#sc{top:22px;right:22px;text-align:right;min-width:150px}
+#pr{top:22px;left:50%;transform:translateX(-50%);width:250px;text-align:center}
+#ins{bottom:22px;right:22px;min-width:180px;text-align:right}
+#mm{bottom:22px;left:22px;padding:10px}#minimap{display:block;border:1px solid var(--border);box-shadow:0 0 12px rgba(0,255,157,.08)}
+#amp{bottom:22px;left:50%;transform:translateX(-50%);padding:10px 22px;text-align:center}
+.vr{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(0,255,157,.07)}.vr:last-child{border-bottom:none}
+.vk{color:var(--dim);font-size:8.5px;letter-spacing:.22em;text-transform:uppercase}.vv{font-weight:700}
+#sv{font-size:36px;font-weight:900;text-shadow:0 0 22px var(--phosphor);margin:5px 0}
+.pt{height:4px;background:rgba(0,255,157,.05);border:1px solid rgba(0,255,157,.14);margin:8px 0 4px}
+#pf{height:100%;width:0%;background:linear-gradient(90deg,#00ff9d,#00ccff);transition:width .5s}
+.it{height:3px;background:rgba(255,34,68,.06);border:1px solid rgba(255,34,68,.16);margin-top:6px}
+#if{height:100%;width:0%;background:linear-gradient(90deg,var(--amber),var(--danger))}
+#lb{position:fixed;top:50%;left:50%;z-index:12;pointer-events:none;transform:translate(-50%,-50%);font-size:76px;color:rgba(0,255,157,.035);letter-spacing:.45em;text-transform:uppercase}
+#lp{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;background:rgba(0,10,22,.88);flex-direction:column;gap:14px;transition:opacity .4s}
+#lp.hidden{opacity:0;pointer-events:none}
+#lp h2{font-size:48px;letter-spacing:.3em;color:var(--phosphor);text-shadow:0 0 30px var(--phosphor)}
+#lp p{font-size:9px;letter-spacing:.35em;color:var(--dim);text-transform:uppercase;text-align:center}
+.lk{display:inline-block;border:1px solid rgba(0,255,157,.35);padding:3px 10px;margin:2px;font-size:9px;letter-spacing:.18em}
+.pip{width:7px;height:7px;border:1px solid var(--phosphor);border-radius:1px;background:var(--phosphor);display:inline-block;margin:0 2px}.pip.e{background:transparent;opacity:.28}
+#ov{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;pointer-events:none;background:radial-gradient(ellipse at 50% 38%,rgba(0,18,36,.97) 28%,rgba(0,5,12,.99) 100%)}
+#ov.show{display:flex;pointer-events:auto}
+#ot{font-size:clamp(52px,7.5vw,92px);letter-spacing:.28em;text-align:center}
+#ov.won #ot{color:var(--phosphor);text-shadow:0 0 60px var(--phosphor)}
+#ov.lost #ot{color:var(--danger);text-shadow:0 0 60px var(--danger)}
+
+/* -- THE THRESHOLD (pass 1) -- */
+#threshold-overlay {
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+}
+#threshold-vignette {
+  position: fixed; inset: 0; z-index: 9997; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(5,15,10,0.35));
+}
+#threshold-world-name {
+  position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; pointer-events: none;
+  color: #00ff9d; opacity: 0.4;
+  font-family: 'Courier New', monospace; font-size: 10px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+}
+#threshold-heartbeat {
+  position: fixed; inset: 0; z-index: 9996; pointer-events: none;
+  background: #00ff9d; opacity: 0;
+  transition: opacity 0.05s;
+}
+
+</style>
+</head>
+<body>
+<canvas id="screen"></canvas><canvas id="oc"></canvas>
+<div id="crt"></div><div id="lb">SURFACE</div>
+<div id="hud">
+<div id="vit" class="p"><div class="vr"><span class="vk">WORLD</span><span class="vv" id="ln">THE THRESHOLD</span></div><div class="vr"><span class="vk">COORD</span><span class="vv" id="pv">512, 512</span></div><div class="vr"><span class="vk">DEPTH</span><span class="vv" id="dv">0.0m</span></div><div class="vr"><span class="vk">STATUS</span><span class="vv" id="stv">NOMINAL</span></div></div>
+<div id="sc" class="p"><div style="font-size:8.5px;letter-spacing:.3em;color:var(--dim);text-transform:uppercase">RESONANCE</div><div id="sv">000</div><div style="font-size:8.5px;color:var(--dim)">/ 300 UNITS</div></div>
+<div id="pr" class="p"><div class="pt"><div id="pf"></div></div><div id="pp" style="font-size:8.5px;color:var(--phosphor);margin-top:5px">0%</div></div>
+<div id="ins" class="p"><span style="font-size:8.5px;letter-spacing:.24em;color:var(--dim);text-transform:uppercase;display:block;margin-bottom:7px">CORE INSTABILITY</span><div class="it"><div id="if"></div></div><div id="iv" style="font-size:8px;color:rgba(255,34,68,.45);margin-top:5px">0 / 600</div></div>
+<div id="amp" class="p"><span style="font-size:8.5px;letter-spacing:.25em;color:var(--dim);text-transform:uppercase;display:block;margin-bottom:5px">PULSE CHARGE</span><div id="ap"></div></div>
+<div id="mm" class="p"><canvas id="minimap" width="100" height="100"></canvas></div>
+</div>
+<div id="lp"><h2>TRUTH HOLDS</h2><p>CLICK TO ENGAGE POINTER LOCK</p><p><span class="lk">W A S D</span> MOVE | <span class="lk">MOUSE</span> LOOK | <span class="lk">CLICK</span> FIRE | <span class="lk">SHIFT</span> SPRINT</p><p id="twModeDisplay" style="color:#00ffd2;font-size:11px;letter-spacing:.2em;margin-top:8px">MODE: SURVIVAL</p><p style="font-size:8px;letter-spacing:.2em;color:rgba(0,255,157,.3)">TAB to toggle CREATIVE / SURVIVAL</p></div>
+<div id="ov"><div id="ot">SIGNAL LOST</div><div style="font-size:10px;letter-spacing:.38em;color:var(--dim);text-transform:uppercase">RESONANCE FIELD COLLAPSED</div><div id="os" style="font-size:20px;color:var(--phosphor)"></div></div>
+<audio id="sm" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" preload="auto"></audio>
+
+
+
+<script src="js/terrain_walker.js"></script></body>
+</html>

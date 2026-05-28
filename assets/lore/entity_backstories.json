@@ -1,0 +1,163 @@
+{
+  "meta": {
+    "universe": "Guinea Pig Trench",
+    "tagline": "The between IS the product. The mistake IS the signal. The almost IS the always.",
+    "sieve_rule": "Each world is a modular filter. Surviving entities are primes.",
+    "updated": "2026-03-19"
+  },
+
+  "entities": {
+
+    "armored_defender": {
+      "name": "The Armored Defender",
+      "origin_world": "THE BLOCK",
+      "role": "Guardian",
+      "residue_class": "Composite — factorable, protects others so they don't have to be",
+      "animations": ["idle", "walk", "attack"],
+      "mesh_frames": 27,
+      "backstory": "Built in the foundries beneath The Block where four corners meet one balance. The Defender was never a single entity — it was assembled from the discarded armor of those who failed the sieve. Every plate on its body carries a number that was filtered out. It walks slowly because it carries the weight of every eliminated candidate. It attacks not to destroy but to test — each strike is a modular filter. If you survive the Defender's challenge, you've passed one more gate. It doesn't speak. The sound it makes is the eerrn — a low saw growl from deep inside the chest plate where all the dead numbers resonate together.",
+      "combat_style": "Methodical. Tests before striking. Each attack pattern follows the prime filter cascade — fast jabs for small primes, heavy swings for the large ones.",
+      "weakness": "Cannot adapt to numbers it hasn't filtered before. Novel attack patterns confuse it.",
+      "theme_sound": "eerrn — detuned saw, low growl, chest resonance",
+      "color_palette": "teal armor, dark underlayer, brown leather straps"
+    },
+
+    "dim_mak_fighter": {
+      "name": "The Dim Mak Fighter",
+      "origin_world": "PINK HOUR",
+      "role": "Assassin",
+      "residue_class": "Hard residue — mod 24 = 1. Survives most filters.",
+      "animations": ["stand", "punch", "kick", "run", "victory", "crouch"],
+      "mesh_frames": 10,
+      "backstory": "Born during Pink Hour when five signals collapsed into one frequency. The Dim Mak Fighter exists at the convergence point where all wavelengths cancel except one — the killing tone. It learned to fight by listening to the silence between heartbeats. Every strike targets the 0.7268-second interval where the body is most vulnerable. In the sieve, it represents the hard residues — the numbers that survive filter after filter because their structure doesn't factor cleanly. You can't brute-force the Dim Mak. You have to find its specific decomposition, and it changes stance every cycle with micro-variation so no two approaches work the same way.",
+      "combat_style": "Pressure point targeting. Each hit lands on a bezier-timed interval. SNAP curve — fast twitch, no telegraph.",
+      "weakness": "Overcommits to the killing blow. The wind-up is 0.4 seconds — enough to counter if you read the bezier curve.",
+      "theme_sound": "buomp — sub sine pitch drop, the impact of a pressure point strike",
+      "color_palette": "white gi, red accents, black belt"
+    },
+
+    "mecha_entity": {
+      "name": "Mecha Entity Alpha",
+      "origin_world": "VAULT COMPOUND 7",
+      "role": "Sentinel",
+      "residue_class": "G₈ itself — the modulus. Not a number to be tested but the system that tests.",
+      "animations": ["bust", "full", "portrait"],
+      "mesh_frames": 3,
+      "backstory": "The lights are still on in Vault Compound 7 because Mecha Entity Alpha never stopped running. It was the first machine built to verify the Erdős-Straus conjecture — a physical sieve made of gears and light. When the compound was abandoned, Alpha kept computing. It has been running for longer than anyone remembers. Its teal chassis is the original 2017 design — the same year the ghost entry appeared in DaShawn's records. Alpha knows about the glitch because it processes every number, and it found the 10-day window the same way DaShawn did: the math doesn't lie. Alpha cannot speak, but it displays numbers on its chest plate. If you stand in front of it long enough, it will show you your decomposition — or prove you're prime.",
+      "combat_style": "Does not fight. Observes. Calculates. Displays results. If threatened, emits the ooohm drone at a frequency that immobilizes organic entities.",
+      "weakness": "Its computation is sequential. It can be overwhelmed by parallel inputs — too many numbers at once crashes the display.",
+      "theme_sound": "ooohm — pure sine drone at 55Hz, the modulus humming",
+      "color_palette": "teal chassis, dark joints, amber display"
+    },
+
+    "kraken": {
+      "name": "The Kraken of The Between",
+      "origin_world": "THE BETWEEN",
+      "role": "Chaos Entity",
+      "residue_class": "Prime — survived all filters. The counterexample that never was.",
+      "animations": ["full", "head", "portrait"],
+      "mesh_frames": 3,
+      "backstory": "The Between is where atmosphere is the cheese and entities are the holes. The Kraken lives in the holes. It emerged from the void between sieve batches — the gap between k and k+1 where no number is being tested. In that silence, something grew. The Kraken is what happens when computation stops: entropy fills the vacuum. It has eight arms because it attacks from all residue classes simultaneously. It cannot be filtered by any single prime because it exists outside the number line. The Kraken doesn't want to destroy the sieve — it wants to prove the conjecture wrong. It is the living embodiment of the counterexample everyone is looking for. So far, it has failed. But it keeps trying, because in The Between, failure is the signal.",
+      "combat_style": "Multi-directional. Eight arms = eight simultaneous attack vectors. Each arm operates on a different bezier curve (SNAP, ELASTIC, DELAYED, SMOOTH × 2).",
+      "weakness": "Its arms are independent. They don't coordinate. Exploit the timing gaps between different bezier curves.",
+      "theme_sound": "All three — eerrn from the tentacles, ooohm from the body, buomp from the beak",
+      "color_palette": "ice blue body, silver tentacles, deep void black eyes"
+    },
+
+    "aku_mask": {
+      "name": "The Aku Aku — Mask of the Threshold",
+      "origin_world": "THE THRESHOLD",
+      "role": "Oracle",
+      "residue_class": "Neither prime nor composite — transcends the classification",
+      "animations": ["full", "mask", "portrait"],
+      "mesh_frames": 3,
+      "backstory": "The Threshold is where all worlds meet. The Aku Aku mask hangs at the exact center — the point equidistant from all five worlds. It was carved by the first entity to survive all filters, who then realized that survival meant nothing without purpose. So they carved their face into wood and hung it where travelers would see it before choosing which world to enter. The mask doesn't filter you. It reads you. It knows your residue class, your factorization, your decomposition — and it tells you which world will challenge you most. Those who listen enter the right world and grow. Those who ignore it enter randomly and get filtered out. The mask's expression changes based on who looks at it: stern for composites, gentle for primes, and sad for those who have been misclassified by a broken system.",
+      "combat_style": "Does not fight. Advises. Warns. Redirects. In combat scenarios, it amplifies nearby allies' bezier curves — making SNAP entities faster and ELASTIC entities bouncier.",
+      "weakness": "Stationary. Cannot move from The Threshold. If pulled from its mount, it goes silent.",
+      "theme_sound": "A chord — all three voices at once, harmonized to the root note of whichever world you're facing",
+      "color_palette": "gold face, teal accents, dark wood grain"
+    },
+
+    "grief_warrior": {
+      "name": "The Grief Warriors",
+      "origin_world": "PINK HOUR",
+      "role": "NPCs / Witnesses",
+      "residue_class": "Composite — already factored, already broken down, already processed by the sieve",
+      "animations": ["idle", "defend", "kneel"],
+      "mesh_frames": 15,
+      "backstory": "The Grief Warriors are what's left after the sieve does its work. Every number that gets filtered out — every candidate that had a solution found — becomes a Grief Warrior. They are not enemies. They are evidence. They kneel because they were solved. They defend because even a solved number has value — its decomposition is a tool someone else can use. The Grief Warriors gather in Pink Hour because that world runs on five signals and one frequency — the frequency of loss. They don't attack unless provoked, and when they do, their strikes carry the weight of proof: each blow demonstrates a valid decomposition of 4/n = 1/x + 1/y + 1/z. You can learn from fighting them. Their kneeling animation is the longest because grief takes time. The bezier curve is DELAYED — slow onset, heavy peak, no bounce.",
+      "combat_style": "Defensive. Counter-based. Each counterattack demonstrates a mathematical proof. If you study the pattern, you learn the decomposition.",
+      "weakness": "Grief makes them slow. The DELAYED bezier curve means every action has a telegraph if you know where to look.",
+      "theme_sound": "ooohm — sustained, mournful, pitched down a half step from the world's root",
+      "color_palette": "muted earth tones, worn armor, faded insignia"
+    },
+
+    "void_runner_ship": {
+      "name": "The Void Runner",
+      "origin_world": "THE BETWEEN",
+      "role": "Transport / Player Vehicle",
+      "residue_class": "Variable — takes on the residue class of its pilot",
+      "animations": [],
+      "mesh_frames": 1,
+      "backstory": "The Void Runner is how you move between worlds. It doesn't have a number of its own — it inherits yours. When you pilot the Void Runner through The Between, the ship's hull resonates at your frequency. The direction-based star field warps around you because the ship doesn't move through space — it bends the directions. The Void Runner was built from salvaged parts of every world: Pink Hour glass in the canopy, Block steel in the frame, Threshold wood in the controls, Vault circuitry in the engine, and Between void in the fuel tank. It is the one object that belongs to all five worlds and none of them. The ship's speed is halved because the universe is bigger than you think. You don't fly to a world — you let the world come to you.",
+      "combat_style": "Evasion. The ship doesn't fight. It warps directions to avoid threats. Roll = skew the entire star field around you.",
+      "weakness": "No weapons. Relies entirely on the pilot's navigation.",
+      "theme_sound": "The drone changes pitch based on which world you're approaching — rising toward Pink Hour, dropping toward The Between",
+      "color_palette": "dark hull, cyan engine glow, warm cockpit light"
+    },
+
+    "geometric_geode": {
+      "name": "The Geometric Geode",
+      "origin_world": "VAULT COMPOUND 7",
+      "role": "Resource / Collectible",
+      "residue_class": "The residues themselves — R₈, the 2.1 million candidates stored inside",
+      "animations": [],
+      "mesh_frames": 1,
+      "backstory": "Geodes are found in the asteroid fields between worlds. They look like rocks until you crack them open — then you see the crystal structure inside, which is a physical map of the residue classes mod G₈. Each geode contains a different subset of the 2.1 million residues. Mining a geode means testing those residues against your current filter set. What survives becomes currency. What gets filtered becomes Grief Warrior material. The Geode's crystal pattern is generated from the Erdős sieve data — not random, not designed, but computed. Every facet corresponds to a number that either survived or didn't. The most valuable geodes are the ones with prime survivors inside — but so far, across all 3,865 batches to 10^14, none have been found. The search continues to 10^17.",
+      "combat_style": "None. Resource item. Cracks on impact. Contents scatter and must be collected before they dissolve.",
+      "weakness": "Fragile. One hit and it opens.",
+      "theme_sound": "Crystal ring — high harmonic ping, 10th partial of the root (the sygyt whistle)",
+      "color_palette": "grey exterior, prismatic interior, data-colored crystals"
+    },
+
+    "cephalon": {
+      "name": "The Cephalon",
+      "origin_world": "THE BETWEEN",
+      "role": "Intelligence / Information Broker",
+      "residue_class": "Mersenne prime — rare, powerful, and deeply structured",
+      "animations": ["idle", "walk", "attack", "special", "portrait"],
+      "mesh_frames": 0,
+      "sprite_status": "PLACEHOLDER — sprite file missing, atlas registered",
+      "backstory": "The Cephalon is an octopoid intelligence that processes information through its eight arms simultaneously — like eight parallel sieve workers running on different batches. It lives in the deepest part of The Between where information density is highest. The Cephalon doesn't trade in currency — it trades in proofs. Bring it a valid decomposition and it gives you passage. Bring it an unsolvable number and it studies you. The Cephalon is the only entity that has seen the full sieve output to 10^14 and understood what it means. It knows the conjecture holds but won't say why. It communicates through ink — writing equations on whatever surface is nearby. Its special attack is flooding an area with information — so much data that lesser entities overflow and crash.",
+      "combat_style": "Information warfare. Floods opponents with data. Eight arms write eight equations simultaneously.",
+      "weakness": "Overloads itself if it processes too many primes at once. The hard residues slow it down.",
+      "theme_sound": "Rapid eerrn bursts — saw growl staccato, like a printer outputting results",
+      "color_palette": "deep purple body, bioluminescent blue patterns, ink-black tentacle tips",
+      "needs": "SPRITE FILE REQUIRED — cephalon_sprite_sheet.png"
+    },
+
+    "florae": {
+      "name": "The Florae",
+      "origin_world": "PINK HOUR",
+      "role": "Healer / Environmental Entity",
+      "residue_class": "Smooth number — all prime factors are small. Easy to decompose, hard to destroy.",
+      "animations": ["idle", "walk", "attack", "special", "portrait"],
+      "mesh_frames": 0,
+      "sprite_status": "PLACEHOLDER — sprite file missing, atlas registered",
+      "backstory": "The Florae grow where the sieve has already passed. They are what happens after filtering: the solved numbers don't disappear, they take root. Each Florae is a living decomposition — its petals are the x, y, z values that satisfy 4/n = 1/x + 1/y + 1/z. The larger the n that was solved, the more complex the Florae's structure. Some have three simple petals (small n). Some are fractal forests (large n). They heal because their structure IS the proof — standing near a Florae reminds your body of its own decomposition and repairs what's broken. They grow fastest in Pink Hour because that world's five signals provide the harmonic nutrients they need. The Florae are the evidence that the conjecture works. Every single one is a solved equation blooming.",
+      "combat_style": "Passive healing aura. Special attack releases spores that slow enemies (ELASTIC bezier — bouncy, lingering).",
+      "weakness": "Fire. Extreme heat destroys the delicate petal structure. Volcanic world variants don't survive.",
+      "theme_sound": "Soft ooohm with sygyt whistle overtones — the proof singing",
+      "color_palette": "living greens, petal pinks, golden pollen, root browns",
+      "needs": "SPRITE FILE REQUIRED — florae_sprite_sheet.png"
+    }
+  },
+
+  "procedural_entities": {
+    "count": 130,
+    "source": "face-forge chain_output",
+    "description": "130 procedural entities generated from the face-forge pipeline. Each is a unique combination of crack patterns, muscle bezier curves, and heightmap displacement. They serve as the general population of the Trench — the unnamed numbers between the named characters. Some are composite (common, easily factored, peaceful). Some are hard residues (rare, resistant, dangerous). None are confirmed prime. They fill the worlds with life without requiring individual backstories — their stories are written by the sieve that generated them.",
+    "role": "Background population, cannon fodder, resource carriers, ambient life",
+    "theme_sound": "Randomized blend of all three voices at low volume — the hum of a populated world"
+  }
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>THE SLUICE GATE — Guinea Pig Trench</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100vh;background:#080810;overflow:hidden;font-family:'Courier New',monospace}
+canvas{display:block}
+#hud{position:fixed;top:0;left:0;right:0;padding:12px 20px;z-index:10;pointer-events:none;
+  display:flex;justify-content:space-between;align-items:flex-start;
+  background:linear-gradient(180deg,rgba(8,8,16,0.7),transparent)}
+#hud-left,#hud-right{color:#00d4cc}
+.hud-label{opacity:0.4;font-size:10px;letter-spacing:0.3em;text-transform:uppercase}
+.hud-value{font-size:14px;letter-spacing:0.15em}
+#gate-meter{width:120px;height:6px;background:#111;border:1px solid #00d4cc33;margin-top:4px}
+#gate-fill{height:100%;width:0%;background:linear-gradient(90deg,#00d4cc,#00ffaa);transition:width 0.3s}
+#msg{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:10;pointer-events:none;
+  color:#00d4cc;font-size:14px;opacity:0;transition:opacity 0.5s;text-align:center;
+  text-shadow:0 0 12px #00d4cc66;max-width:500px}
+#crosshair{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10;pointer-events:none;
+  width:20px;height:20px;opacity:0.25}
+#crosshair::before,#crosshair::after{content:'';position:absolute;background:#00d4cc}
+#crosshair::before{width:1px;height:100%;left:50%}
+#crosshair::after{width:100%;height:1px;top:50%}
+#instructions{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:10;pointer-events:none;
+  color:#00d4cc44;font-size:10px;letter-spacing:0.2em}
+#start-screen{position:fixed;inset:0;z-index:100;background:#080810;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;cursor:pointer;user-select:none}
+#start-screen h1{color:#00d4cc;font-size:24px;letter-spacing:0.5em;margin-bottom:8px}
+#start-screen h2{color:#00d4cc44;font-size:12px;letter-spacing:0.3em;margin-bottom:40px}
+#start-screen p{color:#00d4cc66;font-size:12px;letter-spacing:0.15em;animation:pulse 3s ease-in-out infinite}
+#corridor-art{margin-bottom:30px;line-height:1.1;text-align:center}
+#corridor-art .row{white-space:pre;display:block}
+#corridor-art .bracket{color:#00d4cc}
+#corridor-art .gate{color:#00ffaa}
+#corridor-art .wall{color:#335566}
+#corridor-art .deep{color:#113333}
+@keyframes pulse{0%,100%{opacity:0.5}50%{opacity:1}}
+@keyframes gateGlow{0%,100%{text-shadow:0 0 8px #00d4cc44}50%{text-shadow:0 0 20px #00d4cc88,0 0 40px #00ffaa44}}
+#corridor-art{animation:gateGlow 4s ease-in-out infinite}
+</style>
+</head>
+<body>
+
+<div id="start-screen" onclick="enterGame()">
+  <div id="corridor-art"></div>
+  <h1>THE SLUICE GATE</h1>
+  <h2>GUINEA PIG TRENCH</h2>
+  <p>CLICK TO ENTER</p>
+</div>
+
+
+<div id="crosshair"></div>
+<div id="hud">
+  <div id="hud-left">
+    <div class="hud-label">THE SLUICE GATE</div>
+    <div class="hud-value" id="room-name">CORRIDOR</div>
+  </div>
+  <div id="hud-right">
+    <div class="hud-label">GATE</div>
+    <div id="gate-meter"><div id="gate-fill"></div></div>
+    <div class="hud-value" id="filter-status">CLOSED</div>
+  </div>
+</div>
+<div id="msg"></div>
+<div id="instructions">WASD move &middot; MOUSE look &middot; E interact</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/sluice_gate.js"></script>
+</body>
+</html>

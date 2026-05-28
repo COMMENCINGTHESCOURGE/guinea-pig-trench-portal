@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Guinea Pig Trench — Games · Art · Music</title>
+<meta name="description" content="Play original browser games, explore interactive art, and listen to beats. All created by one artist.">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="assets/sluice-gate.svg" type="image/svg+xml">
+<link rel="icon" href="assets/sluice-gate-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="assets/sluice-gate-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="assets/sluice-gate-192.png">
+<link rel="stylesheet" href="css/xeno_brutalist_kore.css">
+</head>
+<body>
+  <!-- SLUICE GATE LOADING SCREEN -->
+  <div id="sluice-loader" style="position:fixed;inset:0;z-index:9999;background:#0a0a0f">
+    <canvas id="sluice-canvas" style="width:100%;height:100%"></canvas>
+  </div>
+  <script src="js/sluice-loader.js"></script>
+  <script>
+    SluiceLoader.init(document.getElementById('sluice-canvas'));
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        SluiceLoader.markLoaded();
+        setTimeout(function() {
+          document.getElementById('sluice-loader').style.display = 'none';
+        }, 1500);
+      }, 2000);
+    });
+  </script>
+  <div id="app">
+    <!-- Auth Bar -->
+    <header id="auth-bar">
+      <div class="logo"><img src="assets/sluice-gate.svg" alt="#" style="height:28px;width:28px;vertical-align:middle;margin-right:8px">GUINEA PIG TRENCH</div>
+      <nav id="main-nav">
+        <a href="#" data-page="home" class="active">Home</a>
+        <a href="#" data-page="games">Games</a>
+        <a href="#" data-page="gallery">Gallery</a>
+        <a href="#" data-page="music">Music</a>
+        <a href="#" data-page="party">Party</a>
+        <a href="#" data-page="leaderboard">Scores</a>
+      </nav>
+      <div id="user-area">
+        <!-- Logged out -->
+        <div id="auth-buttons">
+          <button id="btn-login" class="btn btn-outline">Log In</button>
+          <button id="btn-signup" class="btn btn-primary">Sign Up</button>
+        </div>
+        <!-- Logged in (hidden by default) -->
+        <div id="user-profile" style="display:none">
+          <span id="user-name"></span>
+          <span id="user-cores" title="Total cores collected">0</span>
+          <button id="btn-logout" class="btn btn-small">Log Out</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="modal" style="display:none">
+      <div class="modal-content">
+        <button class="modal-close" id="auth-close">&times;</button>
+        <h2 id="auth-title">Log In</h2>
+
+        <div id="auth-form">
+          <input type="email" id="auth-email" placeholder="Email" autocomplete="email">
+          <input type="password" id="auth-password" placeholder="Password" autocomplete="current-password">
+          <button id="auth-submit" class="btn btn-primary btn-full">Log In</button>
+          <div id="auth-error" class="error"></div>
+
+          <div class="auth-divider"><span>or</span></div>
+
+          <button id="auth-google" class="btn btn-social btn-google">Continue with Google</button>
+          <button id="auth-discord" class="btn btn-social btn-discord">Continue with Discord</button>
+          <button id="auth-magic" class="btn btn-social btn-magic">Send Magic Link</button>
+
+          <p class="auth-switch">
+            <span id="auth-switch-text">Don't have an account?</span>
+            <a href="#" id="auth-switch-link">Sign Up</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pages -->
+    <main id="page-home" class="page active">
+      <div class="hero">
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-text">
+          <h1><img src="assets/sluice-gate.svg" alt="#" style="height:48px;width:48px;vertical-align:middle;margin-right:12px">GUINEA PIG TRENCH</h1>
+          <p class="hero-tagline" style="max-width:520px;margin:0 auto 14px">
+            One operation. Every substrate.<br>
+            <em>Decompose</em> the whole. <em>Filter</em> the parts.<br>
+            What <em>survives</em> is the product.
+          </p>
+          <p class="hero-stats">
+            <span id="stat-games">62</span> GAMES &middot;
+            <span>129</span> BEATS &middot;
+            <span>5</span> WORLDS &middot;
+            <span>1</span> ALGORITHM
+          </p>
+          <button class="btn btn-primary btn-large" data-page="games" style="text-shadow:none">ENTER THE TRENCH</button>
+        </div>
+      </div>
+
+      <!-- THE GATE -->
+      <section class="home-section" style="max-width:800px;margin:40px auto;padding:0 20px">
+        <h3 style="color:#F0C030;font-size:14px;letter-spacing:0.3em;margin-bottom:20px">THE GATE</h3>
+        <p style="color:rgba(255,255,255,0.65);font-size:13px;line-height:1.9;margin-bottom:22px">
+          The <strong style="color:#F0C030">#</strong> is a sluice gate. Tilt it and it becomes
+          <strong style="color:#F0C030">&#9839;</strong> &mdash; the sharp sign. Same four bars,
+          different meaning depending on where you stand. One structure, multiple readings,
+          position determines signal. That's the whole architecture.
+        </p>
+        <p style="color:rgba(255,255,255,0.65);font-size:13px;line-height:1.9;margin-bottom:22px">
+          Everything here runs one algorithm: <strong style="color:#00FFD2">tip &rarr; steer &rarr; deposit</strong>.
+          A river starts at a peak, follows the gradient, deposits sediment at sea level.
+          A hypha spawns at the surface, steers toward signal, contracts at the core.
+          A number enters the sieve, gets filtered by residues, survives or doesn't.
+          A chord voice-leads through Z&#8321;&#8322;, minimizing displacement, landing on resolution.
+          A beat hits -14 LUFS &mdash; the Egyptian zero of streaming &mdash; and passes through the gate.
+        </p>
+        <p style="color:rgba(255,255,255,0.65);font-size:13px;line-height:1.9;margin-bottom:22px">
+          Same operation. Different substrates. The code written for one domain transfers to all others.
+          The fungi propagation engine IS the chord interpolator IS the sieve filter IS the lava flow.
+          Not a metaphor. The
+          <a href="https://github.com/Commencethescourge/erdos-straus-solver" target="_blank" rel="noopener" style="color:#00FFD2;text-decoration:none;border-bottom:1px solid rgba(0,255,210,0.2)">Erd&#337;s-Straus sieve</a>
+          and the Thomas attractor maze share a measured spectral correlation
+          of <strong style="color:#00FFD2">r&nbsp;=&nbsp;0.444</strong> at
+          <strong style="color:#00FFD2">p&nbsp;&lt;&nbsp;10&#8315;&#185;&#185;</strong>.
+          The math connects them. We just listened.
+        </p>
+      </section>
+
+      <!-- THE HALF PENNY -->
+      <section class="home-section" style="max-width:800px;margin:30px auto;padding:0 20px">
+        <h3 style="color:#00FFD2;font-size:14px;letter-spacing:0.3em;margin-bottom:20px">THE HALF PENNY</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:12px;line-height:1.9;margin-bottom:18px">
+          How do you earn half a penny? You decompose the whole into parts that reconstruct it,
+          then find the most efficient decomposition. That's every project.
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:22px">
+          <div style="background:rgba(0,255,210,0.03);border:1px solid rgba(0,255,210,0.08);padding:14px">
+            <div style="color:#00FFD2;font-size:10px;letter-spacing:0.15em;margin-bottom:6px">ERD&#336;S-STRAUS</div>
+            <div style="color:rgba(255,255,255,0.5);font-size:11px;line-height:1.7">4/n &rarr; 1/a + 1/b + 1/c<br>Does the decomposition exist?<br>Verified to 10&#185;&#8308;. Pushing to 10&#185;&#8311;.</div>
+          </div>
+          <div style="background:rgba(212,168,68,0.03);border:1px solid rgba(212,168,68,0.08);padding:14px">
+            <div style="color:#D4A844;font-size:10px;letter-spacing:0.15em;margin-bottom:6px">CHORD VOICE-LEADING</div>
+            <div style="color:rgba(255,255,255,0.5);font-size:11px;line-height:1.7">Harmonic distance &rarr; steps in Z&#8321;&#8322;<br>Minimal displacement.<br>Same ring as the sieve modular arithmetic.</div>
+          </div>
+          <div style="background:rgba(255,85,32,0.03);border:1px solid rgba(255,85,32,0.08);padding:14px">
+            <div style="color:#ff5520;font-size:10px;letter-spacing:0.15em;margin-bottom:6px">PRIME SIEVE</div>
+            <div style="color:rgba(255,255,255,0.5);font-size:11px;line-height:1.7">Natural numbers &rarr; composite filters<br>What survives = primes.<br>Each game world is a modular filter.</div>
+          </div>
+          <div style="background:rgba(176,108,247,0.03);border:1px solid rgba(176,108,247,0.08);padding:14px">
+            <div style="color:#b06cf7;font-size:10px;letter-spacing:0.15em;margin-bottom:6px">FUNGI NETWORK</div>
+            <div style="color:rgba(255,255,255,0.5);font-size:11px;line-height:1.7">Substrate &rarr; mycelial hyphae paths<br>Signal reaching the surface.<br>75 hybrid beziers. 15 muscle regions.</div>
+          </div>
+          <div style="background:rgba(91,168,224,0.03);border:1px solid rgba(91,168,224,0.08);padding:14px">
+            <div style="color:#5ba8e0;font-size:10px;letter-spacing:0.15em;margin-bottom:6px">DECIBEL</div>
+            <div style="color:rgba(255,255,255,0.5);font-size:11px;line-height:1.7">Signal intensity &rarr; base-10 decomposition<br>-14 LUFS = the nfr.<br>The decibel IS a sieve.</div>
+          </div>
+          <div style="background:rgba(240,192,48,0.03);border:1px solid rgba(240,192,48,0.08);padding:14px">
+            <div style="color:#F0C030;font-size:10px;letter-spacing:0.15em;margin-bottom:6px">SLUICE GATE</div>
+            <div style="color:rgba(255,255,255,0.5);font-size:11px;line-height:1.7">Information &rarr; the # filter grid<br>What passes through = the product.<br>Position determines signal.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section class="home-section" style="max-width:800px;margin:30px auto;padding:0 20px">
+        <h3 style="color:#00FFD2;font-size:14px;letter-spacing:0.3em;margin-bottom:16px">ABOUT</h3>
+        <p style="color:rgba(255,255,255,0.6);font-size:13px;line-height:1.8;margin-bottom:20px">
+          Guinea Pig Trench is the creative universe of <strong style="color:#00FFD2">ohthatsthe / skippyohms</strong>.
+          Every game, beat, sprite, and line of code is original IP. No templates. No stock. No engines.
+          Pure canvas, WebGL, and Web Audio API. One artist. Zero budget. Zero counterexamples.
+        </p>
+        <p style="color:rgba(255,255,255,0.5);font-size:12px;line-height:1.8;margin-bottom:20px">
+          The Egyptians didn't prove the Pythagorean theorem. They pulled the rope tight
+          and the right angle appeared. The sieve doesn't prove the conjecture &mdash;
+          it pulls the filters tight and zero survivors appear.
+          Proof is in the data, not the theory. The owl already knew.
+        </p>
+        <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:24px">
+          <a href="https://www.tiktok.com/@commencethescourge" target="_blank" rel="noopener" style="color:#00FFD2;font-size:11px;letter-spacing:0.2em;text-decoration:none;opacity:0.5;transition:opacity 0.2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.5">TIKTOK</a>
+          <a href="https://www.instagram.com/ohthatsthe/" target="_blank" rel="noopener" style="color:#00FFD2;font-size:11px;letter-spacing:0.2em;text-decoration:none;opacity:0.5;transition:opacity 0.2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.5">INSTAGRAM</a>
+          <a href="https://github.com/Commencethescourge" target="_blank" rel="noopener" style="color:#00FFD2;font-size:11px;letter-spacing:0.2em;text-decoration:none;opacity:0.5;transition:opacity 0.2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.5">GITHUB</a>
+          <a href="https://soundclick.com/skippyohms" target="_blank" rel="noopener" style="color:#D4A844;font-size:11px;letter-spacing:0.2em;text-decoration:none;opacity:0.5;transition:opacity 0.2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.5">SOUNDCLICK</a>
+          <span style="color:rgba(255,255,255,0.2);font-size:11px;letter-spacing:0.2em">GUINEA PIG TRENCH LLC</span>
+        </div>
+      </section>
+
+      <!-- FEATURED -->
+      <section class="home-section" style="max-width:800px;margin:30px auto;padding:0 20px">
+        <h3 style="color:#D4A844;font-size:14px;letter-spacing:0.3em;margin-bottom:16px">FEATURED</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px">
+          <div style="background:rgba(0,255,210,0.04);border:1px solid rgba(0,255,210,0.1);padding:16px;cursor:pointer;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(0,255,210,0.35)'" onmouseout="this.style.borderColor='rgba(0,255,210,0.1)'" onclick="document.querySelector('[data-page=games]').click()">
+            <div style="color:#00FFD2;font-size:11px;letter-spacing:0.2em;margin-bottom:6px" id="feat-games">62 GAMES</div>
+            <div style="color:rgba(255,255,255,0.55);font-size:11px">Raymarched corridors, procedural planets, voxel engines, lenticular 3D, fractal sculptors, quaternion spheres</div>
+          </div>
+          <div style="background:rgba(212,168,68,0.04);border:1px solid rgba(212,168,68,0.1);padding:16px;cursor:pointer;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(212,168,68,0.35)'" onmouseout="this.style.borderColor='rgba(212,168,68,0.1)'" onclick="document.querySelector('[data-page=music]').click()">
+            <div style="color:#D4A844;font-size:11px;letter-spacing:0.2em;margin-bottom:6px">129 BEATS</div>
+            <div style="color:rgba(255,255,255,0.55);font-size:11px">Original production by skippyohms. Auto EQ. Pitch correction. Fluid vial controls.</div>
+          </div>
+          <div style="background:rgba(204,34,51,0.04);border:1px solid rgba(204,34,51,0.1);padding:16px;cursor:pointer;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(204,34,51,0.35)'" onmouseout="this.style.borderColor='rgba(204,34,51,0.1)'" onclick="document.querySelector('[data-page=party]').click()">
+            <div style="color:#CC2233;font-size:11px;letter-spacing:0.2em;margin-bottom:6px">P2P PARTY</div>
+            <div style="color:rgba(255,255,255,0.55);font-size:11px">Voice, video, chat, proximity cypher. Serverless WebRTC. No account needed.</div>
+          </div>
+          <div style="background:rgba(176,108,247,0.04);border:1px solid rgba(176,108,247,0.1);padding:16px;cursor:pointer;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(176,108,247,0.35)'" onmouseout="this.style.borderColor='rgba(176,108,247,0.1)'" onclick="document.querySelector('[data-page=gallery]').click()">
+            <div style="color:#b06cf7;font-size:11px;letter-spacing:0.2em;margin-bottom:6px">GALLERY</div>
+            <div style="color:rgba(255,255,255,0.55);font-size:11px">Hand-painted canvases, pixel art, sprite sheets, tilesets. Every asset is original.</div>
+          </div>
+          <div style="background:rgba(0,180,200,0.04);border:1px solid rgba(0,180,200,0.1);padding:16px;cursor:pointer;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(0,180,200,0.35)'" onmouseout="this.style.borderColor='rgba(0,180,200,0.1)'" onclick="window.open('https://github.com/Commencethescourge/erdos-straus-solver','_blank')">
+            <div style="color:#00b8c8;font-size:11px;letter-spacing:0.2em;margin-bottom:6px">10<sup style="font-size:8px">17</sup> SIEVE</div>
+            <div style="color:rgba(255,255,255,0.55);font-size:11px">Erd&#337;s-Straus conjecture. Zero counterexamples. Zero budget. Free-tier GPU fleet.</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <main id="page-games" class="page">
+      <h2>Games</h2>
+      <div id="game-search-bar" style="margin-bottom:16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <input type="text" id="game-search" placeholder="Search games..." style="
+          background:rgba(0,255,210,0.04);border:1px solid rgba(0,255,210,0.12);
+          color:#e0e0e8;padding:8px 14px;font-family:'Courier New',monospace;
+          font-size:12px;letter-spacing:0.1em;outline:none;width:280px;
+          border-radius:0;transition:border-color 0.2s;
+        " onfocus="this.style.borderColor='rgba(0,255,210,0.4)'" onblur="this.style.borderColor='rgba(0,255,210,0.12)'">
+        <div id="game-tag-filters" style="display:flex;gap:4px;flex-wrap:wrap"></div>
+        <span id="game-count" style="color:rgba(0,255,210,0.3);font-size:9px;letter-spacing:0.15em;margin-left:auto"></span>
+      </div>
+      <div class="game-grid" id="game-grid"></div>
+    </main>
+
+    <main id="page-gallery" class="page">
+      <h2>Gallery</h2>
+      <div class="gallery-grid" id="gallery-grid"></div>
+    </main>
+
+    <main id="page-music" class="page">
+      <h2>Music</h2>
+      <div id="music-player"></div>
+      <div class="track-list" id="track-list"></div>
+    </main>
+
+    <main id="page-party" class="page">
+      <h2>Party</h2>
+      <div id="party-panel">
+        <div id="party-not-connected">
+          <button id="btn-create-party" class="btn btn-primary">Create Party</button>
+          <div class="party-join">
+            <input type="text" id="party-code-input" placeholder="Room Code" maxlength="6">
+            <button id="btn-join-party" class="btn btn-outline">Join</button>
+          </div>
+        </div>
+        <div id="party-connected" style="display:none">
+          <div class="party-code">Room: <strong id="party-room-code"></strong>
+            <button id="btn-copy-code" class="btn btn-small">Copy</button>
+          </div>
+          <div id="party-members"></div>
+          <div id="party-chat-log"></div>
+          <div class="party-chat-input">
+            <input type="text" id="party-chat-text" placeholder="Type a message...">
+            <button id="btn-party-send" class="btn btn-small">Send</button>
+          </div>
+          <div class="party-controls">
+            <button id="btn-mic-toggle" class="btn btn-small">Mic: OFF</button>
+            <button id="btn-cam-toggle" class="btn btn-small">Cam: OFF</button>
+            <button id="btn-leave-party" class="btn btn-small btn-danger">Leave</button>
+          </div>
+          <div id="peer-cams"></div>
+        </div>
+      </div>
+    </main>
+
+    <main id="page-leaderboard" class="page">
+      <h2>Leaderboards</h2>
+      <div id="leaderboard-table"></div>
+    </main>
+
+    <!-- Game Viewer (fullscreen iframe) -->
+    <div id="game-viewer" style="display:none">
+      <button id="game-close" class="btn btn-small">&times; Exit Game</button>
+      <iframe id="game-frame" allowfullscreen></iframe>
+    </div>
+
+    <!-- Persistent Music Player -->
+    <div id="music-bar">
+      <button id="music-prev" class="btn-icon">⏮</button>
+      <button id="music-play" class="btn-icon">▶</button>
+      <button id="music-next" class="btn-icon">⏭</button>
+      <span id="music-title">No track</span>
+      <div id="vial-pair" style="display:flex;align-items:center;gap:0;margin-left:8px;position:relative">
+        <canvas id="vial-vol" width="32" height="52" title="Volume — drag to adjust" style="cursor:ns-resize"></canvas>
+        <svg id="vial-tendril" width="12" height="52" style="overflow:visible;pointer-events:none">
+          <defs><filter id="vt-glow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <path id="vt-path" d="" fill="none" stroke="rgba(0,210,255,0.25)" stroke-width="1" filter="url(#vt-glow)"/>
+        </svg>
+        <canvas id="vial-pit" width="32" height="52" title="Pitch — drag to adjust" style="cursor:ns-resize"></canvas>
+      </div>
+      <!-- Hidden range inputs for compatibility -->
+      <input type="range" id="music-pitch" min="-12" max="12" value="0" style="display:none">
+      <input type="range" id="music-volume" min="0" max="100" value="3" style="display:none">
+    </div>
+  </div>
+
+  <!-- PASS 1: First paint — hero + game grid + music (blocking) -->
+  <script src="js/config.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/games.js"></script>
+  <script src="js/music.js"></script>
+  <script src="js/vial-animator.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- PASS 2: Everything else — after first paint (deferred) -->
+  <script>
+  // Lazy-load non-critical scripts after the page is interactive
+  function lazyLoad(srcs) {
+    let i = 0;
+    function next() {
+      if (i >= srcs.length) return;
+      const s = document.createElement('script');
+      s.src = srcs[i++];
+      s.onload = next;
+      s.onerror = next; // don't block chain on failure
+      document.body.appendChild(s);
+    }
+    // Start after first paint + 1 second buffer
+    if (document.readyState === 'complete') {
+      setTimeout(next, 1000);
+    } else {
+      window.addEventListener('load', () => setTimeout(next, 1000));
+    }
+  }
+
+  lazyLoad([
+    // CDNs (only needed for auth + party)
+    'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2',
+    'https://cdn.jsdelivr.net/npm/trystero@0.18/dist/trystero-torrent.min.js',
+    // Auth + analytics (needs Supabase loaded first)
+    'js/auth.js',
+    'js/analytics.js',
+    'js/telemetry.js',
+    // Music system
+    'js/auto-eq.js',
+    'js/autotube.js',
+    // music.js moved to Pass 1 — SoundClick plays on first click
+    // Social
+    'js/party/party.js',
+    'js/party/cypher.js',
+    // UX polish
+    'js/sprite-atlas.js',
+    'js/ui-sprites.js',
+    'js/hints.js',
+    'js/afk.js',
+    'js/game-shell.js',
+    'js/fluid-vials.js',
+  ]);
+  </script>
+</body>
+</html>

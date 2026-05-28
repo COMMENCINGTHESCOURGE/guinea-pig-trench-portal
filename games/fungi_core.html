@@ -1,0 +1,20 @@
+
+<style>
+#hsw{position:relative;width:100%;padding:1rem 0;text-align:center}
+#hsc{display:block;margin:0 auto;touch-action:none;cursor:grab}
+#hsc:active{cursor:grabbing}
+#hshud{display:flex;justify-content:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.hsm{background:rgba(0,0,0,0.6);padding:3px 11px;border-radius:3px;font-family:monospace;font-size:11px;color:#b88040;display:inline-block}
+.hsm.rad{color:#ff6020}
+#hsinfo{margin-top:8px;font-size:10px;font-family:monospace;color:var(--color-text-tertiary)}
+</style>
+<div id="hsw">
+  <div id="hshud">
+    <span class="hsm rad">core ● <span id="hrad">pulsing</span></span>
+    <span class="hsm">hyphae <span id="hhtips">0</span></span>
+    <span class="hsm">contracts <span id="hhcon">0</span></span>
+  </div>
+  <canvas id="hsc" width="520" height="520"></canvas>
+  <div id="hsinfo">drag · rotate &nbsp;·&nbsp; right-drag · roll &nbsp;·&nbsp; scroll · zoom &nbsp;·&nbsp; Q/E · twist</div>
+</div>
+<script src="js/fungi_core.js"></script>

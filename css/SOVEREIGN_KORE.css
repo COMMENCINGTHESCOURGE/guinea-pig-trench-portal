@@ -1,0 +1,52 @@
+/* 
+  SOVEREIGN_KORE.css — [MASTER_SUBSTRATE_STYLING]
+  The final unified aesthetic for Guinea Pig Trench LLC.
+*/
+
+:root {
+  --teal: #00FFD2; --gold: #D4A844; --void: #050208; --magenta: #ff00cc; --purple: #B06CF7; 
+  --rust: #d84315; --dim: #222233; --bg: #050208; --bone: #e0d8cc; --panel: rgba(12,8,18,0.96);
+  --font-sans: 'Rajdhani', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; overflow:hidden; background:var(--bg); color:#fff; font-family:var(--font-sans); }
+
+#app { display:flex; height:100vh; width:100vw; }
+
+#sidebar { 
+  width:260px; background:var(--void); border-right:2px solid var(--rust); 
+  padding:20px; display:flex; flex-direction:column; gap:10px; z-index:1000; 
+  box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+}
+#sidebar h2 { font-family:'Orbitron'; color:var(--rust); letter-spacing:3px; border-bottom:1px solid var(--rust); padding-bottom:10px; font-size:18px; }
+.nav-item { 
+  padding:14px; margin:6px 0; background:rgba(255,255,255,0.02); border-left:3px solid var(--rust); 
+  cursor:pointer; transition:0.2s; font-size:15px; letter-spacing:1px; color:var(--bone);
+}
+.nav-item:hover { border-color:var(--gold); background:rgba(255,255,255,0.06); }
+.nav-item.active { border-color:var(--teal); background:rgba(0,255,210,0.1); color:var(--teal); text-shadow: 0 0 10px var(--teal); }
+
+#viewport { flex:1; position:relative; display:flex; flex-direction:column; background:var(--bg); }
+
+#hud-top { 
+  height:44px; background:var(--void); border-bottom:1px solid var(--dim); 
+  display:flex; align-items:center; padding:0 24px; gap:24px; 
+  font-size:11px; font-family:var(--font-mono); color:var(--teal);
+}
+.status-dot { width:8px; height:8px; border-radius:50%; background:var(--teal); box-shadow: 0 0 8px var(--teal); animation: pulse 1.5s infinite; }
+@keyframes pulse { 0% { opacity:0.3; } 50% { opacity:1; } 100% { opacity:0.3; } }
+
+#content-area { flex:1; position:relative; overflow:hidden; }
+.tab-content { position:absolute; inset:0; display:none; flex-direction: column; }
+.tab-content.active { display:flex; }
+
+/* Grid Substrate */
+.grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:16px; padding:30px; overflow-y: auto; }
+.card { background:rgba(255,255,255,0.02); border:1px solid var(--dim); padding:18px; cursor:pointer; transition:0.2s; border-radius: 2px; }
+.card:hover { border-color:var(--teal); transform:scale(1.02); background:rgba(0,255,210,0.03); }
+.card h3 { font-family:'Orbitron'; font-size:14px; color:var(--teal); margin-bottom:6px; }
+.card p { font-size:11px; color:rgba(255,255,255,0.4); line-height:1.5; }
+
+/* Scanline Effect */
+.scan { position:fixed; inset:0; z-index:9999; pointer-events:none; background:repeating-linear-gradient(0deg,rgba(0,0,0,0.08)0px,rgba(0,0,0,0.08)1px,transparent 1px,transparent 3px); mix-blend-mode:multiply; }

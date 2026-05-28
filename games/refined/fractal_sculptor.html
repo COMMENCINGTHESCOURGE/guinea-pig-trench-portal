@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FRACTAL SCULPTOR — Sprite × Mandelbulb × Crossbreed</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden}
+#c{display:block;width:100%;height:100%;cursor:grab}
+#c.drag{cursor:grabbing}
+#ui{position:fixed;inset:0;pointer-events:none;font-family:'Courier New',monospace;z-index:10}
+#info{position:absolute;top:16px;left:16px;color:rgba(0,255,210,.5);font-size:10px;letter-spacing:.12em;line-height:1.8;max-width:260px}
+#fps{position:absolute;top:16px;right:16px;color:rgba(0,210,255,.3);font-size:10px;letter-spacing:.14em;text-align:right}
+#mode{position:absolute;bottom:60px;left:50%;transform:translateX(-50%);color:rgba(0,255,210,.4);font-size:9px;letter-spacing:.2em;text-transform:uppercase;pointer-events:auto;display:flex;gap:8px}
+#mode span{cursor:pointer;padding:4px 8px;border:1px solid rgba(0,255,210,.15);transition:all .2s}
+#mode span:hover,#mode span.active{color:#00FFD2;border-color:rgba(0,255,210,.5);background:rgba(0,255,210,.05)}
+#dna-panel{position:absolute;top:80px;right:16px;width:200px;pointer-events:auto;background:rgba(0,8,18,.85);border:1px solid rgba(0,255,210,.12);padding:10px 12px;font-size:9px;color:rgba(0,255,210,.5);letter-spacing:.08em;backdrop-filter:blur(6px)}
+#dna-panel h3{font-size:8px;letter-spacing:.2em;color:rgba(0,255,210,.3);text-transform:uppercase;margin:8px 0 4px;border-bottom:1px solid rgba(0,255,210,.06);padding-bottom:3px}
+#dna-panel h3:first-child{margin-top:0}
+#dna-panel label{display:flex;align-items:center;gap:6px;margin:3px 0}
+#dna-panel input[type=range]{flex:1;-webkit-appearance:none;height:2px;background:rgba(0,255,210,.12);outline:none}
+#dna-panel input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:10px;border-radius:50%;background:rgba(0,255,210,.5);cursor:pointer}
+#dna-panel input[type=color]{width:22px;height:16px;border:1px solid rgba(0,255,210,.15);background:transparent;cursor:pointer;padding:0}
+.val{min-width:28px;text-align:right;color:rgba(0,255,210,.3);font-size:8px}
+#dna-panel button{background:rgba(0,255,210,.08);border:1px solid rgba(0,255,210,.18);color:rgba(0,255,210,.6);padding:5px 10px;font-family:inherit;font-size:9px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;margin:3px 2px}
+#dna-panel button:hover{background:rgba(0,255,210,.15);color:#00ffd2}
+#breed-log{max-height:80px;overflow-y:auto;font-size:8px;color:rgba(0,255,210,.3);margin-top:6px;line-height:1.5}
+#gallery{position:absolute;bottom:16px;left:16px;display:flex;gap:6px;pointer-events:auto}
+.gcard{width:48px;height:48px;border:1px solid rgba(0,255,210,.12);cursor:pointer;image-rendering:pixelated;background:#000;transition:border-color .2s}
+.gcard:hover,.gcard.active{border-color:rgba(0,255,210,.5);box-shadow:0 0 8px rgba(0,255,210,.15)}
+#ctrl{position:absolute;bottom:16px;right:16px;color:rgba(0,210,255,.2);font-size:8px;letter-spacing:.1em;text-align:right;line-height:2}
+
+/* -- THE THRESHOLD (pass 1) -- */
+#threshold-overlay {
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+}
+#threshold-vignette {
+  position: fixed; inset: 0; z-index: 9997; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,2,12,0.35));
+}
+#threshold-world-name {
+  position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; pointer-events: none;
+  color: #6688ff; opacity: 0.4;
+  font-family: 'Courier New', monospace; font-size: 10px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+}
+#threshold-heartbeat {
+  position: fixed; inset: 0; z-index: 9996; pointer-events: none;
+  background: #6688ff; opacity: 0;
+  transition: opacity 0.05s;
+}
+
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="ui">
+  <div id="info">FRACTAL SCULPTOR<br>SPRITE × MANDELBULB × CROSSBREED<br><br>DROP IMAGE: LOAD SPRITE<br>G: EXPORT SPRITE SHEET<br>B: CROSSBREED<br>1-5: SDF MODE</div>
+  <div id="fps">—</div>
+  <div id="mode">
+    <span class="active" data-mode="0">HEIGHT</span>
+    <span data-mode="1">REVOLVE</span>
+    <span data-mode="2">CROSS</span>
+    <span data-mode="3">BULB</span>
+    <span data-mode="4">HYBRID</span>
+  </div>
+  <div id="dna-panel">
+    <h3>Fractal DNA</h3>
+    <label>Power <input type="range" id="sl-power" min="200" max="1400" value="800" step="10"><span class="val" id="v-power">8.0</span></label>
+    <label>Depth <input type="range" id="sl-iter" min="4" max="16" value="10"><span class="val" id="v-iter">10</span></label>
+    <label>Blend <input type="range" id="sl-blend" min="0" max="100" value="50"><span class="val" id="v-blend">0.50</span></label>
+    <h3>Orbit Trap Palette</h3>
+    <label><input type="color" id="col-a" value="#0AEBAa"> Base</label>
+    <label><input type="color" id="col-b" value="#ED1299"> Accent</label>
+    <label><input type="color" id="col-c" value="#F5BA12"> High</label>
+    <label><input type="color" id="col-d" value="#12E88A"> Core</label>
+    <h3>Presets</h3>
+    <div id="presets" style="display:flex;flex-wrap:wrap;gap:3px;margin:4px 0"></div>
+    <h3>Crossbreed</h3>
+    <button id="btn-breed">B: BREED</button>
+    <button id="btn-export">G: EXPORT</button>
+    <button id="btn-random">MUTATE</button>
+    <div id="breed-log"></div>
+  </div>
+  <div id="gallery"></div>
+  <div id="ctrl">DRAG·ORBIT SCROLL·ZOOM<br>1-5·MODE B·BREED G·EXPORT<br>DBL-CLICK·RESET DROP·LOAD</div>
+</div>
+
+
+
+<script src="js/fractal_sculptor.js"></script></body>
+</html>

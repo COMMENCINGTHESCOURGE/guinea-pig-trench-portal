@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- # Sluice Gate — Guinea Pig Trench Logo -->
+  <!-- Four bars: two vertical (teal), two horizontal (gold) -->
+  <!-- The # that becomes ♯ when you tilt it -->
+
+  <!-- Background -->
+  <rect width="64" height="64" rx="8" fill="#0a0a0f"/>
+
+  <!-- Vertical bars (teal) — the sluice gates -->
+  <rect x="20" y="12" width="5" height="40" rx="1.5" fill="#00d9cc" transform="rotate(-5, 22.5, 32)"/>
+  <rect x="39" y="12" width="5" height="40" rx="1.5" fill="#00d9cc" transform="rotate(-5, 41.5, 32)"/>
+
+  <!-- Horizontal bars (gold gradient) — the sharp lines -->
+  <rect x="12" y="22" width="40" height="5" rx="1.5" fill="#f0c030"/>
+  <rect x="12" y="37" width="40" height="5" rx="1.5" fill="#f0c030"/>
+
+  <!-- Subtle glow on intersections -->
+  <circle cx="22" cy="24.5" r="3" fill="#4af" opacity="0.15"/>
+  <circle cx="41" cy="24.5" r="3" fill="#4af" opacity="0.15"/>
+  <circle cx="22" cy="39.5" r="3" fill="#4af" opacity="0.15"/>
+  <circle cx="41" cy="39.5" r="3" fill="#4af" opacity="0.15"/>
+</svg>

@@ -1,0 +1,30 @@
+
+<style>
+#xw{position:relative;width:100%;padding:1rem 0;text-align:center}
+#xc{display:block;margin:0 auto;touch-action:none;cursor:grab}
+#xc:active{cursor:grabbing}
+#xhud{display:flex;justify-content:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.xm{background:rgba(0,0,0,0.62);padding:3px 11px;border-radius:3px;font-family:monospace;font-size:11px;color:#7ab4d4;display:inline-block}
+#xctrls{display:flex;justify-content:center;gap:14px;margin-top:10px;flex-wrap:wrap;align-items:center}
+.xl{font-family:monospace;font-size:11px;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px}
+input[type=range]{accent-color:#0ff;width:80px}
+#xctrl button{font-size:11px;letter-spacing:1px;padding:4px 12px;background:transparent;border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary);cursor:pointer;border-radius:3px}
+#xctrl button:hover{background:var(--color-background-secondary)}
+#xinfo{margin-top:6px;font-size:10px;font-family:monospace;color:var(--color-text-tertiary)}
+</style>
+<div id="xw">
+  <div id="xhud">
+    <span class="xm">zoom <span id="xzm">1.00</span>×</span>
+    <span class="xm" id="xmode">● drifting</span>
+    <span class="xm" style="color:#ffaa00">contracts <span id="xcon">0</span></span>
+    <span class="xm" style="color:#0ff" id="xclr">● CMY</span>
+  </div>
+  <canvas id="xc" width="520" height="520"></canvas>
+  <div id="xctrls">
+    <div class="xl">bands <input type="range" id="xbnd" min="4" max="50" step="1" value="18"></div>
+    <div class="xl">flow <input type="range" id="xspd" min="0" max="0.15" step="0.001" value="0.04"></div>
+    <div id="xctrl"><button onclick="toggleMode()">CMY ↔ spectral</button></div>
+  </div>
+  <div id="xinfo">drag · rotate &nbsp;·&nbsp; right-drag · roll &nbsp;·&nbsp; scroll · zoom &nbsp;·&nbsp; Q/E · twist &nbsp;·&nbsp; click canvas · randomize palette</div>
+</div>
+<script src="js/iridescent_sphere.js"></script>

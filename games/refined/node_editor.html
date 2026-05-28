@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guinea Pig Trench — Node Editor</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#1a1a2e;color:#ccc;font-family:'Segoe UI',sans-serif;overflow:hidden;user-select:none;}
+#mainCanvas{position:absolute;top:36px;left:44px;right:220px;bottom:0;}
+canvas{display:block;}
+
+/* Top bar */
+#topBar{position:fixed;top:0;left:0;right:0;height:36px;background:#12122a;border-bottom:1px solid #333;display:flex;align-items:center;padding:0 10px;z-index:100;gap:4px;}
+#topBar button{background:#2a2a4a;color:#ccc;border:1px solid #444;padding:4px 12px;border-radius:3px;cursor:pointer;font-size:12px;}
+#topBar button:hover{background:#3a3a6a;color:#fff;}
+#topBar .sep{width:1px;height:20px;background:#444;margin:0 6px;}
+#topBar .label{font-size:11px;color:#888;margin-right:4px;}
+
+/* Left toolbar */
+#leftBar{position:fixed;top:36px;left:0;width:44px;bottom:0;background:#12122a;border-right:1px solid #333;display:flex;flex-direction:column;padding-top:6px;z-index:100;align-items:center;gap:2px;}
+.catBtn{width:36px;height:36px;border-radius:4px;border:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;position:relative;}
+.catBtn:hover{filter:brightness(1.3);}
+.catBtn .tip{display:none;position:absolute;left:42px;background:#000;color:#fff;padding:3px 8px;border-radius:3px;font-size:11px;white-space:nowrap;z-index:200;}
+.catBtn:hover .tip{display:block;}
+
+/* Right properties panel */
+#propsPanel{position:fixed;top:36px;right:0;width:220px;bottom:0;background:#12122a;border-left:1px solid #333;z-index:100;overflow-y:auto;padding:10px;font-size:12px;transition:transform .2s;}
+#propsPanel.hidden{transform:translateX(220px);}
+#propsPanel h3{color:#fff;margin-bottom:8px;font-size:13px;}
+.propRow{margin-bottom:8px;}
+.propRow label{display:block;color:#888;margin-bottom:2px;font-size:11px;}
+.propRow input[type=range]{width:100%;accent-color:#6a6aff;}
+.propRow input[type=number],.propRow input[type=text],.propRow select{width:100%;background:#1e1e3e;color:#ccc;border:1px solid #444;padding:3px 6px;border-radius:3px;font-size:11px;}
+.propRow input[type=color]{width:40px;height:24px;border:1px solid #444;background:none;cursor:pointer;}
+
+/* Add node menu */
+#addMenu{position:fixed;display:none;width:260px;max-height:400px;background:#1e1e3e;border:1px solid #555;border-radius:6px;z-index:300;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.6);}
+#addMenu.show{display:block;}
+#addMenuSearch{width:100%;padding:8px 10px;background:#14142a;color:#fff;border:none;border-bottom:1px solid #444;font-size:13px;outline:none;}
+#addMenuList{max-height:350px;overflow-y:auto;padding:4px 0;}
+.addMenuItem{padding:6px 12px;cursor:pointer;font-size:12px;display:flex;align-items:center;gap:8px;}
+.addMenuItem:hover{background:#2a2a5a;}
+.addMenuItem .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.addMenuItem .catLabel{color:#888;font-size:10px;margin-left:auto;}
+
+/* Minimap */
+#minimap{position:fixed;bottom:10px;right:230px;width:160px;height:100px;background:#0e0e1e;border:1px solid #444;border-radius:4px;z-index:100;overflow:hidden;}
+#minimapCanvas{width:100%;height:100%;}
+
+/* Status */
+#status{position:fixed;bottom:0;left:44px;right:220px;height:22px;background:#12122a;border-top:1px solid #333;z-index:100;display:flex;align-items:center;padding:0 10px;font-size:11px;color:#666;}
+
+/* -- THE THRESHOLD (pass 1) -- */
+#threshold-overlay {
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+}
+#threshold-vignette {
+  position: fixed; inset: 0; z-index: 9997; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,2,12,0.35));
+}
+#threshold-world-name {
+  position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; pointer-events: none;
+  color: #6688ff; opacity: 0.4;
+  font-family: 'Courier New', monospace; font-size: 10px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+}
+#threshold-heartbeat {
+  position: fixed; inset: 0; z-index: 9996; pointer-events: none;
+  background: #6688ff; opacity: 0;
+  transition: opacity 0.05s;
+}
+
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div id="topBar">
+  <button onclick="newGraph()">New</button>
+  <button onclick="saveGraph()">Save</button>
+  <button onclick="loadGraph()">Load</button>
+  <div class="sep"></div>
+  <span class="label">Presets:</span>
+  <button onclick="loadPreset('charVariant')">Character Variant</button>
+  <button onclick="loadPreset('spriteOverlay')">Sprite Overlay</button>
+  <button onclick="loadPreset('synthPad')">Synth Pad</button>
+  <div class="sep"></div>
+  <button onclick="executeGraph()" style="background:#2a4a2a;border-color:#4a4;">&#9654; Execute</button>
+  <div class="sep"></div>
+  <button onclick="undo()">Undo</button>
+  <button onclick="redo()">Redo</button>
+</div>
+
+<!-- Left Toolbar -->
+<div id="leftBar">
+  <button class="catBtn" style="background:#b8a030;" onclick="showAddMenu(null,'sprite')"><span style="font-size:14px;">S</span><span class="tip">Sprite</span></button>
+  <button class="catBtn" style="background:#8040b0;" onclick="showAddMenu(null,'effect')"><span style="font-size:14px;">E</span><span class="tip">Effect</span></button>
+  <button class="catBtn" style="background:linear-gradient(135deg,#e04040,#4040e0);" onclick="showAddMenu(null,'color')"><span style="font-size:14px;">C</span><span class="tip">Color</span></button>
+  <button class="catBtn" style="background:#666;" onclick="showAddMenu(null,'math')"><span style="font-size:14px;">M</span><span class="tip">Math</span></button>
+  <button class="catBtn" style="background:#30a040;" onclick="showAddMenu(null,'output')"><span style="font-size:14px;">O</span><span class="tip">Output</span></button>
+  <button class="catBtn" style="background:#30a0a0;" onclick="showAddMenu(null,'audio')"><span style="font-size:14px;">A</span><span class="tip">Audio</span></button>
+  <button class="catBtn" style="background:#b03030;" onclick="showAddMenu(null,'game')"><span style="font-size:14px;">G</span><span class="tip">Game</span></button>
+</div>
+
+<!-- Properties Panel -->
+<div id="propsPanel">
+  <h3>Properties</h3>
+  <div id="propsContent"><p style="color:#666;font-size:11px;">Select a node to view properties</p></div>
+</div>
+
+<!-- Add Node Menu -->
+<div id="addMenu">
+  <input id="addMenuSearch" placeholder="Search nodes..." autocomplete="off">
+  <div id="addMenuList"></div>
+</div>
+
+<!-- Minimap -->
+<div id="minimap"><canvas id="minimapCanvas"></canvas></div>
+
+<!-- Status Bar -->
+<div id="status"><span id="statusText">Ready — SHIFT+A to add nodes</span></div>
+
+<!-- Main Canvas -->
+<div id="mainCanvas"><canvas id="canvas"></canvas></div>
+
+
+
+<script src="js/node_editor.js"></script></body>
+</html>

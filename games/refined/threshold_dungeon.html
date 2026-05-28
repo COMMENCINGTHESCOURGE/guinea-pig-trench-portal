@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>THRESHOLD DUNGEON — Five Worlds, One Dungeon</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden}
+canvas{display:block;width:100%;height:100%}
+#ui{position:fixed;inset:0;z-index:10;pointer-events:none;font-family:'Courier New',monospace}
+#hp-bar{position:absolute;top:16px;left:16px;width:180px}
+#hp-bg{width:100%;height:12px;background:rgba(0,0,0,.5);border:1px solid rgba(0,255,210,.2)}
+#hp-fill{height:100%;background:#00ff9d;transition:width .3s}
+#hp-text{font-size:9px;color:rgba(0,255,210,.5);letter-spacing:.15em;margin-top:2px}
+#world-name{position:absolute;top:16px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.35em;color:rgba(0,255,210,.4);transition:color 1s}
+#score{position:absolute;top:16px;right:16px;font-size:11px;color:#ffd54a;letter-spacing:.1em}
+#crosshair{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:11;pointer-events:none}
+#minimap{position:absolute;bottom:16px;right:16px;border:1px solid rgba(0,255,210,.15)}
+#mode-label{position:absolute;top:36px;left:50%;transform:translateX(-50%);font-size:8px;letter-spacing:.2em;opacity:.3}
+#start{position:fixed;inset:0;z-index:20;background:rgba(0,4,10,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;transition:opacity .5s}
+#start.hidden{opacity:0;pointer-events:none}
+#start h1{font-size:32px;letter-spacing:.15em;color:#00b8c8}
+#start h2{font-size:14px;letter-spacing:.1em;color:#ffd54a}
+#start p{font-size:10px;letter-spacing:.12em;color:rgba(200,220,240,.4);max-width:400px;text-align:center;line-height:1.8}
+#start .mode-toggle{font-size:13px;letter-spacing:.15em;cursor:pointer;pointer-events:auto;padding:6px 20px;border:1px solid rgba(0,255,210,.2);color:#00ffd2;transition:all .2s}
+#start .mode-toggle:hover{background:rgba(0,255,210,.08)}
+#start .go{font-size:12px;letter-spacing:.2em;cursor:pointer;pointer-events:auto;padding:8px 30px;border:1px solid rgba(0,255,210,.3);color:#00ffd2;margin-top:8px}
+#start .go:hover{background:rgba(0,255,210,.1)}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="ui">
+  <div id="hp-bar"><div id="hp-bg"><div id="hp-fill" style="width:100%"></div></div><div id="hp-text">HP 100</div></div>
+  <div id="world-name">THE THRESHOLD</div>
+  <div id="mode-label">SURVIVAL</div>
+  <div id="score">0</div>
+  <canvas id="minimap" width="100" height="100"></canvas>
+</div>
+<svg id="crosshair" width="24" height="24" viewBox="0 0 24 24">
+  <line x1="12" y1="4" x2="12" y2="9" stroke="rgba(0,255,210,0.4)" stroke-width="1.5"/>
+  <line x1="12" y1="15" x2="12" y2="20" stroke="rgba(0,255,210,0.4)" stroke-width="1.5"/>
+  <line x1="4" y1="12" x2="9" y2="12" stroke="rgba(0,255,210,0.4)" stroke-width="1.5"/>
+  <line x1="15" y1="12" x2="20" y2="12" stroke="rgba(0,255,210,0.4)" stroke-width="1.5"/>
+  <circle cx="12" cy="12" r="1.5" fill="rgba(0,255,210,0.5)"/>
+</svg>
+<div id="start">
+  <h1>THRESHOLD DUNGEON</h1>
+  <h2>Five Worlds. One Dungeon.</h2>
+  <p>Each room is a different world rendered in real-time raymarching.<br>
+  Pink Hour. The Block. The Threshold. Vault Compound 7. The Between.<br>
+  Navigate. Survive. Find the exit.</p>
+  <div class="mode-toggle" id="mode-btn">MODE: SURVIVAL</div>
+  <div class="go" id="go-btn">ENTER</div>
+  <p style="font-size:8px;opacity:.3">WASD move | Mouse look | Click shoot (survival) / place (creative) | TAB toggle mode</p>
+</div>
+
+
+<script src="js/threshold_dungeon.js"></script></body>
+</html>

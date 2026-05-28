@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Guinea Pig Trench — Onion Planet · Mandelbulb ℗8</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden}
+#c{display:block;width:100%;height:100%;cursor:grab}
+#c.drag{cursor:grabbing}
+#ui{position:fixed;inset:0;pointer-events:none;font-family:'Courier New',monospace}
+#fps{
+  position:absolute;top:20px;right:22px;
+  color:rgba(0,210,255,.35);font-size:10px;
+  letter-spacing:.14em;text-transform:uppercase;
+  text-align:right;line-height:1.75
+}
+#ctrl{
+  position:absolute;bottom:22px;left:20px;
+  color:rgba(0,210,255,.28);font-size:10px;
+  letter-spacing:.12em;text-transform:uppercase;line-height:2
+}
+#qbar{
+  position:absolute;bottom:26px;right:22px;
+  display:flex;gap:3px;align-items:flex-end
+}
+.qs{width:3px;border-radius:1px;transition:background .4s,height .3s}
+#errbox{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  color:#f66;font-size:13px;letter-spacing:.05em;text-align:center;
+  display:none
+}
+
+/* -- THE THRESHOLD (pass 1) -- */
+#threshold-overlay {
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+}
+#threshold-vignette {
+  position: fixed; inset: 0; z-index: 9997; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(20,10,4,0.35));
+}
+#threshold-world-name {
+  position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; pointer-events: none;
+  color: #ff8833; opacity: 0.4;
+  font-family: 'Courier New', monospace; font-size: 10px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+}
+#threshold-heartbeat {
+  position: fixed; inset: 0; z-index: 9996; pointer-events: none;
+  background: #ff8833; opacity: 0;
+  transition: opacity 0.05s;
+}
+
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="ui">
+  <div id="fps">— fps<br>mandelbulb · ℗8</div>
+  <div id="ctrl">drag · orbit<br>scroll · zoom<br>dbl-click · reset</div>
+  <div id="qbar"></div>
+  <div id="errbox"></div>
+</div>
+
+
+
+<script src="js/mandelbulb_webgl.js"></script></body>
+</html>

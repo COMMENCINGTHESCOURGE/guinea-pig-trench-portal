@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>THE THRESHOLD — Where All Worlds Meet</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden}
+canvas{display:block;width:100%;height:100%}
+#ui{position:fixed;inset:0;pointer-events:none;font-family:'Courier New',monospace;z-index:10}
+#locale{position:absolute;top:20px;left:50%;transform:translateX(-50%);text-align:center;transition:all 1.5s}
+#locale .zone{font-size:11px;letter-spacing:.4em;text-transform:uppercase;transition:color 1.5s}
+#locale .sub{font-size:8px;letter-spacing:.2em;opacity:.4;margin-top:4px;transition:color 1.5s}
+#lore{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);text-align:center;font-size:9px;letter-spacing:.12em;opacity:0;transition:opacity 2s;max-width:500px;line-height:1.8}
+#heartbeat{position:absolute;top:20px;right:20px;font-size:9px;letter-spacing:.15em;opacity:.3}
+
+/* -- THE THRESHOLD (pass 1) -- */
+#threshold-overlay {
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+}
+#threshold-vignette {
+  position: fixed; inset: 0; z-index: 9997; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(4,10,20,0.35));
+}
+#threshold-world-name {
+  position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; pointer-events: none;
+  color: #00b8c8; opacity: 0.4;
+  font-family: 'Courier New', monospace; font-size: 10px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+}
+#threshold-heartbeat {
+  position: fixed; inset: 0; z-index: 9996; pointer-events: none;
+  background: #00b8c8; opacity: 0;
+  transition: opacity 0.05s;
+}
+
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="ui">
+  <div id="locale">
+    <div class="zone" id="zone-name">THE THRESHOLD</div>
+    <div class="sub" id="zone-sub">where all worlds meet</div>
+  </div>
+  <div id="lore"></div>
+  <div id="heartbeat">0.7s</div>
+</div>
+
+
+<script src="js/the_threshold.js"></script></body>
+</html>

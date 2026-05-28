@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INK & HOLD — Guinea Pig Trench</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #2a2218; overflow: hidden; font-family: 'Courier New', monospace; user-select: none; }
+canvas { display: block; }
+#game { position: fixed; inset: 0; z-index: 1; cursor: crosshair; }
+#paper { position: fixed; inset: 0; z-index: 0; }
+
+#hud {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 10; pointer-events: none;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 12px 20px;
+}
+.hud-panel {
+  background: rgba(240,222,168,0.12);
+  border: 1px solid rgba(120,80,30,0.3);
+  padding: 8px 14px;
+  color: #6b4e1a;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  pointer-events: auto;
+}
+#announce {
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  z-index: 15; pointer-events: none;
+  font-size: 28px; letter-spacing: 0.25em; text-transform: uppercase;
+  color: #6b4e1a; opacity: 0;
+  text-shadow: 0 0 20px rgba(107,78,26,0.4);
+  transition: opacity 0.4s;
+}
+#shop {
+  position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
+  z-index: 10; display: flex; gap: 8px;
+}
+.shop-btn {
+  background: rgba(240,222,168,0.25);
+  border: 1px solid rgba(120,80,30,0.4);
+  color: #6b4e1a;
+  padding: 6px 12px;
+  font-family: 'Courier New', monospace;
+  font-size: 10px;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  transition: background 0.2s;
+}
+.shop-btn:hover { background: rgba(240,222,168,0.45); }
+.shop-btn.selected { background: rgba(120,80,30,0.35); border-color: rgba(120,80,30,0.7); }
+
+/* -- THE THRESHOLD (pass 1) -- */
+#threshold-overlay {
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+}
+#threshold-vignette {
+  position: fixed; inset: 0; z-index: 9997; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(80,50,15,0.35));
+}
+#threshold-world-name {
+  position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; pointer-events: none;
+  color: #6b4e1a; opacity: 0.4;
+  font-family: 'Courier New', monospace; font-size: 10px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+}
+#threshold-heartbeat {
+  position: fixed; inset: 0; z-index: 9996; pointer-events: none;
+  background: #6b4e1a; opacity: 0;
+  transition: opacity 0.05s;
+}
+</style>
+</head>
+<body>
+<canvas id="paper"></canvas>
+<canvas id="game"></canvas>
+
+<div id="hud">
+  <div class="hud-panel" id="hud-left">
+    WAVE <span id="waveNum">1</span> | HP <span id="hpVal">20</span> | INK <span id="inkVal">100</span>
+  </div>
+  <div class="hud-panel" id="hud-right">
+    SCORE <span id="scoreVal">0</span> | KILLS <span id="killVal">0</span>
+  </div>
+</div>
+
+<div id="announce"></div>
+
+<div id="shop">
+  <button class="shop-btn selected" data-type="0" title="Ink Blot (15) — splash damage">BLOT [15]</button>
+  <button class="shop-btn" data-type="1" title="Quill Tower (25) — fast single target">QUILL [25]</button>
+  <button class="shop-btn" data-type="2" title="Seal Ward (40) — slow aura">SEAL [40]</button>
+  <button class="shop-btn" data-type="3" title="Nib Cannon (60) — heavy hitter">NIB [60]</button>
+</div>
+
+
+
+
+
+<script src="js/ink_hold.js"></script>
+</body>
+</html>

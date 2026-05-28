@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>THRESHOLD HILL — Five Worlds You Roll Through</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Orbitron:wght@700;900&display=swap');
+:root{--p:#00ff9d;--void:#000c1a;--dim:rgba(0,255,157,0.32);--gold:#D4A844}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--void);overflow:hidden;font-family:'Share Tech Mono',monospace;cursor:none}
+canvas{display:block;position:fixed;inset:0;z-index:1}
+#hud{position:fixed;inset:0;z-index:10;pointer-events:none}
+.panel{position:absolute;background:rgba(0,14,30,0.72);backdrop-filter:blur(12px);border:1px solid rgba(0,255,157,0.14);font-size:10px;color:var(--p);padding:10px 14px}
+.hl{font-size:7.5px;letter-spacing:.28em;color:var(--dim);text-transform:uppercase}
+#start{position:fixed;inset:0;z-index:20;background:rgba(0,4,10,0.92);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;transition:opacity 1s}
+#start.hidden{opacity:0;pointer-events:none}
+#start h1{font-family:'Bebas Neue';font-size:48px;color:#00b8c8;letter-spacing:.15em}
+#start p{font-size:10px;color:rgba(200,220,240,0.4);letter-spacing:.12em;text-align:center;line-height:1.8;max-width:400px}
+#start .go{font-size:12px;letter-spacing:.2em;cursor:pointer;pointer-events:auto;padding:8px 30px;border:1px solid rgba(0,255,210,0.3);color:#00ffd2;margin-top:8px}
+#start .go:hover{background:rgba(0,255,210,0.1)}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hud">
+  <div class="panel" style="top:18px;left:18px;min-width:180px">
+    <div class="hl">TRENCH FM</div>
+    <div id="trackName" style="font-size:11px;color:var(--p);margin:4px 0">TUNING...</div>
+    <div id="worldName" style="font-size:8px;letter-spacing:.2em;color:#00b8c8;transition:color 1s">THE THRESHOLD</div>
+  </div>
+  <div class="panel" style="top:18px;right:18px;text-align:right">
+    <div class="hl">CORES</div>
+    <div id="scoreVal" style="font-family:'Orbitron';font-size:28px;color:var(--gold)">0</div>
+  </div>
+  <div class="panel" style="bottom:18px;left:50%;transform:translateX(-50%);text-align:center;padding:8px 20px">
+    <div id="hint" style="font-size:8px;letter-spacing:.2em;color:var(--dim)">A/D ROLL · SPACE JUMP · MOUSE TILT · N NEXT TRACK</div>
+  </div>
+</div>
+<div id="start">
+  <h1>THRESHOLD HILL</h1>
+  <p>Five worlds rendered as terrain. Roll through them.<br>
+  The ground pulses to the beat. The lens tilts with your mouse.<br>
+  Pink Hour. The Block. The Threshold. Vault. The Between.</p>
+  <div class="go" id="goBtn">TUNE IN</div>
+</div>
+<audio id="audio" crossorigin="anonymous" preload="none"></audio>
+
+<script src="js/threshold_hill.js"></script>
+</body>
+</html>

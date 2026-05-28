@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ASSET FORGE — Sprite → 3D → Crossbreed → Game</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700;900&display=swap');
+:root{--p:#00ff9d;--void:#000c1a;--gold:#D4A844;--red:#ff2244;--dim:rgba(0,255,157,0.3)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--void);overflow:hidden;font-family:'Share Tech Mono',monospace;color:#e0e0e8}
+canvas{display:block;position:fixed;inset:0}
+#ui{position:fixed;inset:0;z-index:10;pointer-events:none}
+.panel{position:absolute;background:rgba(0,14,30,0.8);border:1px solid rgba(0,255,157,0.15);padding:10px 14px;font-size:10px;pointer-events:auto}
+#phase-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Orbitron',monospace;font-size:clamp(28px,5vw,52px);color:var(--p);text-shadow:0 0 40px var(--p);letter-spacing:.2em;pointer-events:none;transition:opacity .5s}
+#log{position:absolute;bottom:16px;left:16px;right:16px;max-height:120px;overflow:hidden;font-size:9px;color:var(--dim);letter-spacing:.1em;line-height:1.6}
+
+/* -- THE THRESHOLD (pass 1) -- */
+#threshold-overlay {
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+}
+#threshold-vignette {
+  position: fixed; inset: 0; z-index: 9997; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(5,15,10,0.35));
+}
+#threshold-world-name {
+  position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; pointer-events: none;
+  color: #00ff9d; opacity: 0.4;
+  font-family: 'Courier New', monospace; font-size: 10px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+}
+#threshold-heartbeat {
+  position: fixed; inset: 0; z-index: 9996; pointer-events: none;
+  background: #00ff9d; opacity: 0;
+  transition: opacity 0.05s;
+}
+
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="ui">
+  <div class="panel" style="top:12px;left:12px;min-width:180px">
+    <div style="font-size:8px;letter-spacing:.25em;color:var(--dim)">ASSET FORGE</div>
+    <div id="status" style="color:var(--p);margin:4px 0">INITIALIZING</div>
+    <div id="counter" style="color:var(--gold);font-family:'Orbitron',monospace;font-size:18px">0 / 0</div>
+  </div>
+  <div class="panel" style="top:12px;right:12px;text-align:right;min-width:140px">
+    <div style="font-size:8px;letter-spacing:.25em;color:var(--dim)">PHASE</div>
+    <div id="phase" style="color:var(--p);font-size:14px;margin-top:4px">SCAN</div>
+  </div>
+  <div id="phase-label">SCANNING SPRITES</div>
+  <div id="log"></div>
+</div>
+
+
+
+<script src="js/asset_forge.js"></script></body>
+</html>

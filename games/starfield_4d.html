@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>4D STARFIELD</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;height:100%;background:#000;overflow:hidden}canvas#gl{display:block;width:100%;height:100%;cursor:none}
+#ui{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);display:flex;gap:14px;align-items:center;font-family:'Courier New',monospace;pointer-events:none;user-select:none}
+.pill{background:rgba(10,14,32,.72);border:1px solid rgba(100,160,255,.25);border-radius:4px;padding:5px 12px;font-size:11px;letter-spacing:.1em;color:rgba(180,210,255,.65);backdrop-filter:blur(4px)}.pill b{color:rgba(120,185,255,.9)}
+#mode-banner{position:fixed;top:22px;left:50%;transform:translateX(-50%);font-family:'Courier New',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(100,180,255,.5);pointer-events:none;transition:opacity .6s;opacity:0}#mode-banner.show{opacity:1}
+#crosshair{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:20px;height:20px;pointer-events:none}#crosshair::before,#crosshair::after{content:'';position:absolute;background:rgba(120,180,255,.35)}#crosshair::before{left:50%;top:0;width:1px;height:100%;transform:translateX(-50%)}#crosshair::after{top:50%;left:0;height:1px;width:100%;transform:translateY(-50%)}
+#overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Courier New',monospace;cursor:pointer;transition:opacity .5s}#overlay.hidden{opacity:0;pointer-events:none}
+#overlay h1{font-size:clamp(28px,5vw,52px);letter-spacing:.3em;color:#fff;font-weight:400;margin-bottom:6px}#overlay h1 span{color:rgba(80,160,255,.9)}#overlay p{font-size:11px;letter-spacing:.18em;color:rgba(150,190,255,.5);margin-bottom:38px}
+.ctrl-grid{display:grid;grid-template-columns:auto auto;gap:6px 22px;margin-bottom:40px}.ctrl-key{font-size:10px;letter-spacing:.12em;color:rgba(100,160,255,.75);text-align:right}.ctrl-desc{font-size:10px;letter-spacing:.1em;color:rgba(180,210,255,.45);text-align:left}
+#click-to-start{font-size:11px;letter-spacing:.22em;color:rgba(80,160,255,.7);animation:blink 1.4s ease-in-out infinite}@keyframes blink{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* -- THE THRESHOLD (pass 1) -- */
+#threshold-overlay {
+  position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+}
+#threshold-vignette {
+  position: fixed; inset: 0; z-index: 9997; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,2,12,0.35));
+}
+#threshold-world-name {
+  position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; pointer-events: none;
+  color: #6688ff; opacity: 0.4;
+  font-family: 'Courier New', monospace; font-size: 10px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+}
+#threshold-heartbeat {
+  position: fixed; inset: 0; z-index: 9996; pointer-events: none;
+  background: #6688ff; opacity: 0;
+  transition: opacity 0.05s;
+}
+
+</style>
+</head>
+<body>
+<canvas id="gl"></canvas>
+<div id="overlay"><h1>4<span>D</span> STARFIELD</h1><p>HYPERDIMENSIONAL PARALLAX ENGINE</p><div class="ctrl-grid"><span class="ctrl-key">WASD</span><span class="ctrl-desc">Navigate</span><span class="ctrl-key">MOUSE</span><span class="ctrl-desc">Look around</span><span class="ctrl-key">SPACE / SHIFT</span><span class="ctrl-desc">Ascend / Descend</span><span class="ctrl-key">L</span><span class="ctrl-desc">Hyperspeed streaks</span><span class="ctrl-key">1-4</span><span class="ctrl-desc">Color palettes</span><span class="ctrl-key">N</span><span class="ctrl-desc">Nebula overlay toggle</span><span class="ctrl-key">T</span><span class="ctrl-desc">Cycle warp modes</span><span class="ctrl-key">ESC</span><span class="ctrl-desc">Release mouse</span></div><span id="click-to-start">CLICK TO ENTER</span></div>
+<div id="crosshair"></div>
+<div id="ui"><div class="pill"><b>WASD</b> navigate · <b>mouse</b> look · <b>L</b> hyperspeed · <b>N</b> nebula · <b>T</b> warp · <b>1-4</b> palette</div></div>
+<div id="mode-banner"></div>
+
+
+<script src="js/starfield_4d.js"></script></body>
+</html>

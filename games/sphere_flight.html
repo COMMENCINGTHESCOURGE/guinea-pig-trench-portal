@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Volumetric Sphere Flight — Bilateral</title>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#00040a;overflow:hidden}
+#c{display:block;width:100vw;height:100vh}
+#hud{position:fixed;inset:0;pointer-events:none}
+#xh{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:32px;height:32px;filter:drop-shadow(0 0 4px rgba(0,255,100,0.5))}
+#gl{position:absolute;top:50%;left:50%;transform:translate(-50%,22px);font-family:'Courier New',monospace;font-size:10px;letter-spacing:4px;color:rgba(0,255,100,.35);white-space:nowrap;transition:none;text-shadow:0 0 8px rgba(0,255,100,0.5)}
+#st{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:8px}
+.s{background:rgba(0,0,0,.75);border:0.5px solid #111;padding:3px 11px;font-family:'Courier New',monospace;font-size:10px;letter-spacing:1px;color:#1e3a2a}
+#ctrl{position:absolute;top:12px;left:12px;font-family:'Courier New',monospace;font-size:9px;letter-spacing:1px;color:#111;line-height:1.9}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hud">
+  <svg id="xh" viewBox="0 0 32 32" fill="none">
+    <line x1="16" y1="2"  x2="16" y2="11" stroke="rgba(0,255,100,.55)" stroke-width="1"/>
+    <line x1="16" y1="21" x2="16" y2="30" stroke="rgba(0,255,100,.55)" stroke-width="1"/>
+    <line x1="2"  y1="16" x2="11" y2="16" stroke="rgba(0,255,100,.55)" stroke-width="1"/>
+    <line x1="21" y1="16" x2="30" y2="16" stroke="rgba(0,255,100,.55)" stroke-width="1"/>
+    <circle cx="16" cy="16" r="2.5" stroke="rgba(0,255,100,.7)" stroke-width=".6" fill="rgba(255,180,50,.85)"/>
+  </svg>
+  <div id="gl">\|_|/</div>
+  <div id="st">
+    <div class="s" id="s0">inward 0</div>
+    <div class="s" id="s1" style="color:#0f3a2a">contracts 0</div>
+    <div class="s" id="s2">outward 0</div>
+    <div class="s" id="s3">depth 0.0</div>
+  </div>
+  <div id="ctrl">
+    W/S · forward/back<br>
+    A/D · strafe<br>
+    SPACE/SHIFT · up/down<br>
+    ←→↑↓ · yaw/pitch<br>
+    Q/E · roll
+  </div>
+</div>
+<script type="module" src="js/sphere_flight.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIGITAL PORTAL: Corridors & Gates</title>
+<style>
+* { margin:0; padding:0; }
+body { background:#080810; overflow:hidden; }
+canvas { display:block; width:100vw; height:100vh; }
+#hud-top {
+  position:fixed; top:0; left:0; right:0; z-index:10;
+  background:rgba(8,8,16,0.9); border-bottom:1px solid rgba(138,138,138,0.3);
+  padding:6px 0; text-align:center;
+  font:bold 13px monospace; color:#b8b8b8; letter-spacing:0.3em;
+}
+#hud-bottom {
+  position:fixed; bottom:0; left:0; right:0; z-index:10;
+  background:rgba(8,8,16,0.9); border-top:1px solid rgba(138,138,138,0.3);
+  padding:6px 0; text-align:center;
+  font:12px monospace; letter-spacing:0.15em;
+}
+.st { color:#b8b8b8; }
+.cy { color:#00d9cc; }
+</style>
+</head>
+<body>
+<div id="hud-top">DIGITAL PORTAL: Corridors &amp; Gates Schematic</div>
+<div id="hud-bottom">
+  <span class="st" id="st">STATE: CLOSED (#)</span>&nbsp;&nbsp;&nbsp;
+  <span class="cy">CYCLE: [ # &rarr; &#9839; &rarr; _ &rarr; &#9839; &rarr; # ]</span>
+</div>
+<canvas id="c"></canvas>
+<script src="js/sluice_raymarched.js"></script>
+</body>
+</html>

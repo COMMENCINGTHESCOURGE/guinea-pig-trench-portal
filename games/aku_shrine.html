@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AKU AKU — The Shrine (Optimized)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden}
+canvas{display:block;width:100%;height:100%}
+#ui{position:fixed;inset:0;pointer-events:none;font-family:'Courier New',monospace;z-index:10}
+#title{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);color:rgba(0,180,200,.4);font-size:10px;letter-spacing:.35em;text-transform:uppercase}
+#fps{position:absolute;top:16px;right:16px;color:rgba(0,180,200,.6);font-size:12px;font-weight:bold;letter-spacing:.1em;text-shadow: 0 0 5px rgba(0,0,0,1);}
+#threshold-overlay { position: fixed; inset: 0; z-index: 9998; pointer-events: none; }
+#threshold-vignette { position: fixed; inset: 0; z-index: 9997; pointer-events: none; background: radial-gradient(ellipse at center, transparent 40%, rgba(20,10,4,0.35)); }
+#threshold-world-name { position: fixed; top: 8px; left: 50%; transform: translateX(-50%); z-index: 9999; pointer-events: none; color: #ff8833; opacity: 0.4; font-family: 'Courier New', monospace; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; }
+#threshold-heartbeat { position: fixed; inset: 0; z-index: 9996; pointer-events: none; background: #ff8833; opacity: 0; transition: opacity 0.05s; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="ui">
+  <div id="title">AKU AKU — THE SHRINE</div>
+  <div id="fps">—</div>
+</div>
+
+
+
+
+
+<script src="js/aku_shrine.js"></script>
+</body>
+</html>

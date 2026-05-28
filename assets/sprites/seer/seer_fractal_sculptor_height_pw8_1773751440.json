@@ -1,0 +1,38 @@
+[
+  {
+    "name": "seer_fractal_sculptor_height_pw8_1773751440_0",
+    "score": 0.446,
+    "area": 355,
+    "bbox": [
+      552,
+      94,
+      628,
+      127
+    ],
+    "source": "fractal_sculptor_height_pw8.png"
+  },
+  {
+    "name": "seer_fractal_sculptor_height_pw8_1773751440_1",
+    "score": 0.398,
+    "area": 739,
+    "bbox": [
+      658,
+      110,
+      1023,
+      127
+    ],
+    "source": "fractal_sculptor_height_pw8.png"
+  },
+  {
+    "name": "seer_fractal_sculptor_height_pw8_1773751440_2",
+    "score": 0.383,
+    "area": 713,
+    "bbox": [
+      0,
+      1,
+      529,
+      127
+    ],
+    "source": "fractal_sculptor_height_pw8.png"
+  }
+]

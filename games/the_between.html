@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>THE BETWEEN — Where The Holes Are</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{overflow:hidden;background:#000;font-family:'Courier New',monospace;cursor:none}
+canvas{display:block;width:100vw;height:100vh}
+#hud{position:fixed;inset:0;z-index:10;pointer-events:none}
+#hud-top{position:absolute;top:20px;left:50%;transform:translateX(-50%);text-align:center}
+#world-name{color:#6688ff;font-size:10px;letter-spacing:0.4em;opacity:0.4;text-transform:uppercase}
+#lore{color:#6688ff33;font-size:9px;letter-spacing:0.15em;margin-top:6px;max-width:400px}
+#hud-br{position:absolute;bottom:20px;right:20px;color:#6688ff44;font-size:9px;letter-spacing:0.2em;text-align:right}
+#crosshair{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:11;pointer-events:none;width:24px;height:24px}
+#crosshair::before,#crosshair::after{content:'';position:absolute;background:#6688ff44}
+#crosshair::before{width:1px;height:100%;left:50%}
+#crosshair::after{height:1px;width:100%;top:50%}
+#start{position:fixed;inset:0;z-index:100;background:rgba(0,0,4,0.95);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer}
+#start h1{color:#6688ff;font-size:32px;letter-spacing:0.6em;text-shadow:0 0 40px #6688ff22}
+#start h2{color:#6688ff33;font-size:10px;letter-spacing:0.3em;margin:12px 0 30px}
+#start p{color:#6688ff44;font-size:10px;letter-spacing:0.15em;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:0.3}50%{opacity:0.8}}
+</style>
+</head>
+<body>
+<div id="start" onclick="enterBetween()">
+  <h1>THE BETWEEN</h1>
+  <h2>WHERE THE HOLES ARE</h2>
+  <p>the atmosphere is the cheese. the entities are the holes. find the absence.</p>
+  <p style="margin-top:20px">CLICK TO ENTER</p>
+</div>
+<canvas id="c"></canvas>
+<div id="crosshair"></div>
+<div id="hud">
+  <div id="hud-top">
+    <div id="world-name">THE BETWEEN</div>
+    <div id="lore">find the absence</div>
+  </div>
+  <div id="hud-br">
+    <div id="void-count">voids: 0</div>
+    <div id="density">density: 0%</div>
+  </div>
+</div>
+
+<script src="js/the_between.js"></script>
+</body>
+</html>

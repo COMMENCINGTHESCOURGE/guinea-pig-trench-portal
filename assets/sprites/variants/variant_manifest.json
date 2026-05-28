@@ -1,0 +1,826 @@
+{
+  "defender": {
+    "jump": [
+      "defender_jump_1.png",
+      "defender_jump_2.png",
+      "defender_jump_3.png",
+      "defender_jump_4.png"
+    ],
+    "crouch": [
+      "defender_crouch_1.png",
+      "defender_crouch_2.png",
+      "defender_crouch_3.png"
+    ],
+    "block": [
+      "defender_block_1.png",
+      "defender_block_2.png",
+      "defender_block_3.png"
+    ],
+    "hit": [
+      "defender_hit_1.png",
+      "defender_hit_2.png",
+      "defender_hit_3.png"
+    ],
+    "knockback": [
+      "defender_knockback_1.png",
+      "defender_knockback_2.png",
+      "defender_knockback_3.png",
+      "defender_knockback_4.png"
+    ],
+    "death": [
+      "defender_death_1.png",
+      "defender_death_2.png",
+      "defender_death_3.png",
+      "defender_death_4.png"
+    ],
+    "victory": [
+      "defender_victory_1.png",
+      "defender_victory_2.png",
+      "defender_victory_3.png"
+    ],
+    "jump_shadow": [
+      "defender_jump_1_shadow.png",
+      "defender_jump_2_shadow.png",
+      "defender_jump_3_shadow.png",
+      "defender_jump_4_shadow.png"
+    ],
+    "crouch_shadow": [
+      "defender_crouch_1_shadow.png",
+      "defender_crouch_2_shadow.png",
+      "defender_crouch_3_shadow.png"
+    ],
+    "block_shadow": [
+      "defender_block_1_shadow.png",
+      "defender_block_2_shadow.png",
+      "defender_block_3_shadow.png"
+    ],
+    "hit_shadow": [
+      "defender_hit_1_shadow.png",
+      "defender_hit_2_shadow.png",
+      "defender_hit_3_shadow.png"
+    ],
+    "knockback_shadow": [
+      "defender_knockback_1_shadow.png",
+      "defender_knockback_2_shadow.png",
+      "defender_knockback_3_shadow.png",
+      "defender_knockback_4_shadow.png"
+    ],
+    "death_shadow": [
+      "defender_death_1_shadow.png",
+      "defender_death_2_shadow.png",
+      "defender_death_3_shadow.png",
+      "defender_death_4_shadow.png"
+    ],
+    "victory_shadow": [
+      "defender_victory_1_shadow.png",
+      "defender_victory_2_shadow.png",
+      "defender_victory_3_shadow.png"
+    ],
+    "jump_crystal": [
+      "defender_jump_1_crystal.png",
+      "defender_jump_2_crystal.png",
+      "defender_jump_3_crystal.png",
+      "defender_jump_4_crystal.png"
+    ],
+    "crouch_crystal": [
+      "defender_crouch_1_crystal.png",
+      "defender_crouch_2_crystal.png",
+      "defender_crouch_3_crystal.png"
+    ],
+    "block_crystal": [
+      "defender_block_1_crystal.png",
+      "defender_block_2_crystal.png",
+      "defender_block_3_crystal.png"
+    ],
+    "hit_crystal": [
+      "defender_hit_1_crystal.png",
+      "defender_hit_2_crystal.png",
+      "defender_hit_3_crystal.png"
+    ],
+    "knockback_crystal": [
+      "defender_knockback_1_crystal.png",
+      "defender_knockback_2_crystal.png",
+      "defender_knockback_3_crystal.png",
+      "defender_knockback_4_crystal.png"
+    ],
+    "death_crystal": [
+      "defender_death_1_crystal.png",
+      "defender_death_2_crystal.png",
+      "defender_death_3_crystal.png",
+      "defender_death_4_crystal.png"
+    ],
+    "victory_crystal": [
+      "defender_victory_1_crystal.png",
+      "defender_victory_2_crystal.png",
+      "defender_victory_3_crystal.png"
+    ],
+    "jump_volcanic": [
+      "defender_jump_1_volcanic.png",
+      "defender_jump_2_volcanic.png",
+      "defender_jump_3_volcanic.png",
+      "defender_jump_4_volcanic.png"
+    ],
+    "crouch_volcanic": [
+      "defender_crouch_1_volcanic.png",
+      "defender_crouch_2_volcanic.png",
+      "defender_crouch_3_volcanic.png"
+    ],
+    "block_volcanic": [
+      "defender_block_1_volcanic.png",
+      "defender_block_2_volcanic.png",
+      "defender_block_3_volcanic.png"
+    ],
+    "hit_volcanic": [
+      "defender_hit_1_volcanic.png",
+      "defender_hit_2_volcanic.png",
+      "defender_hit_3_volcanic.png"
+    ],
+    "knockback_volcanic": [
+      "defender_knockback_1_volcanic.png",
+      "defender_knockback_2_volcanic.png",
+      "defender_knockback_3_volcanic.png",
+      "defender_knockback_4_volcanic.png"
+    ],
+    "death_volcanic": [
+      "defender_death_1_volcanic.png",
+      "defender_death_2_volcanic.png",
+      "defender_death_3_volcanic.png",
+      "defender_death_4_volcanic.png"
+    ],
+    "victory_volcanic": [
+      "defender_victory_1_volcanic.png",
+      "defender_victory_2_volcanic.png",
+      "defender_victory_3_volcanic.png"
+    ]
+  },
+  "mecha": {
+    "idle": [
+      "mecha_idle_1.png",
+      "mecha_idle_2.png",
+      "mecha_idle_3.png",
+      "mecha_idle_4.png"
+    ],
+    "walk": [
+      "mecha_walk_1.png",
+      "mecha_walk_2.png",
+      "mecha_walk_3.png",
+      "mecha_walk_4.png"
+    ],
+    "attack": [
+      "mecha_attack_1.png",
+      "mecha_attack_2.png",
+      "mecha_attack_3.png"
+    ],
+    "jump": [
+      "mecha_jump_1.png",
+      "mecha_jump_2.png",
+      "mecha_jump_3.png",
+      "mecha_jump_4.png"
+    ],
+    "crouch": [
+      "mecha_crouch_1.png",
+      "mecha_crouch_2.png",
+      "mecha_crouch_3.png"
+    ],
+    "block": [
+      "mecha_block_1.png",
+      "mecha_block_2.png",
+      "mecha_block_3.png"
+    ],
+    "hit": [
+      "mecha_hit_1.png",
+      "mecha_hit_2.png",
+      "mecha_hit_3.png"
+    ],
+    "knockback": [
+      "mecha_knockback_1.png",
+      "mecha_knockback_2.png",
+      "mecha_knockback_3.png",
+      "mecha_knockback_4.png"
+    ],
+    "death": [
+      "mecha_death_1.png",
+      "mecha_death_2.png",
+      "mecha_death_3.png",
+      "mecha_death_4.png"
+    ],
+    "victory": [
+      "mecha_victory_1.png",
+      "mecha_victory_2.png",
+      "mecha_victory_3.png"
+    ],
+    "idle_stealth": [
+      "mecha_idle_1_stealth.png",
+      "mecha_idle_2_stealth.png",
+      "mecha_idle_3_stealth.png",
+      "mecha_idle_4_stealth.png"
+    ],
+    "walk_stealth": [
+      "mecha_walk_1_stealth.png",
+      "mecha_walk_2_stealth.png",
+      "mecha_walk_3_stealth.png",
+      "mecha_walk_4_stealth.png"
+    ],
+    "attack_stealth": [
+      "mecha_attack_1_stealth.png",
+      "mecha_attack_2_stealth.png",
+      "mecha_attack_3_stealth.png"
+    ],
+    "jump_stealth": [
+      "mecha_jump_1_stealth.png",
+      "mecha_jump_2_stealth.png",
+      "mecha_jump_3_stealth.png",
+      "mecha_jump_4_stealth.png"
+    ],
+    "crouch_stealth": [
+      "mecha_crouch_1_stealth.png",
+      "mecha_crouch_2_stealth.png",
+      "mecha_crouch_3_stealth.png"
+    ],
+    "block_stealth": [
+      "mecha_block_1_stealth.png",
+      "mecha_block_2_stealth.png",
+      "mecha_block_3_stealth.png"
+    ],
+    "hit_stealth": [
+      "mecha_hit_1_stealth.png",
+      "mecha_hit_2_stealth.png",
+      "mecha_hit_3_stealth.png"
+    ],
+    "knockback_stealth": [
+      "mecha_knockback_1_stealth.png",
+      "mecha_knockback_2_stealth.png",
+      "mecha_knockback_3_stealth.png",
+      "mecha_knockback_4_stealth.png"
+    ],
+    "death_stealth": [
+      "mecha_death_1_stealth.png",
+      "mecha_death_2_stealth.png",
+      "mecha_death_3_stealth.png",
+      "mecha_death_4_stealth.png"
+    ],
+    "victory_stealth": [
+      "mecha_victory_1_stealth.png",
+      "mecha_victory_2_stealth.png",
+      "mecha_victory_3_stealth.png"
+    ],
+    "idle_overcharge": [
+      "mecha_idle_1_overcharge.png",
+      "mecha_idle_2_overcharge.png",
+      "mecha_idle_3_overcharge.png",
+      "mecha_idle_4_overcharge.png"
+    ],
+    "walk_overcharge": [
+      "mecha_walk_1_overcharge.png",
+      "mecha_walk_2_overcharge.png",
+      "mecha_walk_3_overcharge.png",
+      "mecha_walk_4_overcharge.png"
+    ],
+    "attack_overcharge": [
+      "mecha_attack_1_overcharge.png",
+      "mecha_attack_2_overcharge.png",
+      "mecha_attack_3_overcharge.png"
+    ],
+    "jump_overcharge": [
+      "mecha_jump_1_overcharge.png",
+      "mecha_jump_2_overcharge.png",
+      "mecha_jump_3_overcharge.png",
+      "mecha_jump_4_overcharge.png"
+    ],
+    "crouch_overcharge": [
+      "mecha_crouch_1_overcharge.png",
+      "mecha_crouch_2_overcharge.png",
+      "mecha_crouch_3_overcharge.png"
+    ],
+    "block_overcharge": [
+      "mecha_block_1_overcharge.png",
+      "mecha_block_2_overcharge.png",
+      "mecha_block_3_overcharge.png"
+    ],
+    "hit_overcharge": [
+      "mecha_hit_1_overcharge.png",
+      "mecha_hit_2_overcharge.png",
+      "mecha_hit_3_overcharge.png"
+    ],
+    "knockback_overcharge": [
+      "mecha_knockback_1_overcharge.png",
+      "mecha_knockback_2_overcharge.png",
+      "mecha_knockback_3_overcharge.png",
+      "mecha_knockback_4_overcharge.png"
+    ],
+    "death_overcharge": [
+      "mecha_death_1_overcharge.png",
+      "mecha_death_2_overcharge.png",
+      "mecha_death_3_overcharge.png",
+      "mecha_death_4_overcharge.png"
+    ],
+    "victory_overcharge": [
+      "mecha_victory_1_overcharge.png",
+      "mecha_victory_2_overcharge.png",
+      "mecha_victory_3_overcharge.png"
+    ],
+    "idle_corrupted": [
+      "mecha_idle_1_corrupted.png",
+      "mecha_idle_2_corrupted.png",
+      "mecha_idle_3_corrupted.png",
+      "mecha_idle_4_corrupted.png"
+    ],
+    "walk_corrupted": [
+      "mecha_walk_1_corrupted.png",
+      "mecha_walk_2_corrupted.png",
+      "mecha_walk_3_corrupted.png",
+      "mecha_walk_4_corrupted.png"
+    ],
+    "attack_corrupted": [
+      "mecha_attack_1_corrupted.png",
+      "mecha_attack_2_corrupted.png",
+      "mecha_attack_3_corrupted.png"
+    ],
+    "jump_corrupted": [
+      "mecha_jump_1_corrupted.png",
+      "mecha_jump_2_corrupted.png",
+      "mecha_jump_3_corrupted.png",
+      "mecha_jump_4_corrupted.png"
+    ],
+    "crouch_corrupted": [
+      "mecha_crouch_1_corrupted.png",
+      "mecha_crouch_2_corrupted.png",
+      "mecha_crouch_3_corrupted.png"
+    ],
+    "block_corrupted": [
+      "mecha_block_1_corrupted.png",
+      "mecha_block_2_corrupted.png",
+      "mecha_block_3_corrupted.png"
+    ],
+    "hit_corrupted": [
+      "mecha_hit_1_corrupted.png",
+      "mecha_hit_2_corrupted.png",
+      "mecha_hit_3_corrupted.png"
+    ],
+    "knockback_corrupted": [
+      "mecha_knockback_1_corrupted.png",
+      "mecha_knockback_2_corrupted.png",
+      "mecha_knockback_3_corrupted.png",
+      "mecha_knockback_4_corrupted.png"
+    ],
+    "death_corrupted": [
+      "mecha_death_1_corrupted.png",
+      "mecha_death_2_corrupted.png",
+      "mecha_death_3_corrupted.png",
+      "mecha_death_4_corrupted.png"
+    ],
+    "victory_corrupted": [
+      "mecha_victory_1_corrupted.png",
+      "mecha_victory_2_corrupted.png",
+      "mecha_victory_3_corrupted.png"
+    ]
+  },
+  "kraken": {
+    "idle": [
+      "kraken_idle_1.png",
+      "kraken_idle_2.png",
+      "kraken_idle_3.png",
+      "kraken_idle_4.png"
+    ],
+    "walk": [
+      "kraken_walk_1.png",
+      "kraken_walk_2.png",
+      "kraken_walk_3.png",
+      "kraken_walk_4.png"
+    ],
+    "attack": [
+      "kraken_attack_1.png",
+      "kraken_attack_2.png",
+      "kraken_attack_3.png",
+      "kraken_attack_4.png"
+    ],
+    "jump": [
+      "kraken_jump_1.png",
+      "kraken_jump_2.png",
+      "kraken_jump_3.png",
+      "kraken_jump_4.png"
+    ],
+    "crouch": [
+      "kraken_crouch_1.png",
+      "kraken_crouch_2.png",
+      "kraken_crouch_3.png"
+    ],
+    "block": [
+      "kraken_block_1.png",
+      "kraken_block_2.png",
+      "kraken_block_3.png"
+    ],
+    "hit": [
+      "kraken_hit_1.png",
+      "kraken_hit_2.png",
+      "kraken_hit_3.png"
+    ],
+    "knockback": [
+      "kraken_knockback_1.png",
+      "kraken_knockback_2.png",
+      "kraken_knockback_3.png",
+      "kraken_knockback_4.png"
+    ],
+    "death": [
+      "kraken_death_1.png",
+      "kraken_death_2.png",
+      "kraken_death_3.png",
+      "kraken_death_4.png"
+    ],
+    "victory": [
+      "kraken_victory_1.png",
+      "kraken_victory_2.png",
+      "kraken_victory_3.png"
+    ],
+    "idle_deep": [
+      "kraken_idle_1_deep.png",
+      "kraken_idle_2_deep.png",
+      "kraken_idle_3_deep.png",
+      "kraken_idle_4_deep.png"
+    ],
+    "walk_deep": [
+      "kraken_walk_1_deep.png",
+      "kraken_walk_2_deep.png",
+      "kraken_walk_3_deep.png",
+      "kraken_walk_4_deep.png"
+    ],
+    "attack_deep": [
+      "kraken_attack_1_deep.png",
+      "kraken_attack_2_deep.png",
+      "kraken_attack_3_deep.png",
+      "kraken_attack_4_deep.png"
+    ],
+    "jump_deep": [
+      "kraken_jump_1_deep.png",
+      "kraken_jump_2_deep.png",
+      "kraken_jump_3_deep.png",
+      "kraken_jump_4_deep.png"
+    ],
+    "crouch_deep": [
+      "kraken_crouch_1_deep.png",
+      "kraken_crouch_2_deep.png",
+      "kraken_crouch_3_deep.png"
+    ],
+    "block_deep": [
+      "kraken_block_1_deep.png",
+      "kraken_block_2_deep.png",
+      "kraken_block_3_deep.png"
+    ],
+    "hit_deep": [
+      "kraken_hit_1_deep.png",
+      "kraken_hit_2_deep.png",
+      "kraken_hit_3_deep.png"
+    ],
+    "knockback_deep": [
+      "kraken_knockback_1_deep.png",
+      "kraken_knockback_2_deep.png",
+      "kraken_knockback_3_deep.png",
+      "kraken_knockback_4_deep.png"
+    ],
+    "death_deep": [
+      "kraken_death_1_deep.png",
+      "kraken_death_2_deep.png",
+      "kraken_death_3_deep.png",
+      "kraken_death_4_deep.png"
+    ],
+    "victory_deep": [
+      "kraken_victory_1_deep.png",
+      "kraken_victory_2_deep.png",
+      "kraken_victory_3_deep.png"
+    ],
+    "idle_toxic": [
+      "kraken_idle_1_toxic.png",
+      "kraken_idle_2_toxic.png",
+      "kraken_idle_3_toxic.png",
+      "kraken_idle_4_toxic.png"
+    ],
+    "walk_toxic": [
+      "kraken_walk_1_toxic.png",
+      "kraken_walk_2_toxic.png",
+      "kraken_walk_3_toxic.png",
+      "kraken_walk_4_toxic.png"
+    ],
+    "attack_toxic": [
+      "kraken_attack_1_toxic.png",
+      "kraken_attack_2_toxic.png",
+      "kraken_attack_3_toxic.png",
+      "kraken_attack_4_toxic.png"
+    ],
+    "jump_toxic": [
+      "kraken_jump_1_toxic.png",
+      "kraken_jump_2_toxic.png",
+      "kraken_jump_3_toxic.png",
+      "kraken_jump_4_toxic.png"
+    ],
+    "crouch_toxic": [
+      "kraken_crouch_1_toxic.png",
+      "kraken_crouch_2_toxic.png",
+      "kraken_crouch_3_toxic.png"
+    ],
+    "block_toxic": [
+      "kraken_block_1_toxic.png",
+      "kraken_block_2_toxic.png",
+      "kraken_block_3_toxic.png"
+    ],
+    "hit_toxic": [
+      "kraken_hit_1_toxic.png",
+      "kraken_hit_2_toxic.png",
+      "kraken_hit_3_toxic.png"
+    ],
+    "knockback_toxic": [
+      "kraken_knockback_1_toxic.png",
+      "kraken_knockback_2_toxic.png",
+      "kraken_knockback_3_toxic.png",
+      "kraken_knockback_4_toxic.png"
+    ],
+    "death_toxic": [
+      "kraken_death_1_toxic.png",
+      "kraken_death_2_toxic.png",
+      "kraken_death_3_toxic.png",
+      "kraken_death_4_toxic.png"
+    ],
+    "victory_toxic": [
+      "kraken_victory_1_toxic.png",
+      "kraken_victory_2_toxic.png",
+      "kraken_victory_3_toxic.png"
+    ],
+    "idle_ghost": [
+      "kraken_idle_1_ghost.png",
+      "kraken_idle_2_ghost.png",
+      "kraken_idle_3_ghost.png",
+      "kraken_idle_4_ghost.png"
+    ],
+    "walk_ghost": [
+      "kraken_walk_1_ghost.png",
+      "kraken_walk_2_ghost.png",
+      "kraken_walk_3_ghost.png",
+      "kraken_walk_4_ghost.png"
+    ],
+    "attack_ghost": [
+      "kraken_attack_1_ghost.png",
+      "kraken_attack_2_ghost.png",
+      "kraken_attack_3_ghost.png",
+      "kraken_attack_4_ghost.png"
+    ],
+    "jump_ghost": [
+      "kraken_jump_1_ghost.png",
+      "kraken_jump_2_ghost.png",
+      "kraken_jump_3_ghost.png",
+      "kraken_jump_4_ghost.png"
+    ],
+    "crouch_ghost": [
+      "kraken_crouch_1_ghost.png",
+      "kraken_crouch_2_ghost.png",
+      "kraken_crouch_3_ghost.png"
+    ],
+    "block_ghost": [
+      "kraken_block_1_ghost.png",
+      "kraken_block_2_ghost.png",
+      "kraken_block_3_ghost.png"
+    ],
+    "hit_ghost": [
+      "kraken_hit_1_ghost.png",
+      "kraken_hit_2_ghost.png",
+      "kraken_hit_3_ghost.png"
+    ],
+    "knockback_ghost": [
+      "kraken_knockback_1_ghost.png",
+      "kraken_knockback_2_ghost.png",
+      "kraken_knockback_3_ghost.png",
+      "kraken_knockback_4_ghost.png"
+    ],
+    "death_ghost": [
+      "kraken_death_1_ghost.png",
+      "kraken_death_2_ghost.png",
+      "kraken_death_3_ghost.png",
+      "kraken_death_4_ghost.png"
+    ],
+    "victory_ghost": [
+      "kraken_victory_1_ghost.png",
+      "kraken_victory_2_ghost.png",
+      "kraken_victory_3_ghost.png"
+    ]
+  },
+  "aku": {
+    "idle": [
+      "aku_idle_1.png",
+      "aku_idle_2.png",
+      "aku_idle_3.png",
+      "aku_idle_4.png"
+    ],
+    "walk": [
+      "aku_walk_1.png",
+      "aku_walk_2.png",
+      "aku_walk_3.png",
+      "aku_walk_4.png"
+    ],
+    "attack": [
+      "aku_attack_1.png",
+      "aku_attack_2.png",
+      "aku_attack_3.png"
+    ],
+    "jump": [
+      "aku_jump_1.png",
+      "aku_jump_2.png",
+      "aku_jump_3.png",
+      "aku_jump_4.png"
+    ],
+    "crouch": [
+      "aku_crouch_1.png",
+      "aku_crouch_2.png",
+      "aku_crouch_3.png"
+    ],
+    "block": [
+      "aku_block_1.png",
+      "aku_block_2.png",
+      "aku_block_3.png"
+    ],
+    "hit": [
+      "aku_hit_1.png",
+      "aku_hit_2.png",
+      "aku_hit_3.png"
+    ],
+    "knockback": [
+      "aku_knockback_1.png",
+      "aku_knockback_2.png",
+      "aku_knockback_3.png",
+      "aku_knockback_4.png"
+    ],
+    "death": [
+      "aku_death_1.png",
+      "aku_death_2.png",
+      "aku_death_3.png",
+      "aku_death_4.png"
+    ],
+    "victory": [
+      "aku_victory_1.png",
+      "aku_victory_2.png",
+      "aku_victory_3.png"
+    ],
+    "idle_void": [
+      "aku_idle_1_void.png",
+      "aku_idle_2_void.png",
+      "aku_idle_3_void.png",
+      "aku_idle_4_void.png"
+    ],
+    "walk_void": [
+      "aku_walk_1_void.png",
+      "aku_walk_2_void.png",
+      "aku_walk_3_void.png",
+      "aku_walk_4_void.png"
+    ],
+    "attack_void": [
+      "aku_attack_1_void.png",
+      "aku_attack_2_void.png",
+      "aku_attack_3_void.png"
+    ],
+    "jump_void": [
+      "aku_jump_1_void.png",
+      "aku_jump_2_void.png",
+      "aku_jump_3_void.png",
+      "aku_jump_4_void.png"
+    ],
+    "crouch_void": [
+      "aku_crouch_1_void.png",
+      "aku_crouch_2_void.png",
+      "aku_crouch_3_void.png"
+    ],
+    "block_void": [
+      "aku_block_1_void.png",
+      "aku_block_2_void.png",
+      "aku_block_3_void.png"
+    ],
+    "hit_void": [
+      "aku_hit_1_void.png",
+      "aku_hit_2_void.png",
+      "aku_hit_3_void.png"
+    ],
+    "knockback_void": [
+      "aku_knockback_1_void.png",
+      "aku_knockback_2_void.png",
+      "aku_knockback_3_void.png",
+      "aku_knockback_4_void.png"
+    ],
+    "death_void": [
+      "aku_death_1_void.png",
+      "aku_death_2_void.png",
+      "aku_death_3_void.png",
+      "aku_death_4_void.png"
+    ],
+    "victory_void": [
+      "aku_victory_1_void.png",
+      "aku_victory_2_void.png",
+      "aku_victory_3_void.png"
+    ],
+    "idle_nature": [
+      "aku_idle_1_nature.png",
+      "aku_idle_2_nature.png",
+      "aku_idle_3_nature.png",
+      "aku_idle_4_nature.png"
+    ],
+    "walk_nature": [
+      "aku_walk_1_nature.png",
+      "aku_walk_2_nature.png",
+      "aku_walk_3_nature.png",
+      "aku_walk_4_nature.png"
+    ],
+    "attack_nature": [
+      "aku_attack_1_nature.png",
+      "aku_attack_2_nature.png",
+      "aku_attack_3_nature.png"
+    ],
+    "jump_nature": [
+      "aku_jump_1_nature.png",
+      "aku_jump_2_nature.png",
+      "aku_jump_3_nature.png",
+      "aku_jump_4_nature.png"
+    ],
+    "crouch_nature": [
+      "aku_crouch_1_nature.png",
+      "aku_crouch_2_nature.png",
+      "aku_crouch_3_nature.png"
+    ],
+    "block_nature": [
+      "aku_block_1_nature.png",
+      "aku_block_2_nature.png",
+      "aku_block_3_nature.png"
+    ],
+    "hit_nature": [
+      "aku_hit_1_nature.png",
+      "aku_hit_2_nature.png",
+      "aku_hit_3_nature.png"
+    ],
+    "knockback_nature": [
+      "aku_knockback_1_nature.png",
+      "aku_knockback_2_nature.png",
+      "aku_knockback_3_nature.png",
+      "aku_knockback_4_nature.png"
+    ],
+    "death_nature": [
+      "aku_death_1_nature.png",
+      "aku_death_2_nature.png",
+      "aku_death_3_nature.png",
+      "aku_death_4_nature.png"
+    ],
+    "victory_nature": [
+      "aku_victory_1_nature.png",
+      "aku_victory_2_nature.png",
+      "aku_victory_3_nature.png"
+    ],
+    "idle_frost": [
+      "aku_idle_1_frost.png",
+      "aku_idle_2_frost.png",
+      "aku_idle_3_frost.png",
+      "aku_idle_4_frost.png"
+    ],
+    "walk_frost": [
+      "aku_walk_1_frost.png",
+      "aku_walk_2_frost.png",
+      "aku_walk_3_frost.png",
+      "aku_walk_4_frost.png"
+    ],
+    "attack_frost": [
+      "aku_attack_1_frost.png",
+      "aku_attack_2_frost.png",
+      "aku_attack_3_frost.png"
+    ],
+    "jump_frost": [
+      "aku_jump_1_frost.png",
+      "aku_jump_2_frost.png",
+      "aku_jump_3_frost.png",
+      "aku_jump_4_frost.png"
+    ],
+    "crouch_frost": [
+      "aku_crouch_1_frost.png",
+      "aku_crouch_2_frost.png",
+      "aku_crouch_3_frost.png"
+    ],
+    "block_frost": [
+      "aku_block_1_frost.png",
+      "aku_block_2_frost.png",
+      "aku_block_3_frost.png"
+    ],
+    "hit_frost": [
+      "aku_hit_1_frost.png",
+      "aku_hit_2_frost.png",
+      "aku_hit_3_frost.png"
+    ],
+    "knockback_frost": [
+      "aku_knockback_1_frost.png",
+      "aku_knockback_2_frost.png",
+      "aku_knockback_3_frost.png",
+      "aku_knockback_4_frost.png"
+    ],
+    "death_frost": [
+      "aku_death_1_frost.png",
+      "aku_death_2_frost.png",
+      "aku_death_3_frost.png",
+      "aku_death_4_frost.png"
+    ],
+    "victory_frost": [
+      "aku_victory_1_frost.png",
+      "aku_victory_2_frost.png",
+      "aku_victory_3_frost.png"
+    ]
+  }
+}
