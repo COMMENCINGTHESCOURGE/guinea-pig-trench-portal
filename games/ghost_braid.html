@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GHOST-BRAID: VOID FIGHTER</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { overflow:hidden; background:#000207; font-family:'Courier New',monospace; cursor:none; }
+canvas { display:block; }
+
+#hud {
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  pointer-events:none; z-index:10;
+}
+
+#hud-top-left {
+  position:absolute; top:25px; left:25px;
+  color:#ff8800; font-size:13px; line-height:1.8;
+  text-shadow:0 0 10px rgba(255,136,0,0.5);
+  background: rgba(2, 6, 10, 0.65);
+  border: 1px solid rgba(255,136,0,0.2);
+  padding: 15px;
+  border-radius: 6px;
+  backdrop-filter: blur(8px);
+}
+#hud-top-right {
+  position:absolute; top:25px; right:25px;
+  color:#00ffaa; font-size:28px; font-weight:bold;
+  text-shadow:0 0 16px rgba(0,255,170,0.4);
+  text-align:right;
+  background: rgba(2, 6, 10, 0.65);
+  border: 1px solid rgba(0,255,170,0.2);
+  padding: 12px 20px;
+  border-radius: 6px;
+  backdrop-filter: blur(8px);
+}
+#hud-bottom {
+  position:absolute; bottom:25px; left:50%; transform:translateX(-50%);
+  display:flex; gap:35px; align-items:flex-end;
+  background: rgba(2, 6, 10, 0.7);
+  border: 1px solid rgba(0,229,204,0.18);
+  padding: 15px 30px;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+}
+.bar-container {
+  width:150px; text-align:center;
+}
+.bar-label {
+  color:rgba(0,229,204,0.45); font-size:10px; margin-bottom:5px; letter-spacing:3px; text-transform:uppercase;
+}
+.bar-outer {
+  width:100%; height:10px; background:rgba(0, 10, 15, 0.9); border:1px solid rgba(0,229,204,0.2);
+  border-radius:5px; overflow:hidden;
+}
+.bar-inner {
+  height:100%; transition: width 0.1s;
+  border-radius:5px;
+}
+#shield-bar { background: linear-gradient(90deg, #00ffaa, #00ffaa66); box-shadow:0 0 8px #00ffaa33; }
+#energy-bar { background: linear-gradient(90deg, #ffcc00, #ffcc0066); box-shadow:0 0 8px #ffcc0033; }
+#speed-bar { background: linear-gradient(90deg, #ff00ff, #ff00ff66); box-shadow:0 0 8px #ff00ff33; }
+
+#game-over {
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  background:rgba(0,1,3,0.92); display:none;
+  flex-direction:column; align-items:center; justify-content:center;
+  z-index:100;
+}
+#game-over h1 {
+  color:#ff3333; font-size:64px; margin-bottom:10px;
+  text-shadow:0 0 35px rgba(255,51,51,0.6);
+  letter-spacing: 5px;
+}
+#game-over .final-score {
+  color:#ffaa00; font-size:32px; margin-bottom:30px;
+  text-shadow:0 0 12px rgba(255,170,0,0.3);
+}
+#game-over .restart-hint {
+  color:#999; font-size:18px;
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity:0.4; }
+  50% { opacity:1; }
+}
+
+#start-screen {
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  background:rgba(1,4,8,0.95); display:flex;
+  flex-direction:column; align-items:center; justify-content:center;
+  z-index:100;
+}
+#start-screen h1 {
+  color:#ff8800; font-size:52px; margin-bottom:20px;
+  text-shadow:0 0 35px rgba(255,136,0,0.45);
+  letter-spacing: 6px;
+}
+#start-screen .controls {
+  color:#8aa1b5; font-size:13px; line-height:2.2; text-align:center;
+  margin-bottom:30px;
+  background: rgba(0, 10, 20, 0.5);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 20px 40px;
+  border-radius: 8px;
+}
+#start-screen .controls span { color:#00ffee; font-weight:bold; }
+#start-screen .start-hint {
+  color:#ffcc00; font-size:20px;
+  letter-spacing: 2px;
+  animation: pulse 1.5s infinite;
+}
+
+#crosshair {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:40px; height:40px; pointer-events:none; z-index:11;
+}
+#crosshair-inner {
+  position:absolute; top:0; left:0; width:100%; height:100%;
+}
+#crosshair-inner::before, #crosshair-inner::after {
+  content:''; position:absolute; background:#00ffeeaa;
+}
+#crosshair-inner::before {
+  width:1px; height:100%; left:50%; top:0;
+}
+#crosshair-inner::after {
+  height:1px; width:100%; top:50%; left:0;
+}
+#crosshair-dot {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:6px; height:6px; border-radius:50%;
+  background:#00ffee; box-shadow: 0 0 8px #00ffee;
+}
+.xh-corner {
+  position:absolute; width:10px; height:10px;
+  border-color:#00ffee77; border-style:solid; border-width:0;
+}
+.xh-corner.tl { top:0; left:0; border-top-width:2px; border-left-width:2px; }
+.xh-corner.tr { top:0; right:0; border-top-width:2px; border-right-width:2px; }
+.xh-corner.bl { bottom:0; left:0; border-bottom-width:2px; border-left-width:2px; }
+.xh-corner.br { bottom:0; right:0; border-bottom-width:2px; border-right-width:2px; }
+
+/* Vignette shadow overlay */
+#threshold-vignette {
+  position: fixed; inset: 0; z-index: 9; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 35%, rgba(0,4,8,0.6));
+}
+</style>
+</head>
+<body>
+
+<div id="threshold-vignette"></div>
+
+<div id="hud">
+  <div id="hud-top-left"></div>
+  <div id="hud-top-right">SCORE: 0</div>
+  <div id="hud-bottom">
+    <div class="bar-container">
+      <div class="bar-label">SHIELDS</div>
+      <div class="bar-outer"><div class="bar-inner" id="shield-bar"></div></div>
+    </div>
+    <div class="bar-container">
+      <div class="bar-label">ENERGY</div>
+      <div class="bar-outer"><div class="bar-inner" id="energy-bar"></div></div>
+    </div>
+    <div class="bar-container">
+      <div class="bar-label">SPEED</div>
+      <div class="bar-outer"><div class="bar-inner" id="speed-bar"></div></div>
+    </div>
+  </div>
+</div>
+
+<div id="crosshair">
+  <div id="crosshair-inner"></div>
+  <div id="crosshair-dot"></div>
+  <div class="xh-corner tl"></div>
+  <div class="xh-corner tr"></div>
+  <div class="xh-corner bl"></div>
+  <div class="xh-corner br"></div>
+</div>
+
+<div id="start-screen">
+  <h1>GHOST-BRAID</h1>
+  <div class="controls">
+    <span>MOUSE</span> — Pitch & Yaw (6DOF)<br>
+    <span>W/S</span> — Thrust Forward / Reverse<br>
+    <span>A/D</span> — Strafe Left / Right<br>
+    <span>SPACE/CTRL</span> — Strafe Up / Down<br>
+    <span>Q/E</span> — Roll Left / Right<br>
+    <span>Z</span> — Toggle Flight Assist (FA)<br>
+    <span>CLICK</span> — Fire Twin Lasers<br>
+    <span>F</span> — Launch Torpedo (Requires Target Lock)<br>
+    Navigate procedural trench corridors and destroy defense turrets.
+  </div>
+  <div class="start-hint">CLICK TO IGNITE ENGINES</div>
+</div>
+
+<div id="game-over">
+  <h1>STRUCTURE OVERLOAD</h1>
+  <div class="final-score" id="final-score">SCORE: 0</div>
+  <div class="restart-hint">CLICK OR ENTER TO RETRY</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/ghost_braid.js"></script>
+</body>
+</html>
