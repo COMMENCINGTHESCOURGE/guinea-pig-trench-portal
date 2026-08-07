@@ -99,7 +99,7 @@ const GAMES = [
   {
     id: 'prime-sieve',
     title: 'PRIME SIEVE — Survive the Filters',
-    description: 'You ARE a number. Fly through modular filter gates — each gate is a real prime. If 4/n has a solution mod that prime, you dissolve. Hard residues (mod 24 = 1 or 17) survive longer. No prime has EVER survived all filters to 10^17. How far can you get?',
+    description: 'You ARE a number. Fly through modular filter gates — each gate is a real prime. If 4/n has a solution mod that prime, you dissolve. Hard residues (mod 24 = 1 or 17) survive longer. No prime has EVER survived all filters to ~8×10¹³. How far can you get?',
     tags: ['Canvas', 'Math', 'Erdős-Straus', 'Audio', 'Sieve', 'Gameplay'],
     src: 'games/prime_sieve.html',
     color: '#0a0a0f',
@@ -111,7 +111,7 @@ const GAMES = [
   },
   {
     id: 'sieve-visualizer',
-    title: 'SIEVE VISUALIZER — 10^17 In Progress',
+    title: 'SIEVE VISUALIZER — ~8×10¹³ In Progress',
     description: 'Breached 20.0M with 30.5T magnitude record with zero counterexamples. Watch the Erdős-Straus modular sieve sweep across the number line in real-time. Green = filtered (solvable). Empty = dissolved. The giant 0 in the center = zero prime counterexamples. 5,780x faster than Swett (1999).',
     tags: ['Canvas', 'Visualization', 'Erdős-Straus', 'Data', 'Math'],
     src: 'games/sieve_visualizer.html',

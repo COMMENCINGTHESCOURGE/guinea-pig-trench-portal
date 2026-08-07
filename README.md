@@ -40,11 +40,11 @@ Credit Facility: Truth Holds Enterprise (PA #7049023)
 
 ## The Sieve Connection
 
-The same modular sieve that verified the [Erdos-Straus conjecture](https://github.com/COMMENCINGTHESCOURGE/erdos-straus-solver) to 10^17 seeds the game balance, shapes the terrain, drives the lenticular lens, and curves the EQ on every beat.
+The same modular sieve that verified the [Erdos-Straus conjecture](https://github.com/COMMENCINGTHESCOURGE/erdos-straus-solver) to ~8×10¹³ seeds the game balance, shapes the terrain, drives the lenticular lens, and curves the EQ on every beat.
 
 - **The Field** — 250K numbers on an Ulam spiral. Click to hear prime factors as SoundClick beat snippets. Toggle mod-24 to see sieve survivor channels.
 - **Prime Sieve** — You ARE a number. Fly through modular filter gates.
-- **Sieve Visualizer** — Watch 10^17 sweep in real time.
+- **Sieve Visualizer** — Watch the ~8×10¹³ verification sweep in real time.
 
 ## Architecture
 
