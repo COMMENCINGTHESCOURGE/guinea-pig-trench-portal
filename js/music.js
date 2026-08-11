@@ -52,19 +52,57 @@ class MusicPlayer {
   _scanTracks() {
     // Build track list from known converted files
     // This will be populated dynamically or from a manifest
-    fetch('music/manifest.json')
+    
+    // Try IPFS first (decentralized), then fallback to local
+    const ipfsGateway = 'https://ipfs.io/ipfs/';
+    const ipfsHash = 'QmYourMusicHashHere'; // Replace with actual IPFS hash when deployed
+    
+    // Priority: 1) IPFS, 2) Local manifest, 3) Fallback scan
+    fetch(`music/manifest.json`)
       .then(r => r.json())
       .then(data => {
-        this.tracks = data.tracks
-        this._renderTrackList()
+        this.tracks = data.tracks.map(track => ({
+          ...track,
+          // Add IPFS URL as primary source if available
+          ipfsUrl: ipfsGateway + ipfsHash + '/' + track.file,
+          localUrl: 'music/' + track.file
+        }));
+        this._renderTrackList();
         if (this.tracks.length > 0) {
-          this._updateTitle(0)
+          this._updateTitle(0);
         }
       })
       .catch(() => {
         // Fallback: try to load tracks by scanning known names
-        console.log('No manifest found — music player idle until tracks are added')
-      })
+        console.log('No manifest found — music player idle until tracks are added');
+      });
+  }
+  
+  // Load track with IPFS priority and local fallback
+  _loadTrackSource(track) {
+    return new Promise((resolve, reject) => {
+      if (track.ipfsUrl) {
+        // Try IPFS first
+        this.audio.src = track.ipfsUrl;
+        this.audio.addEventListener('canplay', function handler() {
+          this.audio.removeEventListener('canplay', handler);
+          resolve('ipfs');
+        }.bind(this));
+        
+        // Timeout after 3 seconds, fallback to local
+        setTimeout(() => {
+          if (this.audio.src === track.ipfsUrl) {
+            console.warn('IPFS timeout, falling back to local');
+            this.audio.src = track.localUrl;
+            resolve('local');
+          }
+        }, 3000);
+      } else {
+        // No IPFS, use local directly
+        this.audio.src = track.localUrl;
+        resolve('local');
+      }
+    });
   }
 
   _initAudioContext() {
@@ -194,12 +232,14 @@ class MusicPlayer {
     })
   }
 
-  loadTrack(index) {
-    if (index < 0 || index >= this.tracks.length) return
-    this.currentIndex = index
-    const track = this.tracks[index]
-    this.audio.src = `music/${track.file}`
-    this._updateTitle(index)
+  async loadTrack(index) {
+    if (index < 0 || index >= this.tracks.length) return;
+    this.currentIndex = index;
+    const track = this.tracks[index];
+    
+    // Use IPFS-aware loading with fallback
+    await this._loadTrackSource(track);
+    this._updateTitle(index);
   }
 
   _updateTitle(index) {

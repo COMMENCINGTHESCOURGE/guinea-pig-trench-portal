@@ -1,8 +1,22 @@
+```
+# Dependencies
 node_modules/
-.DS_Store
-Thumbs.db
+
+# Editors
+.vscode/
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Logs and temp files
 *.log
-music/*.mp3
-music/refined/*.mp3
-music/soundclick/*.mp3
-music_stems/*
+*.tmp
+*.swp
+
+# Build artifacts
+dist/
+build/
+*.js.map
+```

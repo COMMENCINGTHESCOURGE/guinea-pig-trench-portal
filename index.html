@@ -5,14 +5,31 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Guinea Pig Trench — Games · Art · Music</title>
 <meta name="description" content="Play original browser games, explore interactive art, and listen to beats. All created by one artist.">
+<meta name="theme-color" content="#0a0a0f">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" href="assets/sluice-gate.svg" type="image/svg+xml">
 <link rel="icon" href="assets/sluice-gate-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="assets/sluice-gate-192.png" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="assets/sluice-gate-192.png">
+<link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="css/xeno_brutalist_kore.css">
 </head>
 <body>
+  <!-- Service Worker Registration for PWA -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then((registration) => {
+            console.log('[PWA] ServiceWorker registered:', registration.scope);
+          })
+          .catch((err) => {
+            console.warn('[PWA] ServiceWorker registration failed:', err);
+          });
+      });
+    }
+  </script>
+  
   <!-- SLUICE GATE LOADING SCREEN -->
   <div id="sluice-loader" style="position:fixed;inset:0;z-index:9999;background:#0a0a0f">
     <canvas id="sluice-canvas" style="width:100%;height:100%"></canvas>
