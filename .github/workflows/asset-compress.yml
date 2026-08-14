@@ -1,0 +1,67 @@
+name: Asset Compression Pipeline
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'assets/**'
+      - 'games/**/*.glb'
+      - 'music/**'
+
+jobs:
+  compress-assets:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install glTF-Transform for Draco compression
+        run: npm install -g @gltf-transform/cli draco3d
+      
+      - name: Compress GLB files with Draco
+        run: |
+          find games -name "*.glb" -type f | while read file; do
+            echo "Compressing $file..."
+            gltf-transform draco "$file" "$file.compressed" --method edgebreaker
+            mv "$file.compressed" "$file"
+          done
+      
+      - name: Install ffmpeg for audio compression
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      
+      - name: Convert audio to Opus format
+        run: |
+          mkdir -p music/compressed
+          find music -name "*.mp3" -o -name "*.wav" -o -name "*.ogg" | while read file; do
+            filename=$(basename "$file")
+            name="${filename%.*}"
+            echo "Converting $file to Opus..."
+            ffmpeg -i "$file" -c:a libopus -b:a 96k "music/compressed/${name}.opus"
+          done
+      
+      - name: Optimize PNG images
+        run: |
+          sudo apt-get install -y pngquant
+          find assets -name "*.png" -type f | while read file; do
+            echo "Optimizing $file..."
+            pngquant --quality=65-80 --force --output "$file" "$file"
+          done
+      
+      - name: Commit compressed assets
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          if ! git diff --staged --quiet; then
+            git commit -m "chore: auto-compress assets [skip ci]"
+            git push
+          else
+            echo "No changes to commit"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

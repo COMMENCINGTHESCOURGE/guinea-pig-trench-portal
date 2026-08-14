@@ -1,0 +1,85 @@
+name: Test All Games Boot
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test-games:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install Playwright
+        run: |
+          npm install -D @playwright/test
+          npx playwright install chromium --with-deps
+      
+      - name: Create test file
+        run: |
+          cat > test-games.spec.js << 'TESTEOF'
+          const { test, expect } = require('@playwright/test');
+          
+          const GAMES = [
+            'aku_shrine.html', 'asset_forge.html', 'beat_forge.html',
+            'bloom_meadow.html', 'boulder_builder.html', 'candy_crush.html',
+            'dealers_3d.html', 'dice_roller.html', 'dim_mak_dojo.html',
+            'dungeon_shooter.html', 'evasion_hunter.html', 'fractal_crush.html',
+            'fractal_forge.html', 'fractal_sculptor.html', 'fungi_core.html',
+            'ghost_braid.html', 'gpu_particles.html', 'hex_cards.html',
+            'hybrid_sphere.html', 'infinite_sphere.html', 'ink_hold.html',
+            'intergalactic_dealers.html', 'iridescent_sphere.html',
+            'kinetic_plates.html', 'lenticular_hill.html', 'mandelbulb_studio.html',
+            'mandelbulb_webgl.html', 'mantra_radio.html', 'mic_visualizer.html',
+            'node_editor.html', 'prime_sieve.html', 'procedural_planet.html',
+            'radiotrophic_sphere.html', 'sand_garden.html', 'shadow_lab.html',
+            'sieve_visualizer.html', 'sluice_gate.html', 'sluice_raymarched.html',
+            'sph_fluid.html', 'sphere_flight.html', 'sprite_brawler.html',
+            'sprite_sculptor.html', 'starfield_4d.html', 'stealth_maze.html',
+            'terraform.html', 'terrain_walker.html', 'the_between.html',
+            'the_field.html', 'the_threshold.html', 'thomas_maze.html',
+            'threshold_crossing.html', 'threshold_dungeon.html',
+            'threshold_flight.html', 'threshold_hill.html',
+            'threshold_hill_8bit.html', 'threshold_sphere.html',
+            'trench_story.html', 'trench_world.html', 'truth_holds.html',
+            'ufo_defense.html', 'void_runner.html', 'voxel_engine.html'
+          ];
+          
+          test.describe('Game Boot Tests', () => {
+            GAMES.forEach(gameFile => {
+              test(`should boot ${gameFile} without console errors`, async ({ page }) => {
+                const errors = [];
+                page.on('console', msg => { if (msg.type() === 'error') errors.push(msg.text()); });
+                page.on('pageerror', error => { errors.push(error.message); });
+                
+                await page.goto(`http://localhost:8000/games/${gameFile}`, {
+                  waitUntil: 'networkidle', timeout: 15000
+                });
+                await page.waitForTimeout(2000);
+                expect(errors).toEqual([]);
+              });
+            });
+          });
+          TESTEOF
+      
+      - name: Start HTTP server
+        run: python3 -m http.server 8000 &
+        working-directory: /workspace
+      
+      - name: Run game boot tests
+        run: npx playwright test test-games.spec.js --reporter=github
+      
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-report
+          path: playwright-report/
