@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>THRESHOLD: OPEN WORLD — Guinea Pig Trench</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;overflow:hidden;font-family:'Courier New',monospace}
+canvas{display:block}
+#hud{position:absolute;top:12px;left:14px;color:#0fc;font-size:13px;text-shadow:0 0 6px #0ff8;line-height:1.6;pointer-events:none}
+#biome-tag{position:absolute;top:12px;right:16px;color:#fa0;font-size:15px;text-shadow:0 0 8px #f808;pointer-events:none}
+#loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:#05050a;color:#0fc;font-size:18px;z-index:10;transition:opacity .6s}
+#compass{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:#89a;font-size:11px;letter-spacing:2px}
+</style>
+</head>
+<body>
+<div id="loading">LOADING OPENWORLD…</div>
+<div id="hud"></div>
+<div id="biome-tag"></div>
+<div id="compass">N · · · E · · · S · · · W · · ·</div>
+<script type="importmap">
+{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js",
+"three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {initMissionContext, getDailyMissions, acceptMission, updateMissionHUD} from './openworld_modules/missions.js';
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x06070d);
+scene.fog = new THREE.FogExp2(0x0a0815, 0.011);
+
+const camera = new THREE.PerspectiveCamera(72, innerWidth/innerHeight, 0.1, 400);
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(innerWidth,innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+document.body.appendChild(renderer.domElement);
+
+// lighting — two-biome color scheme (neon cyan Block / amber Vault)
+scene.add(new THREE.AmbientLight(0x1a1f33, 1.4));
+const keyBlock = new THREE.DirectionalLight(0x00c8ff, 1.2); keyBlock.position.set(30,40,-25); scene.add(keyBlock);
+const keyVault = new THREE.PointLight(0xff8830, 60, 90); keyVault.position.set(-35,22,35); scene.add(keyVault);
+const playerLamp = new THREE.PointLight(0xaaffee, 18, 26); scene.add(playerLamp);
+
+// ground fallback plane while GLB terrain loads
+const groundGeo = new THREE.PlaneGeometry(140,140,64,64);
+groundGeo.rotateX(-Math.PI/2);
+{ // displace with same pseudo-noise as blender
+  const pos = groundGeo.attributes.position;
+  for(let i=0;i<pos.count;i++){
+    const x=pos.getX(i), z=pos.getZ(i);
+    let h=(Math.sin(x*0.08)*Math.cos(z*0.06)*1.2+Math.sin(x*0.23+3)*0.5
+      +Math.cos(z*0.19+1)*0.5+Math.sin((x+z)*0.05)*0.8);
+    const edge=Math.max(0,1-Math.max(Math.abs(x),Math.abs(z))/58);
+    pos.setY(i, h*edge-0.6);
+  }
+  groundGeo.computeVertexNormals();
+}
+const groundMat=new THREE.MeshStandardMaterial({color:0x10131c,roughness:0.92});
+scene.add(new THREE.Mesh(groundGeo,groundMat));
+
+// world origin marker
+const beacon=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.5,14),new THREE.MeshStandardMaterial({color:0x0fc,emissive:0x0aa,basic:false}));
+beacon.material.emissive=new THREE.Color(0x00aacc); beacon.position.set(0,7,0); scene.add(beacon);
+
+let yaw=0, pitch=0; const player={pos:new THREE.Vector3(0,3,10),speed:14};
+const keys={}; addEventListener('keydown',e=>keys[e.key]=true); addEventListener('keyup',e=>keys[e.key]=false);
+
+addEventListener('mousemove',e=>{
+  if(document.pointerLockElement){
+    yaw -= e.movementX*0.0022;
+    pitch = Math.max(-1.2, Math.min(1.2, pitch - e.movementY*0.0022));
+  }
+});
+renderer.domElement.addEventListener('click',()=>renderer.domElement.requestPointerLock());
+
+function biomeAt(x,z){ return x>8 ? 'THE BLOCK' : (x<-8 ? 'VAULT COMPOUND 7' : 'THRESHOLD WILD'); }
+
+// ── missions integration ──
+const OUTPOSTS = [
+  {name:'Block Outpost', x:24, z:-18},
+  {name:'Vault Depot',   x:-26, z:22},
+];
+initMissionContext({ get nearOutpost(){
+  return OUTPOSTS.some(o=>(player.pos.x-o.x)**2+(player.pos.z-o.z)**2 < 64);
+}});
+let missionDay = 0;
+window.gameDay = Math.floor(Date.now()/86400000) % 30 + 1;
+function tickMissions(){
+  const day = window.gameDay;
+  if(day !== missionDay){ missionDay = day; getDailyMissions(); }
+  // auto-accept available when near an outpost
+  if(OUTPOSTS.some(o=>(player.pos.x-o.x)**2+(player.pos.z-o.z)**2 < 36)){
+    // nearest outpost prompt handled by HUD
+  }
+  updateMissionHUD();
+}
+
+function update(dt){
+  const dir=new THREE.Vector3();
+  if(keys['w']||keys['ArrowUp'])dir.z-=1;
+  if(keys['s']||keys['ArrowDown'])dir.z+=1;
+  if(keys['a']||keys['ArrowLeft'])dir.x-=1;
+  if(keys['d']||keys['ArrowRight'])dir.x+=1;
+  if(dir.lengthSq()>0){
+    dir.normalize().applyAxisAngle(new THREE.Vector3(0,1,0),yaw);
+    player.pos.addScaledVector(dir,player.speed*dt);
+  }
+  // walk on the noise field (same formula as geometry)
+  const x=player.pos.x,z=player.pos.z;
+  let h=(Math.sin(x*0.08)*Math.cos(z*0.06)*1.2+Math.sin(x*0.23+3)*0.5
+    +Math.cos(z*0.19+1)*0.5+Math.sin((x+z)*0.05)*0.8);
+  h*=Math.max(0,1-Math.max(Math.abs(x),Math.abs(z))/58); h-=0.55;
+  player.pos.y=h+1.65;
+
+  camera.position.copy(player.pos);
+  camera.rotation.set(pitch,yaw,0,'YXZ');
+  playerLamp.position.set(player.pos.x,player.pos.y+2,player.pos.z);
+
+  document.getElementById('biome-tag').textContent=biomeAt(x,z);
+}
+
+const loader=new GLTFLoader();
+let loadedCount=0;
+const files=['terrain.glb','biome_block.glb','biome_vault.glb','biome_wild.glb'];
+files.forEach(f=>{
+  loader.load('assets/openworld/'+f,(gltf)=>{
+    scene.add(gltf.scene); loadedCount++;
+    if(loadedCount>=1){
+      const el=document.getElementById('loading');
+      if(el){el.style.opacity=0; setTimeout(()=>el.remove(),700);}
+    }
+  },undefined,()=>{ loadedCount++; }); // skip failures gracefully
+});
+
+const hud=document.getElementById('hud');
+let last=performance.now();
+function loop(now){
+  requestAnimationFrame(loop);
+  const dt=Math.min(0.05,(now-last)/1000); last=now;
+  update(dt); tickMissions(); renderer.render(scene,camera);
+  hud.textContent=`POS ${player.pos.x.toFixed(0)}, ${player.pos.z.toFixed(0)} | Y ${player.pos.y.toFixed(1)}`;
+}
+requestAnimationFrame(loop);
+addEventListener('resize',()=>{
+  camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
+});
+</script>
+</body>
+</html>
