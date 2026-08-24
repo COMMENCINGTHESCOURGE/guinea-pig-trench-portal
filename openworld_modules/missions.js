@@ -78,18 +78,21 @@ export function completeMission(id){
 // ── board UI ──
 // Ported from NOVA_HORIZON_3D
 export function updateMissionBoard() {
-  // Only prompt near outpost with signal
-  if (!ctx.nearOutpost) return;
-  const dist = outpostG.position.distanceTo(cam.position);
-  if (dist > 15) { missionBoardPromptActive = false; return; }
+  try{
+    if (!ctx.nearOutpost) return;
+    const og = ctx.outpostG;
+    if (!og || typeof cam === 'undefined' || typeof missionBoardPromptActive === 'undefined') return;
+    const dist = og.position.distanceTo(cam.position);
+    if (dist > 15) { missionBoardPromptActive = false; return; }
 
-  const available = getDailyMissions();
-  if (available.length === 0 && activeMissions.length === 0) {
-    missionBoardPromptActive = false;
-    return;
-  }
+    const available = getDailyMissions();
+    if (available.length === 0 && activeMissions.length === 0) {
+      missionBoardPromptActive = false;
+      return;
+    }
 
-  missionBoardPromptActive = true;
+    missionBoardPromptActive = true;
+  }catch(e){ /* safe no-op for openworld port */ }
 }
 
 
@@ -97,7 +100,7 @@ export function updateMissionBoard() {
 // ── HUD ──
 // Ported from NOVA_HORIZON_3D
 export function updateMissionHUD() {
-  // Update the HUD objective panel with active mission info
+  try{
   let oPrim = document.getElementById('oPrim');
 if (!oPrim) {
   oPrim = document.createElement('div');
@@ -109,15 +112,21 @@ if (!oPrim) {
 
   if (activeMissions.length > 0) {
     const m = activeMissions[0];
-    const stateLabel = m.state === 'travel' ? '◈ ' + Math.floor(cam.position.distanceTo(m.objectivePos)/1000*10)/10 + ' km' : '▶ RETURN TO OUTPOST';
-    oPrim.innerHTML = `<span>◆</span><span>${m.title}</span><span class="d" id="oMissionDist">${stateLabel}</span>`;
+    let stateLabel = '▶ RETURN TO OUTPOST';
+    try{
+      if(m.state === 'travel' && typeof cam !== 'undefined' && m.objectivePos) stateLabel = '◈ ' + Math.floor(cam.position.distanceTo(m.objectivePos)/1000*10)/10 + ' km';
+    }catch(e){}
+    oPrim.innerHTML = `<span>◆</span><span>${m.title||m.id}</span><span class="d" id="oMissionDist">${stateLabel}</span>`;
   } else {
     if (!ctx.nearOutpost) {
-      oPrim.innerHTML = '<span>◈</span><span>Locate Outpost Signal</span><span class="d" id="oDist">' + (outpostG.position.distanceTo(cam.position)/1000).toFixed(1) + ' km</span>';
+      let distStr = '—';
+      try{ const og = ctx.outpostG; if(og && typeof cam !== 'undefined') distStr = (og.position.distanceTo(cam.position)/1000).toFixed(1) + ' km'; }catch(e){}
+      oPrim.innerHTML = '<span>◈</span><span>Locate Outpost Signal</span><span class="d" id="oDist">' + distStr + '</span>';
     } else {
       oPrim.innerHTML = '<span>◈</span><span>Visit Outpost Hub</span><span class="d">COMPLETE</span>';
     }
   }
+  }catch(e){ /* safe no-op */ }
 }
 
 
@@ -165,8 +174,11 @@ export function loadGame() {
   updateHUD();
   checkObjs();
   
-  // Move camera near outpost
-  cam.position.set(outpostG.position.x + 5, getH(outpostG.position.x+5, outpostG.position.z+5)+2.5, outpostG.position.z + 5);
+  // Move camera near outpost (via injected context — outpostG lives in host ctx)
+  const ogL = ctx.outpostG;
+  if (ogL && typeof cam !== 'undefined') {
+    cam.position.set(ogL.position.x + 5, getH(ogL.position.x+5, ogL.position.z+5)+2.5, ogL.position.z + 5);
+  }
   
   notify('GAME LOADED — Day ' + state.gameDay);
   console.log('LOADED:', state.player.credits + 'cr');
