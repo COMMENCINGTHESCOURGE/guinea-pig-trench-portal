@@ -130,7 +130,7 @@ function update(dt){
 
 const loader=new GLTFLoader();
 let loadedCount=0;
-const files=['terrain.glb','biome_block.glb','biome_vault.glb','biome_wild.glb'];
+const files=['terrain.glb?v=2','biome_block.glb?v=2','biome_vault.glb?v=2','biome_wild.glb?v=2'];
 files.forEach(f=>{
   loader.load('assets/openworld/'+f,(gltf)=>{
     scene.add(gltf.scene); loadedCount++;
@@ -140,6 +140,11 @@ files.forEach(f=>{
     }
   },undefined,()=>{ loadedCount++; }); // skip failures gracefully
 });
+// Safety net: force remove loading after 10 seconds
+setTimeout(()=>{
+  const el=document.getElementById('loading');
+  if(el){el.style.opacity=0; setTimeout(()=>el.remove(),700);}
+},10000);
 
 const hud=document.getElementById('hud');
 let last=performance.now();
