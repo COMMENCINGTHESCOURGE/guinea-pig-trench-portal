@@ -27,11 +27,13 @@ canvas{display:block}
 <script type="module">
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
+import {PMREMGenerator} from 'three/addons/pmrem/PMREMGenerator.js';
 import {initMissionContext, getDailyMissions, acceptMission, updateMissionHUD} from './openworld_modules/missions.js';
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x06070d);
-scene.fog = new THREE.FogExp2(0x0a0815, 0.011);
+scene.fog = new THREE.FogExp2(0x0d0c18, 0.0055);
 
 const camera = new THREE.PerspectiveCamera(72, innerWidth/innerHeight, 0.1, 400);
 const renderer = new THREE.WebGLRenderer({antialias:true});
@@ -39,11 +41,15 @@ renderer.setSize(innerWidth,innerHeight);
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 document.body.appendChild(renderer.domElement);
 
+// environment map — REQUIRED for metallic materials to render anything
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
 // lighting — two-biome color scheme (neon cyan Block / amber Vault)
-scene.add(new THREE.AmbientLight(0x1a1f33, 1.4));
-const keyBlock = new THREE.DirectionalLight(0x00c8ff, 1.2); keyBlock.position.set(30,40,-25); scene.add(keyBlock);
-const keyVault = new THREE.PointLight(0xff8830, 60, 90); keyVault.position.set(-35,22,35); scene.add(keyVault);
-const playerLamp = new THREE.PointLight(0xaaffee, 18, 26); scene.add(playerLamp);
+scene.add(new THREE.AmbientLight(0x33405c, 2.2));
+const keyBlock = new THREE.DirectionalLight(0x00c8ff, 2.4); keyBlock.position.set(30,40,-25); scene.add(keyBlock);
+const keyVault = new THREE.PointLight(0xff8830, 220, 110); keyVault.position.set(-35,22,35); scene.add(keyVault);
+const playerLamp = new THREE.PointLight(0xaaffee, 60, 34); scene.add(playerLamp);
 
 // ground fallback plane while GLB terrain loads
 const groundGeo = new THREE.PlaneGeometry(140,140,64,64);
